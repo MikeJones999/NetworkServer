@@ -14,7 +14,13 @@
 		</div>
 	</section>
 	
-
+	<form action="<c:url value="userpage" />">
+    <button type="submit">User Login Page</button>
+	</form>
+	
+	<form action="<c:url value="adminpage" />">
+    <button type="submit">Administrator Login Page</button>
+	</form>
 	
 </body>
 </html>
