@@ -19,13 +19,12 @@
 		<property name="password" value="Abertawe@sql" />
 	</bean>
 
- <!-- need to add been here - delete Beans.xml and make sure this mvc-dispatcher path is known when calling 
+
    <bean id="userObject" 
-      class="com.admin.JdbcUserConnect">
+      class="UserPackage.JdbcUserControl">
       <property name="dataSource"  ref="dataSource" />    
    </bean>
  
- -->
 
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
