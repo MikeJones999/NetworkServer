@@ -9,6 +9,19 @@
 
   <h2>Welcome to the Admin Access Area. You have logged in as Admin</h2>
 
+
+ 	<form method="POST" action="<c:url value="adminpage/addUsers" />">
+    <button type="submit">Add Users to Database</button>
+	</form>
+
+
+
+
+
+
+  <c:url value="/j_spring_security_logout" var="logoutUrl" />
+  <h3><a href="${logoutUrl}">Logout</a></h3>
+
  </center>
 </body>
 </html>

@@ -10,13 +10,20 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class SecurityLogin {
 
-	
+	/**
+	 * take user to user page - this will need to have be the specific user to secure all files
+	 * @return
+	 */
 	@RequestMapping("/userpage")
 	public String getUserPage() 
 	{
 		return "useraccess";
 	}
 
+	/**
+	 * takes user to admin page - this is a universal page for all admins with access
+	 * @return
+	 */
 	@RequestMapping("/adminpage")
 	public String getAdminPage() 
 	{
@@ -24,7 +31,8 @@ public class SecurityLogin {
 	}
 	
 	//***Reference*** - assistance using the security element obtained from here
-	//http://www.beingjavaguys.com/2014/05/spring-security-authentication-and.html?m=1
+	//http://www.beingjavaguys.com/2014/05/spring-security-authentication-and.html?m=1 &
+	//http://www.mkyong.com/spring-security/spring-security-form-login-example/
 	@RequestMapping("/loginpage")
 	public ModelAndView getLoginPage(
 	@RequestParam(required = false) String accessfailed, String logout, String accessdenied) 
@@ -49,7 +57,10 @@ public class SecurityLogin {
 	
 	
 	
-	
+	/**
+	 * this page takes user back to the login page (above) but with the added warning about the login error
+	 * @return
+	 */
 	@RequestMapping("errorloginpage")
 	public String ge403denied() 
 	{
