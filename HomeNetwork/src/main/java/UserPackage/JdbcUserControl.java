@@ -3,16 +3,23 @@ package UserPackage;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.sql.DataSource;
+
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
+
 import com.mysql.jdbc.PreparedStatement;
 
-
+@Repository
 public class JdbcUserControl implements UserDataObject {
 
 	
 	private DataSource ds;
 	private JdbcTemplate jdbcTempObject;
+	
 	
 	//datasource obtains database url, username, and password without specifying details
 	public void setDataSource(DataSource ds)
@@ -119,6 +126,7 @@ public class JdbcUserControl implements UserDataObject {
 
 	/**
 	 * Find a id of user in user_roles database by their name
+	 * this will be replaced with the new rowMapper method - demonstrated below
 	 */
 	public int getUserId(String user) 	{
 		 String sqlState = "SELECT * from user_roles where username = ?";		 
@@ -156,6 +164,14 @@ public class JdbcUserControl implements UserDataObject {
 				 } catch (SQLException e) {}
 			 }
 		 }
+	}
+
+	@Override
+	public List<User> getAllUsers() 
+	{		
+		String sqlState = "SELECT * from users";	
+		List<User> allUsers = jdbcTempObject.query(sqlState, new UserCollection());
+		return allUsers;
 	}
 
 }

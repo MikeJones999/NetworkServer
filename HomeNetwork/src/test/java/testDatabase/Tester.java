@@ -1,11 +1,14 @@
 package testDatabase;
 
 
+import java.util.List;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import UserPackage.JdbcUserControl;
 import UserPackage.User;
+import UserPackage.UserCollection;
 /**
  * Test package to connect to mysql database
  * @author mikieJ
@@ -37,6 +40,8 @@ public class Tester {
 //		      User temp = userObject.getuserByName("dave");
 //		      userObject.delete(temp);
 		      
-
+				
+		
+		      
 		   }
 		}

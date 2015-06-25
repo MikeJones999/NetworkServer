@@ -1,20 +1,31 @@
 package com.hnserver.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import UserPackage.JdbcUserControl;
 import UserPackage.User;
+import UserPackage.UserDataObject;
+
+
+
 
 @Controller
 public class AdminController {
+	
+@Autowired
+private UserDataObject dataObject;
+
 
 	@RequestMapping(value = "/adminpage/usersAdded", method = RequestMethod.POST)
 	public String addUser(ModelMap model, @ModelAttribute("users") User user,
@@ -71,4 +82,30 @@ public class AdminController {
 
 		return "redirect:adminpage";
 	}
+	
+	
+	
+	@RequestMapping("/adminpage/allusers")
+	public String list(Model model) 
+	{
+		
+		model.addAttribute("allusers", dataObject.getAllUsers());
+		return "allusers";
+		
+	}
+	
+	
+	@RequestMapping(value = "/adminpage/deleteUser/{userName}")
+	public String deleteUser(@PathVariable String userName, Model model)
+	{
+		System.out.println("hurrah");
+		System.out.println("returned user to delete: " + userName);
+		model.addAttribute("message", userName);
+		//could find user here and send him through instead of new user();
+	//	return new ModelAndView("deleteuser", "command", user.getUserName());
+		return "deleteuser";
+	}
+	
+
+	
 }

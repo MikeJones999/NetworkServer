@@ -7,14 +7,16 @@
 
  <center>
 
-  <h2>Welcome to the Admin Access Area. You have logged in as Admin</h2>
+  <h2>Welcome to the Admin Access Area</h2>
 
 
  	<form method="POST" action="<c:url value="adminpage/addUsers" />">
     <button type="submit">Add Users to Database</button>
 	</form>
 
-
+ 	<form method="POST" action="<c:url value="adminpage/allusers" />">
+    <button type="submit">Show all Users of Database</button>
+	</form>
 
 
 
