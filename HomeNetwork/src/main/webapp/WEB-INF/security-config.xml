@@ -19,9 +19,6 @@
 		<logout logout-success-url="/loginpage?logout" />
 	</http>
 
-	<!-- <authentication-manager> <authentication-provider> <user-service> <user 
-		name="user" password="user@123" authorities="ROLE_ADMIN" /> </user-service> 
-		</authentication-provider> </authentication-manager> -->
 
 	<authentication-manager>
 		<authentication-provider>
