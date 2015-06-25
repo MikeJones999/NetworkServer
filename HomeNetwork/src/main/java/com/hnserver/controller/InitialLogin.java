@@ -22,7 +22,6 @@ public class InitialLogin {
 	
 	model.addAttribute("message1", "Michael Jones MSc Computer Science Project");
 	model.addAttribute("message2", "Home Network Server");
-	
 	return "startpage";
 	}
 	

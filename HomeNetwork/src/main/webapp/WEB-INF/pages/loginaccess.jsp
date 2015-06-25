@@ -10,10 +10,10 @@
 
 		<h1>${response}</h1>
 
-		<h2>Enter your details to log in</h2>
+		<h2>Enter Details to login</h2>
 
 
-		<div style="text-align: center; padding: 20px; border: 1px solid green; width: 200px;">
+		<div style="text-align: center; padding: 30px; border: 1px solid green; width: 250px;">
 		
 			<form method="post"	action="<c:url value='j_spring_security_check' />">
 
