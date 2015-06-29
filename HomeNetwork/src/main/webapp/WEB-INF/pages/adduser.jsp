@@ -4,14 +4,29 @@
 
 <html>
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet"
+	href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
 <title>Add new user Page</title>
 </head>
 <body>
 
 
-	<h2>Administration Section</h2>
-	<h3>Add New User</h3>
+	<section>
+		<div class="jumbotron">
+			<div class="container">
+				<h1>Administration Section</h1>
+				<p>Add New User</p>
 
+				<form action="<c:url value="/adminRedirect" />">
+					<button type="submit">Admin Home Page</button>
+				</form>
+
+			</div>
+		</div>
+	</section>
+
+	<section>
 	<form method="post" action="usersAdded">
 
 		<table>
@@ -37,10 +52,8 @@
 
 	</form>
 
+	</section>
 
-	<form action="<c:url value="/adminRedirect" />">
-		<button type="submit">Admin Home Page</button>
-	</form>
 
 
 

@@ -12,6 +12,9 @@
 			<div class="container">
 				<h1>Displaying All users</h1>
 				<p>All Users from the table 'users'</p>
+				<form action="<c:url value="/adminRedirect" />">
+					<button type="submit">Admin Home Page</button>
+				</form>
 			</div>
 		</div>
 	</section>
@@ -29,7 +32,8 @@
 							<td><input type="submit" value="Delete User" /></td>
 							</form>
 							-->
-							<form action="<c:url value="/adminpage/deleteUser/${user.userName}" />">
+							<form
+								action="<c:url value="/adminpage/deleteUser/${user.userName}" />">
 								<button type="submit">Delete User</button>
 							</form>
 
@@ -42,9 +46,7 @@
 	</section>
 
 	<section>
-		<form action="<c:url value="/adminRedirect" />">
-			<button type="submit">Admin Home Page</button>
-		</form>
+
 
 		<center>
 			<c:url value="/j_spring_security_logout" var="logoutUrl" />

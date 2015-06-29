@@ -58,6 +58,9 @@ private UserDataObject dataObject;
 
 			// this needs to be in a object of its own - move laters once tested
 			ApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");
+			//and this need to be closed!!!!!!!!!
+			
+			
 			JdbcUserControl userObject = (JdbcUserControl) context.getBean("userObject");
 			//User user1 = new User();
 			//user.setUserName(returnedUserName);
