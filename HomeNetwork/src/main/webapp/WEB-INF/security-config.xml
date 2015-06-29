@@ -6,11 +6,16 @@
  http://www.springframework.org/schema/security
  http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
-	<http auto-config="true">
+	<http auto-config="true" use-expressions="true">
 		<access-denied-handler error-page="/errorloginpage" />
 		
-		<intercept-url pattern="/user**" access="ROLE_USER" />
-		<intercept-url pattern="/admin**" access="ROLE_ADMIN" />
+		
+	    <intercept-url pattern="/adminpage/allusers" access="hasRole('ROLE_ADMIN')" />
+	     <intercept-url pattern=" /adminpage/addUsers" access="hasRole('ROLE_ADMIN')" />
+	       <intercept-url pattern="/adminpage/deleteUser/{userName}" access="hasRole('ROLE_ADMIN')" />
+	       
+		<intercept-url pattern="/userpage**" access="ROLE_USER" />
+		<intercept-url pattern="/adminpage**" access="hasRole('ROLE_ADMIN')" />
 		
 		<form-login login-page='/loginpage' username-parameter="username"
 			password-parameter="password" default-target-url="/userpage"
@@ -23,7 +28,9 @@
 	<authentication-manager>
 		<authentication-provider>
 			<jdbc-user-service data-source-ref="dataSource"
-				users-by-username-query="select username,password, enabled from users where username=?"
+				users-by-username-query="select username,password, enabled 
+										from users 
+										where username=?"
 				authorities-by-username-query="select username, role from user_roles where username =?  " />
 		</authentication-provider>
 	</authentication-manager>

@@ -51,7 +51,7 @@ private UserDataObject dataObject;
 		}
 		else 
 		{
-			// correctly eneterd name - add user
+			// correctly entered name - add user
 			System.out.println("User added");
 			System.out.println("username: " + user.getUserName()
 					+ ", password: " + user.getPassword());
@@ -77,8 +77,7 @@ private UserDataObject dataObject;
 
 	@RequestMapping("/adminRedirect")
 	public String redirectToAdmin() {
-		System.out
-				.println("**********************Calling Admin redirect page ***************");
+		System.out.println("**********************Calling Admin redirect page ***************");
 
 		return "redirect:adminpage";
 	}
@@ -90,21 +89,47 @@ private UserDataObject dataObject;
 	{
 		
 		model.addAttribute("allusers", dataObject.getAllUsers());
+	
 		return "allusers";
 		
 	}
 	
 	
+	
+	
 	@RequestMapping(value = "/adminpage/deleteUser/{userName}")
 	public String deleteUser(@PathVariable String userName, Model model)
 	{
-		System.out.println("hurrah");
-		System.out.println("returned user to delete: " + userName);
-		model.addAttribute("message", userName);
-		//could find user here and send him through instead of new user();
-	//	return new ModelAndView("deleteuser", "command", user.getUserName());
-		return "deleteuser";
+		 ApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");
+	      //ApplicationContext context = new ClassPathXmlApplicationContext("/dispatcherservlet-servlet.xml");
+	      
+	     JdbcUserControl userObject = (JdbcUserControl)context.getBean("userObject");
+		
+	     User user = userObject.getuserByName(userName);
+	     
+	     
+	     if (user != null)
+	     {
+	    	 System.out.println("found user: " + user.getUserName());
+			System.out.println("hurrah");
+			System.out.println("returned user to delete: " + userName);
+			model.addAttribute("message", userName);
+			//could find user here and send him through instead of new user();
+		//	return new ModelAndView("deleteuser", "command", user.getUserName());
+			
+			//model.addAttribute("allusers", dataObject.getAllUsers());
+			return "deleteuser";
+	     }
+	     else
+	     {
+	    	 
+	    	 System.out.println("*******Error: " +  userName + " does not exist**************");
+	       	 model.addAttribute("warnimgMessage", userName);
+	    	 return "unknownuser";
+	     }
 	}
+	
+	
 	
 
 	
