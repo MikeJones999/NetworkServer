@@ -18,10 +18,10 @@
 		<intercept-url pattern="/adminpage**" access="hasRole('ROLE_ADMIN')" />
 		
 		<form-login login-page='/loginpage' username-parameter="username"
-			password-parameter="password" default-target-url="/userpage"
+			password-parameter="password" default-target-url="/startpage"
 			authentication-failure-url="/loginpage?accessfailed" />
 			
-		<logout logout-success-url="/loginpage?logout" />
+		<logout logout-success-url="/?logout" />
 	</http>
 
 

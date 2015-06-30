@@ -164,11 +164,35 @@ public class JdbcUserControl implements UserDataObject {
 			 }
 		 }
 	}
+	
+	public String getUserRole(String user) 	{
+		
+		List<User> users = getAllUsers();
+		User temp = null;
+		for (User newUser: users)
+		{
+			if(newUser.getUserName().equals(user))
+			{
+				temp = newUser;
+			}
+		}
+		
+		if (temp == null)
+		{
+			return "Unknown";
+		}
+		return temp.getUserRole();
+	}
+		
+	
 
 	@Override
 	public List<User> getAllUsers() 
 	{		
-		String sqlState = "SELECT * from users";	
+		//String sqlState = "SELECT * from users ";
+		String sqlState = "SELECT DISTINCT * "
+				+ "		  from users, user_roles"
+				+ "		  where users.username = user_roles.username ";	
 		List<User> allUsers = jdbcTempObject.query(sqlState, new UserCollection());
 		return allUsers;
 	}

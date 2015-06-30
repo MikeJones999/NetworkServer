@@ -10,8 +10,12 @@
 	<section>
 		<div class="jumbotron">
 			<div class="container">
+			
+				<P>${response}</P>
 				<h1>${message1}</h1>
-				<p>${message2}</p>
+				<h1>${message2}</h1>
+				<h3>${message3}</h3>
+				
 
 
 				<form action="<c:url value="/userpage" />">
@@ -24,6 +28,7 @@
 			</div>
 		</div>
 	</section>
+
 
 
 </body>

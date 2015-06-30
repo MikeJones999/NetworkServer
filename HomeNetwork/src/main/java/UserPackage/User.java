@@ -5,6 +5,8 @@ public class User {
 	private String userName;
 	//private String email;
 	private String password;
+	private String userRole;
+	
 	
 	//only used for user_roles table - when deleting or changing role status
 	private int id;
@@ -30,7 +32,14 @@ public class User {
 		this.id = id;
 	}
 	
-
+	public String getUserRole() 
+	{
+			return userRole;
+	}
+	public void setUserRole(String userRole) 
+	{
+			this.userRole = userRole;
+	}
 	
 	
 	

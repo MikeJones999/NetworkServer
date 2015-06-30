@@ -27,7 +27,7 @@
 
 
 	<section>
-	<h3>Enter your details to log in</h2>
+	<h2>Enter your details to log in</h2>
 	<div
 		style="text-align: center; padding: 25px; border: 2px solid green; width: 350px;">
 

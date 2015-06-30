@@ -25,8 +25,8 @@
 					<div class="thumbnail">
 						<div class="caption">
 							<h3>${user.userName}</h3>
-							<p>${user.password}</p>
-
+							<!-- <p>${user.password}</p> -->
+							<p>${user.userRole}</p>
 							<!-- 
 							<form method="post" action="/adminpage/deleteUser/${user.userName}">
 							<td><input type="submit" value="Delete User" /></td>

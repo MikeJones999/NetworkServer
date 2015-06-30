@@ -1,5 +1,7 @@
 package com.hnserver.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -51,9 +53,11 @@ private UserDataObject dataObject;
 		}
 		else 
 		{
+			
+			String name = user.getUserName();
 			// correctly entered name - add user
 			System.out.println("User added");
-			System.out.println("username: " + user.getUserName()
+			System.out.println("username: " + name
 					+ ", password: " + user.getPassword());
 
 			// this needs to be in a object of its own - move laters once tested
@@ -66,9 +70,19 @@ private UserDataObject dataObject;
 			//user.setUserName(returnedUserName);
 			//user.setPassword(returnedUserPassword);
 			userObject.insert(user);
+			
+			
+			//this message is not showing up
+			model.addAttribute("useradded", name + " Has been successfully added to the user group");
+			
+			return "redirect:addUsers";
+			//return "useradded";
 		}
 
-		return "redirect:addUsers";
+		
+		
+		
+		
 	}
 
 	@RequestMapping("/adminpage/addUsers")
@@ -86,11 +100,18 @@ private UserDataObject dataObject;
 	}
 	
 	
-	
+	/**
+	 * display page with all users
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("/adminpage/allusers")
 	public String list(Model model) 
 	{
-		
+		//List<User> user = dataObject.getAllUsers();
+		/**
+		 * need to remove duplicates and show user roles as one
+		 */
 		model.addAttribute("allusers", dataObject.getAllUsers());
 	
 		return "allusers";
@@ -109,16 +130,21 @@ private UserDataObject dataObject;
 	     JdbcUserControl userObject = (JdbcUserControl)context.getBean("userObject");
 		
 	     User user = userObject.getuserByName(userName);
+	     String role = userObject.getUserRole(userName);
 	     
-	     
-	     if (user != null)
+	     if (user != null & role != "unknown")
 	     {
-	    	 System.out.println("found user: " + user.getUserName());
+	    	System.out.println("found user: " + user.getUserName());
 			System.out.println("hurrah");
-			System.out.println("returned user to delete: " + userName);
+			System.out.println("returned user to delete: " + userName);		
 			model.addAttribute("message", userName);
+			
+			if (role.equals("ROLE_ADMIN"))
+			{
+				model.addAttribute("message1", "Warning - This user has the Role of Administrator");
+			}
 			//could find user here and send him through instead of new user();
-		//	return new ModelAndView("deleteuser", "command", user.getUserName());
+		//return new ModelAndView("deleteuser", "command", user.getUserName());
 			
 			//model.addAttribute("allusers", dataObject.getAllUsers());
 			return "deleteuser";

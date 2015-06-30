@@ -27,34 +27,38 @@
 	</section>
 
 	<section>
-	<form method="post" action="usersAdded">
+		<form method="post" action="usersAdded">
 
-		<table>
-			<tr>
-				<td colspan="2" style="color: red">${message}</td>
-			</tr>
+			<table>
+				<tr>
+					<td colspan="2" style="color: red">${message}</td>
+				</tr>
 
 
-			<tr>
-				<td>User Name:</td>
-				<td><input type="userName" name="userName" /></td>
-			</tr>
-			<tr>
-				<td>Password:</td>
-				<td><input type="password" name="password" /></td>
-			</tr>
-			<tr>
-				<td> </td>
-				<td><input type="submit" value="Add New User" /></td>
+				<tr>
+					<td>User Name:</td>
+					<td><input type="userName" name="userName" /></td>
+				</tr>
+				<tr>
+					<td>Password:</td>
+					<td><input type="password" name="password" /></td>
+				</tr>
+				<tr>
+					<td> </td>
+					<td><input type="submit" value="Add New User" /></td>
 
-			</tr>
-		</table>
+				</tr>
+			</table>
 
-	</form>
+		</form>
 
 	</section>
 
-
+	<section>
+		<div class="container">
+			<td colspan="2" style="color: red">${useradded}hss</td>
+		</div>
+	</section>
 
 
 	<center>
