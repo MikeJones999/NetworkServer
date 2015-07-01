@@ -27,7 +27,8 @@
 	</section>
 
 	<section>
-		<form method="post" action="usersAdded">
+		<form:form method="post" action="usersAdded" commandName="user">
+			
 
 			<table>
 				<tr>
@@ -43,29 +44,36 @@
 					<td>Password:</td>
 					<td><input type="password" name="password" /></td>
 				</tr>
+
+
+				<tr>
+					<td>Role :</td>
+					<td><form:select path="userRole">
+							<form:option value="NONE" label="--- Select ---" />
+							<form:options items="${roleOptions}" />
+						</form:select>
+					</td>
+				</tr>
+
+
 				<tr>
 					<td> </td>
 					<td><input type="submit" value="Add New User" /></td>
 
 				</tr>
-				
-				
+
+
 				<tr>
 					<td colspan="2" style="color: red">${useradded}</td>
 				</tr>
-				
+
 			</table>
 
-		</form>
+		</form:form>
 
 	</section>
 
-	<section>
-		
-			
-	
-
-	</section>
+	<section></section>
 
 
 	<center>

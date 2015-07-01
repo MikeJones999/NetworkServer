@@ -16,6 +16,8 @@ public interface UserDataObject {
 	public List<User> getAllNonAdmins();
 	public String getUserRole(String user); 
 	public boolean checkUserExists(String userName);
+	List<User> getAllAdminsSQL();
+	List<User> getAllNonAdminsSQL();
 	
 	
 }

@@ -27,10 +27,18 @@
 	<section>
 	<h3>Are you sure you want to delete user: ${message} ?</h3>
 	<h3>${message1}</h3>
-	<form method="POST" action="<c:url value="/adminpage/allusers" />">
-		<button type="submit">Confirm Deletion of User</button>
+
+	<form method="POST"
+		 action="<c:url value="/adminpage/deleteuserconfirm/${message}" />">
+		<button type="submit">Delete User</button>
 	</form>
 
+    <!-- 
+	<form method="POST"
+		action="<c:url value="/adminpage/deleteuserconfirm" />">
+		<button type="submit">Confirm Deletion of User</button>
+	</form>
+	-->
 	</section>
 
 </body>

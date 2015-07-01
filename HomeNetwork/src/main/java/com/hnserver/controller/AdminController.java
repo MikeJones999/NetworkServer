@@ -1,8 +1,10 @@
 package com.hnserver.controller;
 
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
 
 import UserPackage.JdbcUserControl;
 import UserPackage.User;
@@ -33,12 +36,14 @@ private UserDataObject dataObject;
 
 	@SuppressWarnings("resource")
 	@RequestMapping(value = "/adminpage/usersAdded", method = RequestMethod.POST)
-	public String addUser(ModelMap model, @ModelAttribute("users") User user,
-			BindingResult res) {
+	public String addUser(ModelMap model, @ModelAttribute("user") User user, BindingResult res) {
 		System.out
 				.println("**********************Calling adduser page ***************");
 		String returnedUserName = user.getUserName();
 		String returnedUserPassword = user.getPassword();
+		String returnedUserRole = user.getUserRole();
+		System.out.println("found use role: " + returnedUserRole);
+		
 		//String message = "";
 		
 		if (returnedUserName.equals(""))
@@ -70,8 +75,7 @@ private UserDataObject dataObject;
 			// this needs to be in a object of its own - move later once tested
 			ApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");
 			
-			
-			
+
 			//need to ensure there are not two users with same name 
 			boolean result = dataObject.checkUserExists(name);
 			//user does not exist
@@ -102,19 +106,39 @@ private UserDataObject dataObject;
 				}
 		}
 
-		
-		
-		
-		
 	}
 
+//	@RequestMapping("/adminpage/addUsers")
+//	public ModelAndView showAddUserPage() {
+//
+//		// needs command - apparently according to spring docs requires command
+//		return new ModelAndView("adduser", "command", new User());
+//	}
+	
+	ModelAndView mav = null;
+	@ModelAttribute("roleOptions")
+	public List<String> getRoles()
+	{
+		List<String> roleOptions = new ArrayList<String>();
+		roleOptions.add("ROLE_ADMIN");
+		roleOptions.add("ROLE_USER");
+		return roleOptions;
+	}
+	
+	
 	@RequestMapping("/adminpage/addUsers")
-	public ModelAndView showAddUserPage() {
+	public String showAddUserPage(Map<String, User> model) {
 
+		User user = new User();
+		model.put("user", user);
 		// needs command - apparently according to spring docs requires command
-		return new ModelAndView("adduser", "command", new User());
+		return "adduser";
 	}
 
+
+	
+	
+	
 	@RequestMapping("/adminRedirect")
 	public String redirectToAdmin() {
 		System.out.println("**********************Calling Admin redirect page ***************");
@@ -137,11 +161,28 @@ private UserDataObject dataObject;
 		//remove duplicates with user status from list of admins
 		for (User user: allAdminsList)
 		{
+			System.out.println("Admin: " + user.getUserName());
 			if (!user.getUserRole().equals("ROLE_ADMIN"))
 			{
 				allAdminsList.remove(user);
 			}
 		}	
+
+		
+		//remove duplicates with user status from list of admins
+		for (User user: allAdminsList)
+		{
+			System.out.println("Admin: " + user.getUserName());
+			if (allNonAdminsList.contains(user))
+			{
+				allNonAdminsList.remove(user);
+			}
+			if (user.getUserRole().equals("ROLE_ADMIN"))
+			{
+				allNonAdminsList.remove(user);
+			}
+		}
+		
 		model.addAttribute("allAdmins", allAdminsList);
 		model.addAttribute("allusers", allNonAdminsList);
 		model.addAttribute("userRemoved", "A user has been removed from the system");
@@ -170,7 +211,23 @@ private UserDataObject dataObject;
 	}
 	
 */	
-	
+
+	/**
+	 * Deletes the user and redirects to alluser page - deleted user should now no longer be visible
+	 * @param userName
+	 * @param model
+	 * @return
+	 */
+    @RequestMapping(value = "/adminpage/deleteuserconfirm/{userName}")
+	public String deletUserConfirmation(@PathVariable String userName, Model model)
+	{
+		System.out.println("***DEBUG*** deletion of " + userName);
+	      User temp = dataObject.getuserByName(userName);
+	      dataObject.delete(temp);
+	      
+		return "redirect:/adminpage/allusers";
+	}
+
 
 	
 	/**

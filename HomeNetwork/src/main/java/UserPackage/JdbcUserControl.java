@@ -47,7 +47,14 @@ public class JdbcUserControl implements UserDataObject {
 		sqlState = "INSERT INTO user_roles (user_role_id, username, ROLE) VALUES (?, ?, ?)";
 		
 		//pass information into the tempObject 
-		//Null is used as there is an auto increment in the database - therefore this does it automatically		
+		//Null is used as there is an auto increment in the database - therefore this does it automatically	
+		if (user.getUserRole().equals("ROLE_ADMIN"))
+		{
+			jdbcTempObject.update(sqlState, null, user.getUserName(), "ROLE_ADMIN");	
+			System.out.println("***Debug*** Insert User " + user.getUserName() + " into User_Roles + user status = " + "ROLE_ADMIN");
+		}
+		
+		
 		jdbcTempObject.update(sqlState, null, user.getUserName(), "ROLE_USER");		
 		System.out.println("***Debug*** Insert User " + user.getUserName() + " into User_Roles + user status = " + "ROLE_USER");			 
 	}
@@ -222,24 +229,45 @@ public class JdbcUserControl implements UserDataObject {
 		return allUsers;
 	}
 
+	
+
+	@Override
+	public List<User> getAllAdminsSQL() 
+	{		
+		//String sqlState = "SELECT * from users ";
+		String sqlState = "SELECT DISTINCT * "
+				+ "		  from users, user_roles"
+				+ "		  where users.username = user_roles.username "
+				+ "		  and user_roles.ROLE = 'ROLE_ADMIN' ";	
+		List<User> allUsers = jdbcTempObject.query(sqlState, new UserCollection());
+		return allUsers;
+	}
+	
+	@Override
+	public List<User> getAllNonAdminsSQL() 
+	{		
+		//String sqlState = "SELECT * from users ";
+		String sqlState = "SELECT DISTINCT * "
+				+ "		  from users, user_roles"
+				+ "		  where users.username = user_roles.username "
+				+ "		  and user_roles.ROLE = 'ROLE_USER' "
+				+ "		  and users.username not in (select u.username"
+				+ "								from user_roles u"
+				+ "								where u.ROLE = 'ROLE_ADMIN'"
+				+ "							    )	";	
+		List<User> allUsers = jdbcTempObject.query(sqlState, new UserCollection());
+		return allUsers;
+	}
+	
 	/**
 	 * Return a list of all admins on the system - at least one will always be called
 	 * 
 	 * @return List<User>
 	 */
-	public List<User> getAllAdmins() {
-		List<User> users = getAllUsers();
-		List<User> admins = new ArrayList<User>();
-		for (User newUser: users)
-		{				
-			String role = getUserRole(newUser.getUserName());
-			System.out.println("***DEBUG***  username: " + newUser.getUserName() + " role: " + role);		
-			if (role.equals("ROLE_ADMIN"))
-			{
-				admins.add(newUser);
-			}			
-		}	
-
+	public List<User> getAllAdmins()
+	{
+		
+		List<User> admins = getAllAdminsSQL();		
 		return admins;
 	}
 
@@ -249,17 +277,9 @@ public class JdbcUserControl implements UserDataObject {
 	 * 
 	 * @return List<User>
 	 */
-	public List<User> getAllNonAdmins() {
-		List<User> users = getAllUsers();
-		List<User> nonAdmins = new ArrayList<User>();
-		for (User newUser: users)
-		{
-			String role = getUserRole(newUser.getUserName());
-			if (!role.equals("ROLE_ADMIN"))
-			{
-				nonAdmins.add(newUser);
-			}
-		}					
+	public List<User> getAllNonAdmins()
+	{
+		List<User> nonAdmins = getAllNonAdminsSQL();		
 		return nonAdmins;
 	}
 
