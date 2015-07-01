@@ -48,6 +48,12 @@
 					<td><input type="submit" value="Add New User" /></td>
 
 				</tr>
+				
+				
+				<tr>
+					<td colspan="2" style="color: red">${useradded}</td>
+				</tr>
+				
 			</table>
 
 		</form>
@@ -55,9 +61,10 @@
 	</section>
 
 	<section>
-		<div class="container">
-			<td colspan="2" style="color: red">${useradded}hss</td>
-		</div>
+		
+			
+	
+
 	</section>
 
 

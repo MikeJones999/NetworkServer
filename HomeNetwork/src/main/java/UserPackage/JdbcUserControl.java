@@ -3,6 +3,8 @@ package UserPackage;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -165,8 +167,8 @@ public class JdbcUserControl implements UserDataObject {
 		 }
 	}
 	
-	public String getUserRole(String user) 	{
-		
+	public String getUserRole(String user) 
+	{		
 		List<User> users = getAllUsers();
 		User temp = null;
 		for (User newUser: users)
@@ -185,6 +187,29 @@ public class JdbcUserControl implements UserDataObject {
 	}
 		
 	
+	/**
+	 * Checks whether User already exists in database or not
+	 * @param String userName
+	 * @return boolean
+	 */
+	public boolean checkUserExists(String userName)
+	{
+		List<User> users = getAllUsers();
+		
+		boolean result = false;
+		for (User newUser: users)
+		{
+			if(newUser.getUserName().equals(userName))
+			{
+				result = true;
+			}
+		}		
+		return result;
+	}
+	
+	
+	
+	
 
 	@Override
 	public List<User> getAllUsers() 
@@ -195,6 +220,47 @@ public class JdbcUserControl implements UserDataObject {
 				+ "		  where users.username = user_roles.username ";	
 		List<User> allUsers = jdbcTempObject.query(sqlState, new UserCollection());
 		return allUsers;
+	}
+
+	/**
+	 * Return a list of all admins on the system - at least one will always be called
+	 * 
+	 * @return List<User>
+	 */
+	public List<User> getAllAdmins() {
+		List<User> users = getAllUsers();
+		List<User> admins = new ArrayList<User>();
+		for (User newUser: users)
+		{				
+			String role = getUserRole(newUser.getUserName());
+			System.out.println("***DEBUG***  username: " + newUser.getUserName() + " role: " + role);		
+			if (role.equals("ROLE_ADMIN"))
+			{
+				admins.add(newUser);
+			}			
+		}	
+
+		return admins;
+	}
+
+	/**
+	 * Return a list of all non-admins on the system - at least one will always be called,
+	 *  as when you create an admin a user account will also be created - to be implemented 
+	 * 
+	 * @return List<User>
+	 */
+	public List<User> getAllNonAdmins() {
+		List<User> users = getAllUsers();
+		List<User> nonAdmins = new ArrayList<User>();
+		for (User newUser: users)
+		{
+			String role = getUserRole(newUser.getUserName());
+			if (!role.equals("ROLE_ADMIN"))
+			{
+				nonAdmins.add(newUser);
+			}
+		}					
+		return nonAdmins;
 	}
 
 }

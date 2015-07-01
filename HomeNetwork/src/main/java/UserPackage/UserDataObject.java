@@ -1,5 +1,6 @@
 package UserPackage;
 
+
 import java.util.List;
 
 public interface UserDataObject {
@@ -11,4 +12,10 @@ public interface UserDataObject {
 	public User getuserByName(String user);
 	public int getUserId(String user);
 	public List<User> getAllUsers();
+	public  List<User> getAllAdmins();
+	public List<User> getAllNonAdmins();
+	public String getUserRole(String user); 
+	public boolean checkUserExists(String userName);
+	
+	
 }

@@ -20,6 +20,40 @@
 	</section>
 	<section class="container">
 		<div class="row">
+		
+		<td colspan="2" style="color: red">${userRemoved}</td>
+		
+			<h1>All Administrators</h1>
+
+			<c:forEach items="${allAdmins}" var="user">
+				<div class="col-sm-4 col-md-3" style="padding-bottom: 5px">
+					<div class="thumbnail">
+						<div class="caption">
+							<h3>${user.userName}</h3>
+							<!-- <p>${user.password}</p> -->
+							<p>${user.userRole}</p>
+							<!-- 
+							<form method="post" action="/adminpage/deleteUser/${user.userName}">
+							<td><input type="submit" value="Delete User" /></td>
+							</form>
+							-->
+							<form
+								action="<c:url value="/adminpage/deleteUser/${user.userName}" />">
+								<button type="submit">Delete User</button>
+							</form>
+
+
+						</div>
+					</div>
+				</div>
+			</c:forEach>
+
+		</div>
+	</section>
+
+	<section class="container">
+		<div class="row">
+			<h1>All Users</h1>
 			<c:forEach items="${allusers}" var="user">
 				<div class="col-sm-4 col-md-3" style="padding-bottom: 5px">
 					<div class="thumbnail">
