@@ -81,6 +81,7 @@ private UserDataObject dataObject;
 			//user does not exist
 			if(!result)
 			{				
+			
 				JdbcUserControl userObject = (JdbcUserControl) context.getBean("userObject");
 				//User user1 = new User();
 				//user.setUserName(returnedUserName);
@@ -89,7 +90,7 @@ private UserDataObject dataObject;
 				
 				
 				//this message is not showing up
-				String str = " " + name + " Has been successfully added to the user group";
+				String str = " " + name.toUpperCase() + " has successfully been added to the user group";
 				model.addAttribute("useradded", str);
 				
 				//need to have this to close the connection in principle
@@ -115,11 +116,17 @@ private UserDataObject dataObject;
 //		return new ModelAndView("adduser", "command", new User());
 //	}
 	
+	/**
+	 * Used to populate the list option for Role
+	 * 
+	 */
 	ModelAndView mav = null;
 	@ModelAttribute("roleOptions")
 	public List<String> getRoles()
 	{
 		List<String> roleOptions = new ArrayList<String>();
+		
+		//need to his these string literals
 		roleOptions.add("ROLE_ADMIN");
 		roleOptions.add("ROLE_USER");
 		return roleOptions;
@@ -158,59 +165,11 @@ private UserDataObject dataObject;
 		List<User> allAdminsList = dataObject.getAllAdmins();		
 		List<User> allNonAdminsList = dataObject.getAllNonAdmins();	
 		
-		//remove duplicates with user status from list of admins
-		for (User user: allAdminsList)
-		{
-			System.out.println("Admin: " + user.getUserName());
-			if (!user.getUserRole().equals("ROLE_ADMIN"))
-			{
-				allAdminsList.remove(user);
-			}
-		}	
-
-		
-		//remove duplicates with user status from list of admins
-		for (User user: allAdminsList)
-		{
-			System.out.println("Admin: " + user.getUserName());
-			if (allNonAdminsList.contains(user))
-			{
-				allNonAdminsList.remove(user);
-			}
-			if (user.getUserRole().equals("ROLE_ADMIN"))
-			{
-				allNonAdminsList.remove(user);
-			}
-		}
-		
 		model.addAttribute("allAdmins", allAdminsList);
 		model.addAttribute("allusers", allNonAdminsList);
-		model.addAttribute("userRemoved", "A user has been removed from the system");
 		return "allusers";		
 	}
 	
-/*
-	@RequestMapping(value = "/adminpage/allusers", method = RequestMethod.POST)
-	public String listAllUsersAfterDelete(ModelMap model, @ModelAttribute("users") User user, BindingResult res)
-	{
-		List<User> allAdminsList = dataObject.getAllAdmins();		
-		List<User> allNonAdminsList = dataObject.getAllNonAdmins();	
-		
-		//remove duplicates with user status from list of admins
-		for (User admin: allAdminsList)
-		{
-			if (!admin.getUserRole().equals("ROLE_ADMIN"))
-			{
-				allAdminsList.remove(admin);
-			}
-		}
-		model.addAttribute("allAdmins", allAdminsList);
-		model.addAttribute("allusers", allNonAdminsList);
-		model.addAttribute("userRemoved", user.getUserName() + " has been removed from the system");
-		return "allusers";		
-	}
-	
-*/	
 
 	/**
 	 * Deletes the user and redirects to alluser page - deleted user should now no longer be visible
@@ -256,8 +215,21 @@ private UserDataObject dataObject;
 			
 			if (role.equals("ROLE_ADMIN"))
 			{
-				model.addAttribute("message1", "Warning - This user has the Role of Administrator");
+				if(dataObject.getAllAdminsSQL().size() > 1)
+				{
+					model.addAttribute("message1", "Warning - This user has the Role of Administrator");
+					((ClassPathXmlApplicationContext)context).close();
+					return "deleteuser";
+				}
+				else
+				{
+					model.addAttribute("message", "Warning - There must be at least one Administrator on the system"
+							+ " - therefore Cannot delete " + userName);
+					((ClassPathXmlApplicationContext)context).close();
+					return "errordeleteadminuser";
+				}
 			}
+			
 			//could find user here and send him through instead of new user();
 		//return new ModelAndView("deleteuser", "command", user.getUserName());
 			

@@ -52,11 +52,11 @@ public class JdbcUserControl implements UserDataObject {
 		{
 			jdbcTempObject.update(sqlState, null, user.getUserName(), "ROLE_ADMIN");	
 			System.out.println("***Debug*** Insert User " + user.getUserName() + " into User_Roles + user status = " + "ROLE_ADMIN");
+		}else
+		{		
+			jdbcTempObject.update(sqlState, null, user.getUserName(), "ROLE_USER");		
+			System.out.println("***Debug*** Insert User " + user.getUserName() + " into User_Roles + user status = " + "ROLE_USER");
 		}
-		
-		
-		jdbcTempObject.update(sqlState, null, user.getUserName(), "ROLE_USER");		
-		System.out.println("***Debug*** Insert User " + user.getUserName() + " into User_Roles + user status = " + "ROLE_USER");			 
 	}
 
 	/**

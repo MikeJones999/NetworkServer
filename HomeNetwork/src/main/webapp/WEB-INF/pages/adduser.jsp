@@ -27,6 +27,10 @@
 	</section>
 
 	<section>
+	
+		<div
+		style="text-align: center; padding: 25px; border: 2px solid green; width: 350px;">
+	
 		<form:form method="post" action="usersAdded" commandName="user">
 			
 
@@ -49,7 +53,7 @@
 				<tr>
 					<td>Role :</td>
 					<td><form:select path="userRole">
-							<form:option value="NONE" label="--- Select ---" />
+							<form:option value="NONE" label="--Select Role--" />
 							<form:options items="${roleOptions}" />
 						</form:select>
 					</td>
@@ -71,6 +75,7 @@
 
 		</form:form>
 
+	</div>
 	</section>
 
 	<section></section>

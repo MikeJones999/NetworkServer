@@ -21,8 +21,7 @@
 	<section class="container">
 		<div class="row">
 		
-		<td colspan="2" style="color: red">${userRemoved}</td>
-		
+				
 			<h1>All Administrators</h1>
 
 			<c:forEach items="${allAdmins}" var="user">
@@ -31,7 +30,8 @@
 						<div class="caption">
 							<h3>${user.userName}</h3>
 							<!-- <p>${user.password}</p> -->
-							<p>${user.userRole}</p>
+							<!-- <p>${user.userRole}</p> -->
+							<p>Admin</p>
 							<!-- 
 							<form method="post" action="/adminpage/deleteUser/${user.userName}">
 							<td><input type="submit" value="Delete User" /></td>
@@ -60,7 +60,8 @@
 						<div class="caption">
 							<h3>${user.userName}</h3>
 							<!-- <p>${user.password}</p> -->
-							<p>${user.userRole}</p>
+							<!-- <p>${user.userRole}</p> -->
+							<p>User</p>
 							<!-- 
 							<form method="post" action="/adminpage/deleteUser/${user.userName}">
 							<td><input type="submit" value="Delete User" /></td>

@@ -14,38 +14,27 @@
 	<section>
 	<div class="jumbotron">
 		<div class="container">
-			<h1>Delete User Page</h1>
-			<p>Confirm the deletion in order to remove user</p>
+			<h1>Delete Admin User Page</h1>
+			<p>Unable to confirm the deletion</p>
+
 			<form action="<c:url value="/adminRedirect" />">
 				<button type="submit">Admin Home Page</button>
 			</form>
-
 			<p> 
 			</p>
 			<form action="<c:url value="/adminpage/allusers" />">
 				<button type="submit">Back (Show all Users)</button>
 			</form>
+
 		</div>
 	</div>
 	</section>
 
 	<section>
-	<h3>Are you sure you want to delete user: ${message} ?</h3>
-	<h4>If you Delete this user all files and folders will be
-		erased!!!</h4>
-	<h3>${message1}</h3>
 
-	<form method="POST"
-		action="<c:url value="/adminpage/deleteuserconfirm/${message}" />">
-		<button type="submit">Delete User</button>
-	</form>
+	<h3>${message}</h3>
 
-	<!-- 
-	<form method="POST"
-		action="<c:url value="/adminpage/deleteuserconfirm" />">
-		<button type="submit">Confirm Deletion of User</button>
-	</form>
-	--> </section>
+	</section>
 
 </body>
 </html>
