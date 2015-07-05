@@ -2,7 +2,6 @@ package com.hnserver.controller;
 
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +17,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.View;
+
+
 
 import UserPackage.JdbcUserControl;
 import UserPackage.User;
@@ -182,6 +182,14 @@ private UserDataObject dataObject;
 	{
 		System.out.println("***DEBUG*** deletion of " + userName);
 	      User temp = dataObject.getuserByName(userName);
+	      
+			String name = temp.getUserName();
+			String userRole = temp.getUserRole();
+			
+			
+			System.out.println("****DEBUG**** userName before deletion = " + name);	
+			System.out.println("****DEBUG**** userRole before deletion = " + userRole);	
+	      
 	      dataObject.delete(temp);
 	      
 		return "redirect:/adminpage/allusers";

@@ -1,10 +1,9 @@
 package UserPackage;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -34,28 +33,40 @@ public class JdbcUserControl implements UserDataObject {
 	 */
 	public void insert(User user) 
 	{
+		
+		String userName = user.getUserName(); 
+		String userPassword = user.getPassword();
+		
 		//define Mysql statement - 
 		String sqlState = "INSERT INTO users (username, password, enabled) VALUES (?, ?, ?)";
 		
 		//pass information into the tempObject 
 		int enabled = 1;
-		jdbcTempObject.update(sqlState, user.getUserName(), user.getPassword(), enabled);
+		jdbcTempObject.update(sqlState, userName, userPassword, enabled);
 		
-		System.out.println("***Debug*** Insert User = " + user.getUserName() + " user password = " + user.getPassword());		
+		System.out.println("***Debug*** Insert User = " + userName + " user password = " + userPassword);		
 		
 		//need to add insertion into user_roles database
 		sqlState = "INSERT INTO user_roles (user_role_id, username, ROLE) VALUES (?, ?, ?)";
 		
-		//pass information into the tempObject 
-		//Null is used as there is an auto increment in the database - therefore this does it automatically	
+		
+		
+		//Either create a user role or an admin role depending on what was selected in the role box - on adduser page
 		if (user.getUserRole().equals("ROLE_ADMIN"))
 		{
-			jdbcTempObject.update(sqlState, null, user.getUserName(), "ROLE_ADMIN");	
-			System.out.println("***Debug*** Insert User " + user.getUserName() + " into User_Roles + user status = " + "ROLE_ADMIN");
-		}else
+			//pass information into the tempObject 
+			//Null is used as there is an auto increment in the database - therefore this does it automatically	
+			jdbcTempObject.update(sqlState, null, userName, "ROLE_ADMIN");	
+			System.out.println("***Debug*** Insert User " + userName + " into User_Roles + user status = " + "ROLE_ADMIN");
+		}
+		else
 		{		
-			jdbcTempObject.update(sqlState, null, user.getUserName(), "ROLE_USER");		
-			System.out.println("***Debug*** Insert User " + user.getUserName() + " into User_Roles + user status = " + "ROLE_USER");
+			jdbcTempObject.update(sqlState, null, userName, "ROLE_USER");		
+			System.out.println("***Debug*** Insert User " + userName + " into User_Roles + user status = " + "ROLE_USER");
+			String publicFolderCreated = UserFileControl.createFolders("C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\" +  userName + "\\public");
+			System.out.println(publicFolderCreated);			
+			String privateFolderCreated = UserFileControl.createFolders("C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\" +  userName + "\\private");
+			System.out.println(privateFolderCreated);
 		}
 	}
 
@@ -76,17 +87,35 @@ public class JdbcUserControl implements UserDataObject {
 	 */
 	public void delete(User user)
 	{	
-		String username = user.getUserName();
-			
+		String userName = user.getUserName();
+		String userRole = user.getUserRole();
+//		System.out.println("****DEBUG**** userName before deletion = " + userName);	
+//		System.out.println("****DEBUG**** userRole before deletion = " + userRole);	
+				
 		String sqlState = "delete from user_roles where user_role_id = ?";
-	    int id = getUserId(username);
+	    int id = getUserId(userName);
 	    jdbcTempObject.update(sqlState, id);
-	    System.out.println("***DEBUG*** Delete Record with username = " + username + " and Id = " + id + " from user_roles table");
+	    System.out.println("***DEBUG*** Delete Record with username = " + userName + " and Id = " + id + " from user_roles table");
 	
 	    sqlState = "delete from users where username = ?";
-	    jdbcTempObject.update(sqlState, username);
-	  	System.out.println("***DEBUG*** Delete Record with username = " + username + " from user table");
-  
+	    jdbcTempObject.update(sqlState, userName);
+	  	System.out.println("***DEBUG*** Delete Record with username = " + userName + " from user table");
+	  	
+	  	if (userRole.equals("ROLE_USER"))
+		{
+	  		try 
+	  		{
+				UserFileControl.folderExistsThenDelete("C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\" +  userName + "\\public");
+				UserFileControl.folderExistsThenDelete("C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\" +  userName + "\\private");
+				UserFileControl.folderExistsThenDelete("C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\" +  userName);
+				
+			} catch (IOException e) {
+				
+				e.printStackTrace();
+			}
+		
+
+		}
 	}
 
 
@@ -95,13 +124,16 @@ public class JdbcUserControl implements UserDataObject {
 	 */
 	public User getuserByName(String user) 
 	{
-		 String sqlState = "SELECT * from users where username = ?";		 
+		 String sqlState = "SELECT * from users, user_roles where users.username = ? and user_roles.username = ?";		 
+		 
 		 Connection connection = null;
 		 try
 		 {
 			 connection = ds.getConnection();
 			 PreparedStatement ps = (PreparedStatement) connection.prepareStatement(sqlState);
+			 //parameter 1 and parameter 2 = in the sql statement?
 			 ps.setString(1, user);
+			 ps.setString(2, user);
 			 User returnedUser = null;
 			 
 			 ResultSet results = ps.executeQuery();
@@ -110,6 +142,7 @@ public class JdbcUserControl implements UserDataObject {
 				 returnedUser = new User();
 				 returnedUser.setUserName(results.getString("username"));
 				 returnedUser.setPassword(results.getString("password"));
+				 returnedUser.setUserRole(results.getString("ROLE"));
 			 }
 			 results.close();
 			 ps.close();
@@ -265,8 +298,7 @@ public class JdbcUserControl implements UserDataObject {
 	 * @return List<User>
 	 */
 	public List<User> getAllAdmins()
-	{
-		
+	{		
 		List<User> admins = getAllAdminsSQL();		
 		return admins;
 	}
