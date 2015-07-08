@@ -1,0 +1,9 @@
+Added user specific page
+
+Added User specific page, directed there via spring security login page.
+Utilise the login controller to obtain the username entered into the spring security login form.
+This is done using...
+Authentication auth = SecurityContextHolder.getContext().getAuthentication(); 
+String name = auth.getName();
+Also a page redirect has been added for users trying to directly access userprofiles for profiles they do not have access, this includes legitimately logging in as a user then typing in username e.g userpage/dave
+Also changed the create userpage to just show either admin or user, prevents -select role-- being chosen. 
