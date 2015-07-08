@@ -86,6 +86,8 @@ private UserDataObject dataObject;
 				//User user1 = new User();
 				//user.setUserName(returnedUserName);
 				//user.setPassword(returnedUserPassword);
+				
+				//should be dataObject.insert(user);
 				userObject.insert(user);
 				
 				
@@ -127,8 +129,9 @@ private UserDataObject dataObject;
 		List<String> roleOptions = new ArrayList<String>();
 		
 		//need to his these string literals
-		roleOptions.add("ROLE_ADMIN");
 		roleOptions.add("ROLE_USER");
+		roleOptions.add("ROLE_ADMIN");
+	
 		return roleOptions;
 	}
 	

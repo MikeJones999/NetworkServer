@@ -51,9 +51,9 @@
 
 
 				<tr>
-					<td>Role :</td>
+					<td>Select Role :</td>
 					<td><form:select path="userRole">
-							<form:option value="NONE" label="--Select Role--" />
+							<!-- <form:option value="NONE" label="--Select Role--" /> -->
 							<form:options items="${roleOptions}" />
 						</form:select>
 					</td>

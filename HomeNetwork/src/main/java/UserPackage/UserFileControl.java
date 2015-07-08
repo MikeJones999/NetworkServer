@@ -2,16 +2,17 @@ package UserPackage;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.List;
 
 //reference page - http://www.mkyong.com/java/how-to-delete-directory-in-java/  05/07/2015
+//must turn off windows thumbnails in order to remove thumbs.db from being created - otherwise folder does not get removed.
 
 public class UserFileControl {
 
-
+	/**
+	 * Create a folder in the specified directory 
+	 * @param File
+	 * @return String - complete or not
+	 */
 	public static String createFolders(String dir)
 	{
 		File folderDir = new File(dir);
@@ -27,14 +28,18 @@ public class UserFileControl {
 			{
 				return "Folder Was NOT created ";
 			}
-		}
-		
+		}		
 		return dir + " already exists";
 	}
 		
-	/*
-	 * recursively deletes files and folders
-	 */
+
+	  
+	 
+	  /**
+	   * recursively deletes files and folders
+	   * @param File
+	   * @throws IOException
+	   */
 	public static void deleteFolder(File dir) throws IOException
 	{
 	
@@ -42,7 +47,7 @@ public class UserFileControl {
 		if(dir.isDirectory())
 		{
 
-			//checks to see if directory is emoty or not
+			//checks to see if directory is empty or not
 			//if empty straight forward delete - if files inside,
 			//list them and then delete via iteration
 			if(dir.list().length == 0)
@@ -54,9 +59,8 @@ public class UserFileControl {
 				System.out.println("Folder Deleted : " + dir);
 			}
 			else
-			{
-								
-				
+			{		
+				//String list to hold all the files folders found in said directory
 				String filesFound[]  = dir.list();
 				
 				for(String tempFile: filesFound)
@@ -92,12 +96,15 @@ public class UserFileControl {
 			System.out.println("Folder/file Deleted : " + dir.getAbsolutePath());
 		
 			//do a check here for thumbs.db - and change name of directory
-		}
-		
-		
+		}		
 	}
 	
-	
+	/**
+	 * Checks initial folder exists - if so calls the delete method
+	 * @param File
+	 * @throws IOException
+	 */
+	//possibly make this return boolean for check safety
 	public static void folderExistsThenDelete(String dir) throws IOException
 	{
 		//create the temp folder

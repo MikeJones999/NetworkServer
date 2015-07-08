@@ -1,15 +1,23 @@
 package com.hnserver.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import UserPackage.UserDataObject;
 
 
 
 @Controller
 public class SecurityLogin {
 
+	@Autowired
+	private UserDataObject dataObject;	
+	
 	/**
 	 * take user to user page - this will need to have be the specific user to secure all files
 	 * @return
@@ -17,7 +25,13 @@ public class SecurityLogin {
 	@RequestMapping("/userpage")
 	public String getUserPage() 
 	{
-		return "useraccess";
+		//Obtains the username - name in spring security's case - redirect using name to userpage/{username}		
+		//http://www.mkyong.com/spring-security/get-current-logged-in-username-in-spring-security/
+		  Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	      String name = auth.getName(); //get logged in username
+		
+		System.out.println("calling profile page for user");
+		return "redirect:/userpage/" + name;
 	}
 
 	/**

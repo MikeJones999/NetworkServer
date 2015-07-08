@@ -14,6 +14,7 @@
 	     <intercept-url pattern=" /adminpage/addUsers" access="hasRole('ROLE_ADMIN')" />
 	       <intercept-url pattern="/adminpage/deleteUser/{userName}" access="hasRole('ROLE_ADMIN')" />
 	       
+	       <intercept-url pattern="/userpage/{userName}" access="hasRole('ROLE_USER')" />
 		<intercept-url pattern="/userpage**" access="hasRole('ROLE_USER')" />
 		<intercept-url pattern="/adminpage**" access="hasRole('ROLE_ADMIN')" />
 		
