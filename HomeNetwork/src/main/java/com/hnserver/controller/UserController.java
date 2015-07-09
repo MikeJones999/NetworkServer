@@ -25,6 +25,8 @@ private UserDataObject dataObject;
 	 @RequestMapping(value = "/userpage/{userName}")
 		public String returnUserPage(@PathVariable String userName, Map<String, Object> model)
 		{
+		 
+		 //obtain the user that logged into the system via the spring security login screen
 		 Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	     String name = auth.getName(); 
 		 
@@ -32,6 +34,8 @@ private UserDataObject dataObject;
 			 
 		    if (temp != null )
 		    { 
+		    	
+		    	//ensure username provided is the same as the user who logged in
 		    	if (temp.getUserName().equals(name))
 		    	{	
 				      String role = temp.getUserRole();
@@ -61,13 +65,28 @@ private UserDataObject dataObject;
 		    	  System.out.println("***DEBUG*** Did not find user " + userName);
 		    	  return "redirect:/";
 		    }
-			
-			
-			
+						
 		}
 
-
 	 
+	 @RequestMapping(value = "/userpage/redirect")
+		public String redirectToUserPage(@PathVariable String userName, Map<String, Object> model)
+		{
+			 Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		     String name = auth.getName(); 
+		     User temp = dataObject.getuserByName(userName);
+		     model.put("user", temp);
+	   	  	 return "userprofilepage";
+		}
 	 
 	
+	 @RequestMapping(value = " /userpage/{userName}/editprofile")
+		public String editUserPage(@PathVariable String userName, Map<String, Object> model)
+		{
+		 	 User temp = dataObject.getuserByName(userName);
+	   	  	 return "useredit";
+		}
+	 
+	 
+	 
 }
