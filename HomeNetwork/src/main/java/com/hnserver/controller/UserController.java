@@ -7,8 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import UserPackage.User;
 import UserPackage.UserDataObject;
@@ -79,12 +82,37 @@ private UserDataObject dataObject;
 	   	  	 return "userprofilepage";
 		}
 	 
-	
+	/*
 	 @RequestMapping(value = " /userpage/{userName}/editprofile")
 		public String editUserPage(@PathVariable String userName, Map<String, Object> model)
 		{
 		 	 User temp = dataObject.getuserByName(userName);
 	   	  	 return "useredit";
+		}
+	 */
+	 
+	 //get method to get the user details to populate form
+	 @RequestMapping(value = "/userpage/{userName}/editprofile", method = RequestMethod.GET)
+		public String editUserPage(@PathVariable("userName") String userName, Map<String, Object> model)
+		{
+		 	 User temp = dataObject.getuserByName(userName);
+		 	 System.out.println("***DEBUG*** found editprofile - " + temp.getUserName());
+		 	 model.put("user", temp);
+		 	 
+	   	  	 return "useredit";
+		}
+	 
+	 @RequestMapping(value = "/userpage/{userName}", method = RequestMethod.POST)
+		public String updateUserPage(@ModelAttribute("user") User user, BindingResult res)
+		{
+		 	if(res.hasErrors())
+		 	{
+		 		System.out.println("***DEBUG*** errors found in updating user profile");
+		 		return "useredit";
+		 	}
+		 	//dataObject.update(user);
+		 	System.out.println("Update user " + user.getUserName());
+		  	return "redirect:/userpage/" + user.getUserName();
 		}
 	 
 	 
