@@ -74,14 +74,16 @@ public String returnUserPage(@PathVariable String userName, Map<String, Object> 
 		
 		//get the populated list of files - these have been populated by beans via the xml userfileupload.jsp (autowired by name)
 		 List<MultipartFile> manageFiles = fileManager.getFiles();
+		 debugListMultiPartFile(manageFiles);
 		 
 		 //create a list of STrings to hold the names to display as a return of what has been saved
 		 List<String> filesNames = new ArrayList<String>();
-	
+		 List<String> existingfiles = new ArrayList<String>();
+		 
 		 //Check to see if the List of files is empty - if so show error
 		   if (manageFiles.isEmpty() ) {
 		        //res.reject("noFile", "Please select file to upload");
-			   System.out.println("***DEBUG*** error manageFiles is empty");
+			    mod.addAttribute("messageWarning", "No file has been selected");
 		        return "userfileupload";
 		    }
 		 
@@ -93,32 +95,65 @@ public String returnUserPage(@PathVariable String userName, Map<String, Object> 
 	        for (MultipartFile multipartFile : manageFiles)
 	        {	
 	        	System.out.println("***DEBUG*** point 3");
-	            String fileName = multipartFile.getOriginalFilename();
+	            String fileName = multipartFile.getOriginalFilename();	            
+	            //need to check to see if file already exists if so overwrite it       
 	            
-	               //need to check to see if file already exists if so overwrite it       
-	            
-	            
-	            //multipartFile.getInputStream() ***** review
-	            
-	            
-	            
-	            if (!"".equalsIgnoreCase(fileName)) 
-		        { 
-	            	//this is the clever part that does the transferring to the specified location
-		            multipartFile.transferTo(new File(saveLocation + fileName));
-		            filesNames.add(fileName); 
-		        	System.out.println("***DEBUG*** file transfered/uploaded");
-	            }
-	            //ignore the file
-	            else
-	            {
-	            	System.out.println("***DEBUG*** ignored file");
-	            }            
+	     
+	         Boolean FileExists = fileAlreadyexist(saveLocation, fileName);
+	         System.out.println("***DEBUG*** File exists: " + FileExists);
+	             
+	         if(!FileExists)
+	         {
+		         if(!multipartFile.isEmpty())
+		         {
+		            if (!"".equalsIgnoreCase(fileName)) 
+			        { 		            	
+		            	//this is the clever part that does the transferring to the specified location
+			            multipartFile.transferTo(new File(saveLocation + fileName));
+			            filesNames.add(fileName); 
+			        	System.out.println("***DEBUG*** file transfered/uploaded");
+		            }
+		            //ignore the file
+		            else
+		            {
+		            	System.out.println("***DEBUG*** ignored file");
+		            }
+		         }
+		         else
+		         {
+		        	 System.out.println("***DEBUG*** file is empty - ignore");
+		          }
+	        
+	         }//fileExists
+	         else
+	         {
+	        	 existingfiles.add(fileName);
+	         }
 
 	       }//for
-	        	System.out.println("***DEBUG*** Completed upload");
-	         	mod.addAttribute("files", filesNames);
-			    return "fileuploaded";
+	        	        
+	        
+	        	if(!filesNames.isEmpty() || !existingfiles.isEmpty())
+	        	{	        	
+		        	System.out.println("***DEBUG*** Completed upload");
+		        	mod.addAttribute("message", "File upload Confirmation Page");
+		         	mod.addAttribute("filesUploaded", filesNames);
+		         	if(!existingfiles.isEmpty())
+		         	{
+		         		mod.addAttribute("message1", "Following files already exist");
+		         	  	mod.addAttribute("message2", "As such these files have not been uploaded. "
+		         	  			+ "Please delete these manually or via the File Manager Page");
+		         		mod.addAttribute("filesNotUploaded", existingfiles);
+		         	}
+		         	return "fileuploaded";	      
+	        	}
+	        	else
+	        	{ 	
+	        		System.out.println("***DEBUG*** No file uploaded");
+	             	mod.addAttribute("messageWarning", "No file has been selected");
+	                return "userfileupload";
+	        	}
+			  
 	    }	       
 		
 	    System.out.println("***DEBUG*** manageFiles is null or greater thean 0");
@@ -126,4 +161,49 @@ public String returnUserPage(@PathVariable String userName, Map<String, Object> 
 	}
 	
 
+	/**
+	 * Check to see if file to be uploaded already exists
+	 * @param location
+	 * @param fileToBeChecked
+	 * @return
+	 */
+	public boolean fileAlreadyexist(String location, String fileToBeChecked)
+	{
+		boolean response = false;		
+		File directory = new File(location);
+		if(directory.exists())
+		{			//get all files in list
+			String[] foundFiles = directory.list();
+			for(int i = 0; i < foundFiles.length; i++)
+			{
+				if (foundFiles[i].equalsIgnoreCase(fileToBeChecked))
+				{
+					response = true;
+				}
+			}
+		}
+		return response; 
+	}
+	
+	
+	
+	/**
+	 * Debug method only - to be removed
+	 * Helped establish issues with uploading of files
+	 * @param manageFiles
+	 */
+	public void debugListMultiPartFile(List<MultipartFile> manageFiles)
+	{
+		 for (MultipartFile file: manageFiles)
+		 {
+			 String fileName = file.getOriginalFilename();
+			System.out.println("***DEBUG*** File found: " + fileName); 
+		 }
+		
+	}
+	
+	
+	
+	
+	
 }
