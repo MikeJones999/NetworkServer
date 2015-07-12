@@ -10,8 +10,12 @@
 
 </head>
 <body>
-
-
+	<div align="Right">
+	<c:url value="/j_spring_security_logout" var="logoutUrl" />
+		<h3>
+			<a href="${logoutUrl}">Logout</a>
+		</h3>
+	</div>
 	<section>
 		<div align="left">
 			<div class="jumbotron">

@@ -12,6 +12,13 @@
 </head>
 <body>
 
+	<div align="Right">
+	<c:url value="/j_spring_security_logout" var="logoutUrl" />
+		<h3>
+			<a href="${logoutUrl}">Logout</a>
+		</h3>
+	</div>
+
 	<section>
 
 	<div class="jumbotron">
@@ -26,7 +33,7 @@
 			<p></p>
 			<form method="POST"
 				action="<c:url value="/userpage/${user.userName}/public/upload" />">
-				<button type="submit">Upload file</button>
+				<button type="submit">Upload file(s)</button>
 			</form>
 			<p></p>
 			<form method="POST" action="<c:url value="/userpage" />">

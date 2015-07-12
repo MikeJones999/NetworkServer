@@ -10,13 +10,24 @@
 </head>
 <body>
 
+	<div align="Right">
+	<c:url value="/j_spring_security_logout" var="logoutUrl" />
+		<h3>
+			<a href="${logoutUrl}">Logout</a>
+		</h3>
+	</div>
+
 	<div class="thumbnail">
 		<!--  <img src="<c:url value="/resources/images/avatar.png" />" alt="" /> -->
 
 		<img src="<c:url value="/resources/images/avatar.png" />" alt="image"
 			style="width: 5%" />
-		<!-- 	<img src="${pageContext.servletContext.contextPath}/resources/images/avatar.png"/> -->
+
+					<!-- 	<img src="${pageContext.servletContext.contextPath}/resources/images/avatar.png"/> -->
 	</div>
+
+
+
 
 	<section>
 
@@ -99,13 +110,6 @@
 		<button type="submit">Add Avatar</button>
 	</form>
 
-	<center>
-		<c:url value="/j_spring_security_logout" var="logoutUrl" />
-		<h3>
-			<a href="${logoutUrl}">Logout</a>
-		</h3>
-
-	</center>
 
 </body>
 </html>

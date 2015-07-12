@@ -9,7 +9,15 @@
 
 </head>
 <body>
-	<section>
+<section>
+	<div align="Right">
+		<c:url value="/j_spring_security_logout" var="logoutUrl" />
+		<h3>
+			<a href="${logoutUrl}">Logout</a>
+		</h3>
+	</div>
+
+	
 	<div class="jumbotron">
 		<div class="container">
 			<h1>${user.userName}'s Profile page</h1>
@@ -19,9 +27,10 @@
 				action="<c:url value="/userpage/${user.userName}/editprofile" />">
 				<button type="submit">Edit User details</button>
 			</form>
-
+						
 			<p></p>
-			<form method="GET" action="<c:url value="/userpage/${user.userName}/filemanager" />">
+			<form method="GET"
+				action="<c:url value="/userpage/${user.userName}/filemanager" />">
 				<button type="submit">File Manager page</button>
 			</form>
 			<p></p>
@@ -31,7 +40,7 @@
 	</section>
 
 
-	<section>
+
 	<div>
 		<h3>User: ${user.userName}</h3>
 	</div>
@@ -40,14 +49,6 @@
 	</div>
 
 	<%=request.getRemoteUser()%> </section>
-
-	<center>
-		<c:url value="/j_spring_security_logout" var="logoutUrl" />
-		<h3>
-			<a href="${logoutUrl}">Logout</a>
-		</h3>
-
-	</center>
 
 
 </body>

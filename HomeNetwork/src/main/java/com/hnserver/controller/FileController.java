@@ -110,7 +110,7 @@ public String returnUserPrivateUploadPage(@PathVariable String userName, Map<Str
 			Map<String, Object> model, Model mod, BindingResult res) throws IllegalStateException, IOException
 	{
 		 User temp = dataObject.getuserByName(userName);
-	 	
+	 	mod.addAttribute("user",temp);
 	
 		//set the directory for where the file is to be saved
 		String saveLocation = "C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\" +  userName + "\\public\\";
@@ -176,9 +176,10 @@ public String returnUserPrivateUploadPage(@PathVariable String userName, Map<Str
 
 	       }//for	        	        
 	        
+	          
 	        	if(!filesNames.isEmpty() || !existingfiles.isEmpty())
 	        	{	      
-	        		model.put("user", temp);	        		
+	        	    	       		
 		        	System.out.println("***DEBUG*** Completed upload");
 		        	mod.addAttribute("message", "File upload Confirmation Page");
 		        	
@@ -201,9 +202,13 @@ public String returnUserPrivateUploadPage(@PathVariable String userName, Map<Str
 	        	}
 	        	else
 	        	{ 	
+	        		
 	        		System.out.println("***DEBUG*** No file uploaded");
 	             	mod.addAttribute("messageWarning", "No file has been selected");
-	                return "userfileupload";
+	             	mod.addAttribute("foldertype", "Public"); 
+	             		
+	             	 
+	             	return "userfileupload";
 	        	}			  
 	    }   
 		

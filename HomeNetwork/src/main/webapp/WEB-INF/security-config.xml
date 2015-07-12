@@ -1,6 +1,5 @@
 <beans:beans xmlns="http://www.springframework.org/schema/security"
-	xmlns:beans="http://www.springframework.org/schema/beans" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
  http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
  http://www.springframework.org/schema/security
@@ -8,20 +7,25 @@
 
 	<http auto-config="true" use-expressions="true">
 		<access-denied-handler error-page="/errorloginpage" />
-		
-		
-	    <intercept-url pattern="/adminpage/allusers" access="hasRole('ROLE_ADMIN')" />
-	     <intercept-url pattern=" /adminpage/addUsers" access="hasRole('ROLE_ADMIN')" />
-	       <intercept-url pattern="/adminpage/deleteUser/{userName}" access="hasRole('ROLE_ADMIN')" />
-	       
-	       <intercept-url pattern="/userpage/{userName}" access="hasRole('ROLE_USER')" />
+
+		<!-- Admin intercepts -->
+		<intercept-url pattern="/adminpage/allusers" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern=" /adminpage/addUsers" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/adminpage/deleteUser/{userName}"
+			access="hasRole('ROLE_ADMIN')" />
+
+
+		<!-- User intercepts -->
+		<intercept-url pattern="/userpage/{userName}" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/userpage/{userName}/private**"
+			access="hasRole('ROLE_USER')" />
 		<intercept-url pattern="/userpage**" access="hasRole('ROLE_USER')" />
 		<intercept-url pattern="/adminpage**" access="hasRole('ROLE_ADMIN')" />
-		
+
 		<form-login login-page='/loginpage' username-parameter="username"
 			password-parameter="password" default-target-url="/startpage"
 			authentication-failure-url="/loginpage?accessfailed" />
-			
+
 		<logout logout-success-url="/?logout" />
 	</http>
 
