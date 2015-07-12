@@ -102,6 +102,12 @@ private UserDataObject dataObject;
 	   	  	 return "useredit";
 		}
 	 
+	 /**
+	  * Post Controller for Updating User's profile login details
+	  * @param User
+	  * @param BindingResult
+	  * @return String Jsp
+	  */
 	 @RequestMapping(value = "/userpage/{userName}", method = RequestMethod.POST)
 		public String updateUserPage(@ModelAttribute("user") User user, BindingResult res)
 		{
@@ -110,7 +116,8 @@ private UserDataObject dataObject;
 		 		System.out.println("***DEBUG*** errors found in updating user profile");
 		 		return "useredit";
 		 	}
-		 	//dataObject.update(user);
+		 	
+		 	dataObject.update(user);
 		 	System.out.println("Update user " + user.getUserName());
 		  	return "redirect:/userpage/" + user.getUserName();
 		}

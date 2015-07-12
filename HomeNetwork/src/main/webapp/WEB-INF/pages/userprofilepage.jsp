@@ -19,15 +19,12 @@
 				action="<c:url value="/userpage/${user.userName}/editprofile" />">
 				<button type="submit">Edit User details</button>
 			</form>
-<p> </p>
-			<form method="POST" action="<c:url value="/userpage" />">
-				<button type="submit">Change User password</button>
-			</form>
-<p> </p>
-			<form method="POST" action="<c:url value="/userpage" />">
+
+			<p></p>
+			<form method="GET" action="<c:url value="/userpage/${user.userName}/filemanager" />">
 				<button type="submit">Access Files/folders page</button>
 			</form>
-<p> </p>
+			<p></p>
 			<form method="POST" action="<c:url value="/userpage" />">
 				<button type="submit">Add Avatar</button>
 			</form>
@@ -39,10 +36,10 @@
 
 	<section>
 	<div>
-	<h3>User: ${user.userName}</h3>
+		<h3>User: ${user.userName}</h3>
 	</div>
 	<div>
-	<h3>Role: ${user.userRole}</h3>
+		<h3>Role: ${user.userRole}</h3>
 	</div>
 
 	<%=request.getRemoteUser()%> </section>
@@ -54,5 +51,7 @@
 		</h3>
 
 	</center>
+
+
 </body>
 </html>
