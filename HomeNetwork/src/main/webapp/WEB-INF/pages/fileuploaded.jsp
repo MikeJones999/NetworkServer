@@ -6,7 +6,7 @@
 <link rel="stylesheet"
 	href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
 
-<title>Upload Multiple Files Example</title>
+<title>Upload Multiple to either public or private folders</title>
 
 </head>
 <body>
@@ -21,8 +21,16 @@
 					<form method="POST" action="<c:url value="/userpage" />">
 						<button type="submit">User home page</button>
 					</form>
+					<p></p>
+					<form method="POST"
+						action="<c:url value="/userpage/${user.userName}/filemanager" />">
+						<button type="submit">File Manager</button>
+					</form>
 
-
+					<form method="GET"
+						action="<c:url value="upload" />">
+						<button type="submit">Back to Public Uploads</button>
+					</form>
 				</div>
 
 			</div>
@@ -31,18 +39,18 @@
 
 	<br>
 	<br>
+	<h1>${messageSuccessful}</h1>
 
-
-		<c:forEach items="${filesUploaded}" var="file">
+	<c:forEach items="${filesUploaded}" var="file">
 			- ${file} <br>
-		</c:forEach>
+	</c:forEach>
 
 
 	<br />
 	<br />
 
-<h1>${message1}</h1>
-<h3>${message2}</h3>
+	<h1>${message1}</h1>
+	<h3>${message2}</h3>
 	<ol>
 		<c:forEach items="${filesNotUploaded}" var="file">
 			- ${file} <br>

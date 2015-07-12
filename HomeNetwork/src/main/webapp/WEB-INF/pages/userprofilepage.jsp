@@ -22,12 +22,9 @@
 
 			<p></p>
 			<form method="GET" action="<c:url value="/userpage/${user.userName}/filemanager" />">
-				<button type="submit">Access Files/folders page</button>
+				<button type="submit">File Manager page</button>
 			</form>
 			<p></p>
-			<form method="POST" action="<c:url value="/userpage" />">
-				<button type="submit">Add Avatar</button>
-			</form>
 
 		</div>
 	</div>

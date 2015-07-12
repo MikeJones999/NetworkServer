@@ -45,13 +45,53 @@ public class FileController {
 UserDataObject dataObject;
 
 @RequestMapping(value = "/userpage/{userName}/filemanager")
-public String returnUserPage(@PathVariable String userName, Map<String, Object> model)
+public String returnUserFileManagerPage(@PathVariable String userName, Map<String, Object> model)
 {
 	 User temp = dataObject.getuserByName(userName);
  	 System.out.println("***DEBUG*** found userfileupload page for - " + temp.getUserName());
  	 model.put("user", temp);
+ 	 
+ 	 
+ 	 
+ 	 return "filemanager"; 
+}
+
+
+
+@RequestMapping(value = "/userpage/{userName}/public")
+public String returnUserPublicPage(@PathVariable String userName, Map<String, Object> model)
+{
+	 User temp = dataObject.getuserByName(userName);
+ 	 System.out.println("***DEBUG*** found Public page for - " + temp.getUserName());
+ 	 model.put("user", temp);	 
+ 	 
+ 	 return "userpublicpage"; 
+}
+
+
+@RequestMapping(value = "/userpage/{userName}/public/upload")
+public String returnUserPublicUploadPage(@PathVariable String userName, Map<String, Object> model)
+{
+	 User temp = dataObject.getuserByName(userName);
+ 	 System.out.println("***DEBUG*** found Public page for - " + temp.getUserName());
+ 	 model.put("user", temp);
+ 	 
+ 	 model.put("foldertype", "Public"); 	
+ 	 
  	 return "userfileupload"; 
 }
+
+@RequestMapping(value = "/userpage/{userName}/private/upload")
+public String returnUserPrivateUploadPage(@PathVariable String userName, Map<String, Object> model)
+{
+	 User temp = dataObject.getuserByName(userName);
+ 	 System.out.println("***DEBUG*** found private page for - " + temp.getUserName());
+ 	 model.put("user", temp);
+
+ 	 return "userfileupload"; 
+}
+
+
 
 	/**
 	 * Handle the uploaded files and save into directory
@@ -64,10 +104,14 @@ public String returnUserPage(@PathVariable String userName, Map<String, Object> 
 	 * @throws IllegalStateException
 	 * @throws IOException
 	 */
-	@RequestMapping(value = "/userpage/{userName}/fileupload", method= RequestMethod.POST)
+//	@RequestMapping(value = "/userpage/{userName}/fileupload", method= RequestMethod.POST)
+@RequestMapping(value = "/userpage/{userName}/public/fileupload", method= RequestMethod.POST)
 	public String fileUpload(@ModelAttribute("fileManager") FileManager fileManager, @PathVariable String userName, 
 			Map<String, Object> model, Model mod, BindingResult res) throws IllegalStateException, IOException
 	{
+		 User temp = dataObject.getuserByName(userName);
+	 	
+	
 		//set the directory for where the file is to be saved
 		String saveLocation = "C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\" +  userName + "\\public\\";
 		System.out.println("***DEBUG*** point 1 -Saving to " + saveLocation);
@@ -130,14 +174,22 @@ public String returnUserPage(@PathVariable String userName, Map<String, Object> 
 	        	 existingfiles.add(fileName);
 	         }
 
-	       }//for
-	        	        
+	       }//for	        	        
 	        
 	        	if(!filesNames.isEmpty() || !existingfiles.isEmpty())
-	        	{	        	
+	        	{	      
+	        		model.put("user", temp);	        		
 		        	System.out.println("***DEBUG*** Completed upload");
 		        	mod.addAttribute("message", "File upload Confirmation Page");
-		         	mod.addAttribute("filesUploaded", filesNames);
+		        	
+		        	if(!filesNames.isEmpty())
+		        	{
+		        	 mod.addAttribute("messageSuccessful", "Following files have been uploaded successfully");
+		        	 mod.addAttribute("filesUploaded", filesNames);
+		        	}
+		        	
+		         	
+		         	
 		         	if(!existingfiles.isEmpty())
 		         	{
 		         		mod.addAttribute("message1", "Following files already exist");
@@ -152,9 +204,8 @@ public String returnUserPage(@PathVariable String userName, Map<String, Object> 
 	        		System.out.println("***DEBUG*** No file uploaded");
 	             	mod.addAttribute("messageWarning", "No file has been selected");
 	                return "userfileupload";
-	        	}
-			  
-	    }	       
+	        	}			  
+	    }   
 		
 	    System.out.println("***DEBUG*** manageFiles is null or greater thean 0");
 	    return "userfileupload";	

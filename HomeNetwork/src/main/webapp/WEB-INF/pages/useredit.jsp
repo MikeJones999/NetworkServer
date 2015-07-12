@@ -11,12 +11,12 @@
 <body>
 
 	<div class="thumbnail">
-					<!--  <img src="<c:url value="/resources/images/avatar.png" />" alt="" /> -->
+		<!--  <img src="<c:url value="/resources/images/avatar.png" />" alt="" /> -->
 
-					<img src="<c:url value="/resources/images/avatar.png" />"
-						alt="image" style="width: 5%" />
-					<!-- 	<img src="${pageContext.servletContext.contextPath}/resources/images/avatar.png"/> -->
-				</div>
+		<img src="<c:url value="/resources/images/avatar.png" />" alt="image"
+			style="width: 5%" />
+		<!-- 	<img src="${pageContext.servletContext.contextPath}/resources/images/avatar.png"/> -->
+	</div>
 
 	<section>
 
@@ -32,7 +32,6 @@
 				<form method="POST" action="<c:url value="/userpage" />">
 					<button type="submit">User home page</button>
 				</form>
-
 
 			</div>
 		</div>
@@ -96,7 +95,9 @@
 
 	</section>
 
-
+	<form method="POST" action="<c:url value="/userpage" />">
+		<button type="submit">Add Avatar</button>
+	</form>
 
 	<center>
 		<c:url value="/j_spring_security_logout" var="logoutUrl" />
