@@ -28,23 +28,15 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="E:/MSC/Project/Database Practice/javax.servlet-api-3.1.0.jar"/>
-	<classpathentry kind="lib" path="E:/MSC/Project/Database Practice/mysql-connector-java-5.1.35.jar"/>
-	<classpathentry kind="lib" path="E:/MSC/Project/Database Practice/spring-jdbc-4.1.6.RELEASE.jar"/>
-	<classpathentry kind="lib" path="E:/MSC/Project/Database Practice/spring-tx-3.0.5.RELEASE.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/mikieJ/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/1.2.4.RELEASE/spring-boot-autoconfigure-1.2.4.RELEASE.jar">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-			<attribute name="maven.groupId" value="org.springframework.boot"/>
-			<attribute name="maven.artifactId" value="spring-boot-autoconfigure"/>
-			<attribute name="maven.version" value="1.2.4.RELEASE"/>
-			<attribute name="maven.scope" value="compile"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/mikieJ/Documents/GitHub/NetworkServer/HomeNetwork/requiredJars/javax.servlet-api-3.1.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/mikieJ/Documents/GitHub/NetworkServer/HomeNetwork/requiredJars/mysql-connector-java-5.1.35.jar"/>
+	<classpathentry kind="lib" path="C:/Users/mikieJ/Documents/GitHub/NetworkServer/HomeNetwork/requiredJars/spring-boot-autoconfigure-1.2.4.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Users/mikieJ/Documents/GitHub/NetworkServer/HomeNetwork/requiredJars/spring-jdbc-4.1.6.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Users/mikieJ/Documents/GitHub/NetworkServer/HomeNetwork/requiredJars/spring-tx-3.0.5.RELEASE.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
