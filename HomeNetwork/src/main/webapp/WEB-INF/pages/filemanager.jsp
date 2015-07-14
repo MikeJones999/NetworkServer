@@ -36,7 +36,7 @@
 				<button type="submit">Public Folder</button>
 			</form>
 			<p></p>
-			<form method="POST" action="<c:url value="/userpage" />">
+			<form method="POST" action="<c:url value="/userpage/${user.userName}/private" />">
 				<button type="submit">Private Folder</button>
 			</form>
 		

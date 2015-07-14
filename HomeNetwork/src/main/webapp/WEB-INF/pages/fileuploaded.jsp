@@ -33,7 +33,7 @@
 
 					<form method="GET"
 						action="<c:url value="upload" />">
-						<button type="submit">Back to Public Uploads</button>
+						<button type="submit">Back to ${folderType} Uploads</button>
 					</form>
 				</div>
 

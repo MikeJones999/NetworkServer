@@ -8,7 +8,7 @@
 	href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
 
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Public File Manager Page</title>
+<title>Private file Manager Page</title>
 </head>
 <body>
 
@@ -23,7 +23,7 @@
 
 	<div class="jumbotron">
 		<div class="container">
-			<h1>${user.userName}'s Public Folder Page</h1>
+			<h1>${user.userName}'s Private Folder Page</h1>
 			<h3>This page and its contents are not secured and open for
 				sharing/downloading</h3>
 			<p></p>
@@ -36,7 +36,7 @@
 			</form>
 			<p></p>
 			<form method="POST"
-				action="<c:url value="/userpage/${user.userName}/public/upload" />">
+				action="<c:url value="/userpage/${user.userName}/private/upload" />">
 				<button type="submit">Upload file(s)</button>
 			</form>
 			<p></p>

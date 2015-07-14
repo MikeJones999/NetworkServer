@@ -64,20 +64,29 @@ public String returnUserPublicPage(@PathVariable String userName, Map<String, Ob
 	 User temp = dataObject.getuserByName(userName);
  	 System.out.println("***DEBUG*** found Public page for - " + temp.getUserName());
  	 model.put("user", temp);	 
- 	 
+ 	//model.put("folderType", "public");
  	 return "userpublicpage"; 
 }
 
+
+
+@RequestMapping(value = "/userpage/{userName}/private")
+public String returnUserPrivatePage(@PathVariable String userName, Map<String, Object> model)
+{
+	 User temp = dataObject.getuserByName(userName);
+ 	 System.out.println("***DEBUG*** found Private page for - " + temp.getUserName());
+ 	 model.put("user", temp);	 
+	 //model.put("folderType", "private");
+ 	 return "userprivatepage"; 
+}
 
 @RequestMapping(value = "/userpage/{userName}/public/upload")
 public String returnUserPublicUploadPage(@PathVariable String userName, Map<String, Object> model)
 {
 	 User temp = dataObject.getuserByName(userName);
  	 System.out.println("***DEBUG*** found Public page for - " + temp.getUserName());
- 	 model.put("user", temp);
- 	 
- 	 model.put("foldertype", "Public"); 	
- 	 
+ 	 model.put("user", temp); 	 
+ 	 model.put("folderType", "public"); 	 
  	 return "userfileupload"; 
 }
 
@@ -87,7 +96,7 @@ public String returnUserPrivateUploadPage(@PathVariable String userName, Map<Str
 	 User temp = dataObject.getuserByName(userName);
  	 System.out.println("***DEBUG*** found private page for - " + temp.getUserName());
  	 model.put("user", temp);
-
+	 model.put("folderType", "private"); 	
  	 return "userfileupload"; 
 }
 
@@ -105,6 +114,7 @@ public String returnUserPrivateUploadPage(@PathVariable String userName, Map<Str
 	 * @throws IOException
 	 */
 //	@RequestMapping(value = "/userpage/{userName}/fileupload", method= RequestMethod.POST)
+/*
 @RequestMapping(value = "/userpage/{userName}/public/fileupload", method= RequestMethod.POST)
 	public String fileUpload(@ModelAttribute("fileManager") FileManager fileManager, @PathVariable String userName, 
 			Map<String, Object> model, Model mod, BindingResult res) throws IllegalStateException, IOException
@@ -215,7 +225,7 @@ public String returnUserPrivateUploadPage(@PathVariable String userName, Map<Str
 	    System.out.println("***DEBUG*** manageFiles is null or greater thean 0");
 	    return "userfileupload";	
 	}
-	
+*/	
 
 	/**
 	 * Check to see if file to be uploaded already exists
@@ -258,8 +268,140 @@ public String returnUserPrivateUploadPage(@PathVariable String userName, Map<Str
 		
 	}
 	
+	@RequestMapping(value = "/userpage/{userName}/public/fileupload", method= RequestMethod.POST)
+	public String publicfileUpload(@ModelAttribute("fileManager") FileManager fileManager, @PathVariable String userName, 
+			Map<String, Object> model, Model mod, BindingResult res) throws IllegalStateException, IOException
+	{
+		
+		String fileType = "public";		
+		String response = mainUploadFile(fileType, userName, fileManager, mod);
+	
+		return response;
+	}
 	
 	
+	@RequestMapping(value = "/userpage/{userName}/private/fileupload", method= RequestMethod.POST)
+	public String privatefileUpload(@ModelAttribute("fileManager") FileManager fileManager, @PathVariable String userName, 
+			Map<String, Object> model, Model mod, BindingResult res) throws IllegalStateException, IOException
+	{
+		
+		String fileType = "private";		
+		String response = mainUploadFile(fileType, userName, fileManager, mod);
+	
+		return response;
+	}
+	
+	
+	public String mainUploadFile(String fileType, String userName, FileManager fileManager,  Model mod) throws IllegalStateException, IOException
+	{
+		User temp = dataObject.getuserByName(userName);
+		mod.addAttribute("user",temp);
+		mod.addAttribute("folderType", fileType);
+		//set the directory for where the file is to be saved
+		String saveLocation = "C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\" +  userName + "\\" + fileType + "\\";
+		
+		System.out.println("***DEBUG*** point 1 -Saving to " + saveLocation);
+		
+		//get the populated list of files - these have been populated by beans via the xml userfileupload.jsp (autowired by name)
+		 List<MultipartFile> manageFiles = fileManager.getFiles();
+		 debugListMultiPartFile(manageFiles);
+		 
+		 //create a list of STrings to hold the names to display as a return of what has been saved
+		 List<String> filesNames = new ArrayList<String>();
+		 List<String> existingfiles = new ArrayList<String>();
+		 
+		 //Check to see if the List of files is empty - if so show error
+		   if (manageFiles.isEmpty() ) {
+		        //res.reject("noFile", "Please select file to upload");
+			    mod.addAttribute("messageWarning", "No file has been selected");
+		        return "userfileupload";
+		    }
+		 
+		 //check to see if its populated
+	    if (null != manageFiles && manageFiles.size() > 0) 
+	    {
+	    	System.out.println("***DEBUG*** point 2");
+	    	//iterate through the populated list to add the files
+	        for (MultipartFile multipartFile : manageFiles)
+	        {	
+	        	System.out.println("***DEBUG*** point 3");
+	            String fileName = multipartFile.getOriginalFilename();	            
+	            //need to check to see if file already exists if so overwrite it       
+	            
+	     
+	         Boolean FileExists = fileAlreadyexist(saveLocation, fileName);
+	         System.out.println("***DEBUG*** File exists: " + FileExists);
+	             
+	         if(!FileExists)
+	         {
+		         if(!multipartFile.isEmpty())
+		         {
+		            if (!"".equalsIgnoreCase(fileName)) 
+			        { 		            	
+		            	//this is the clever part that does the transferring to the specified location
+			            multipartFile.transferTo(new File(saveLocation + fileName));
+			            filesNames.add(fileName); 
+			        	System.out.println("***DEBUG*** file transfered/uploaded");
+		            }
+		            //ignore the file
+		            else
+		            {
+		            	System.out.println("***DEBUG*** ignored file");
+		            }
+		         }
+		         else
+		         {
+		        	 System.out.println("***DEBUG*** file is empty - ignore");
+		          }
+	        
+	         }//fileExists
+	         else
+	         {
+	        	 existingfiles.add(fileName);
+	         }
+
+	       }//for	        	        
+	        
+	          
+	        	if(!filesNames.isEmpty() || !existingfiles.isEmpty())
+	        	{	      
+	        	    	       		
+		        	System.out.println("***DEBUG*** Completed upload");
+		        	mod.addAttribute("message", "File upload Confirmation Page");
+		        	
+		        	if(!filesNames.isEmpty())
+		        	{
+		        	 mod.addAttribute("messageSuccessful", "Following files have been uploaded successfully");
+		        	 mod.addAttribute("filesUploaded", filesNames);
+		        	}
+		        	
+		         	
+		         	
+		         	if(!existingfiles.isEmpty())
+		         	{
+		         		mod.addAttribute("message1", "Following files already exist");
+		         	  	mod.addAttribute("message2", "As such these files have not been uploaded. "
+		         	  			+ "Please delete these manually or via the File Manager Page");
+		         		mod.addAttribute("filesNotUploaded", existingfiles);
+		         	}
+		        	mod.addAttribute("folder", fileType);
+		         	return "fileuploaded";	      
+	        	}
+	        	else
+	        	{ 	
+	        		
+	        		System.out.println("***DEBUG*** No file uploaded");
+	             	mod.addAttribute("messageWarning", "No file has been selected");
+	             	
+	             		
+	             	 
+	             	return "userfileupload";
+	        	}			  
+	    }   
+		
+	    System.out.println("***DEBUG*** manageFiles is null or greater thean 0");
+	    return "userfileupload";	
+	}
 	
 	
 }
