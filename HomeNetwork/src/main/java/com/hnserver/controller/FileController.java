@@ -33,6 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
 import fileManager.FileManager;
 import UserPackage.User;
 import UserPackage.UserDataObject;
+import UserPackage.UserFileControl;
 
 //reference https://spring.io/guides/gs/uploading-files/
 // & http://www.mkyong.com/spring-mvc/spring-mvc-file-upload-example/
@@ -326,18 +327,28 @@ public String returnUserPrivateUploadPage(@PathVariable String userName, Map<Str
 	
 	
 	
-	 // /userpage/mj/private/delete/21965_005_AMS_1857.jpg
-	
-	@RequestMapping(value = "/userpage/{userName}/private/delete/{fileName}",  method = RequestMethod.GET)
-	public String deletePublicFile(@PathVariable ("userName") String userName, @PathVariable ("fileName") String fileName, Map<String, Object> model)
+
+	/**
+	 * Delete a file from a private folder
+	 * @param User.userName
+	 * @param fileName  {fileName:.+} required to stop string cutting anything off after . - type can now be found
+	 * @param model
+	 * @return
+	 * @throws IOException 
+	 */
+	@RequestMapping(value = "/userpage/{userName}/private/delete/{fileName:.+}",  method = RequestMethod.GET)
+	public String deletePrivateFile(@PathVariable ("userName") String userName, @PathVariable ("fileName") String fileName, Map<String, Object> model) throws IOException
 	{
-		String fileType = fileName;
-		String location = "C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\" +  userName + "\\" + fileType + "\\";
+		String fileType = fileName ;
+		//String temp = fileName + ".pub";
+		System.out.println("***DEBUG*** looking for file: " + fileName);
+		String location = "C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\" +  userName + "\\" + "private" + "\\";
 
 		//if files exists then delete
 		if (fileAlreadyexist(location, fileType))
 		{
 			model.put("message", "found and deleted");
+			UserFileControl.folderExistsThenDelete("C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\" +  userName + "\\private\\" + fileName);
 			return "filedeleted";
 			
 		}
@@ -349,7 +360,38 @@ public String returnUserPrivateUploadPage(@PathVariable String userName, Map<Str
 		
 	}
 	
-	
+
+	/**
+	 * Delete a file from a public folder
+	 * @param User.userName
+	 * @param fileName  {fileName:.+} required to stop string cutting anything off after . - type can now be found
+	 * @param model
+	 * @return
+	 * @throws IOException 
+	 */
+	@RequestMapping(value = "/userpage/{userName}/public/delete/{fileName:.+}",  method = RequestMethod.GET)
+	public String deletePublicFile(@PathVariable ("userName") String userName, @PathVariable ("fileName") String fileName, Map<String, Object> model) throws IOException
+	{
+		String fileType = fileName ;
+		//String temp = fileName + ".pub";
+		System.out.println("***DEBUG*** looking for file: " + fileName);
+		String location = "C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\" +  userName + "\\" + "public" + "\\";
+
+		//if files exists then delete
+		if (fileAlreadyexist(location, fileType))
+		{
+			model.put("message", "found and deleted");
+			UserFileControl.folderExistsThenDelete("C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\" +  userName + "\\public\\" + fileName);			
+			return "filedeleted";
+			
+		}
+		else
+		{
+			model.put("message", "No file has been selected");
+			return "filedeleted";
+		}
+		
+	}
 	
 	
 	

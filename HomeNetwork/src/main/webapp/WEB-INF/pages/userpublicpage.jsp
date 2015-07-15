@@ -71,7 +71,12 @@
 							action="<c:url value="/userpage/${user.userName}/public/download/${file}" />">
 						<div style="text-align: center;">	<button type="submit">Download file</button></div>
 						</form>
-
+						<form 
+							action="<c:url value="/userpage/${user.userName}/public/delete/${file}" />">
+							<div style="text-align: center;">
+								<button type="submit">Delete file</button>
+							</div>							
+						</form>
 
 					</div>
 				</div>
