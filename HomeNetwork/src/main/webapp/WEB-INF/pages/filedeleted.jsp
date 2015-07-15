@@ -11,8 +11,43 @@
 <title>Public File Manager Page</title>
 </head>
 <body>
-   <h1> File Deleted page</h1>
-   <h3> ${message}</h3>
-   
+
+	<div align="Right">
+		<c:url value="/j_spring_security_logout" var="logoutUrl" />
+		<h3>
+			<a href="${logoutUrl}">Logout</a>
+		</h3>
+	</div>
+
+	<section>
+
+	<div class="jumbotron">
+		<div class="container">
+			<h1>File Deleted page</h1>
+			
+			<p></p>
+			<form method="POST" action="<c:url value="/userpage" />">
+				<button type="submit">User home page</button>
+			</form>
+			<p></p>
+			<form method="POST"
+				action="<c:url value="/userpage/${userName}/filemanager" />">
+				<button type="submit">File Manager</button>
+			</form>
+			<p></p>
+			<form method="POST"
+				action="<c:url value="/userpage/${userName}/${folderType}" />">
+				<button type="submit">Back to ${folderType} folder</button>
+			</form>
+
+		</div>
+
+	</div>
+
+	</section>
+
+<h3>${message}</h3>
+
 </body>
 </html>
+

@@ -33,10 +33,10 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/mikieJ/Documents/GitHub/SpringPractice/HomeNetwork/requiredJars/javax.servlet-api-3.1.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/mikieJ/Documents/GitHub/SpringPractice/HomeNetwork/requiredJars/mysql-connector-java-5.1.35.jar"/>
-	<classpathentry kind="lib" path="C:/Users/mikieJ/Documents/GitHub/SpringPractice/HomeNetwork/requiredJars/spring-boot-autoconfigure-1.2.4.RELEASE.jar"/>
-	<classpathentry kind="lib" path="C:/Users/mikieJ/Documents/GitHub/SpringPractice/HomeNetwork/requiredJars/spring-jdbc-4.1.6.RELEASE.jar"/>
-	<classpathentry kind="lib" path="C:/Users/mikieJ/Documents/GitHub/SpringPractice/HomeNetwork/requiredJars/spring-tx-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Users/MikieJ Study/Documents/MscProjectWorkspace/requiredJars/javax.servlet-api-3.1.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/MikieJ Study/Documents/MscProjectWorkspace/requiredJars/mysql-connector-java-5.1.35.jar"/>
+	<classpathentry kind="lib" path="C:/Users/MikieJ Study/Documents/MscProjectWorkspace/requiredJars/spring-boot-autoconfigure-1.2.4.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Users/MikieJ Study/Documents/MscProjectWorkspace/requiredJars/spring-jdbc-4.1.6.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Users/MikieJ Study/Documents/MscProjectWorkspace/requiredJars/spring-tx-3.0.5.RELEASE.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

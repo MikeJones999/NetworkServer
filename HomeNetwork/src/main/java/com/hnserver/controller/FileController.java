@@ -295,8 +295,6 @@ public String returnUserPrivateUploadPage(@PathVariable String userName, Map<Str
 		        	 mod.addAttribute("messageSuccessful", "Following files have been uploaded successfully");
 		        	 mod.addAttribute("filesUploaded", filesNames);
 		        	}
-		        	
-		         	
 		         	
 		         	if(!existingfiles.isEmpty())
 		         	{
@@ -343,18 +341,18 @@ public String returnUserPrivateUploadPage(@PathVariable String userName, Map<Str
 		//String temp = fileName + ".pub";
 		System.out.println("***DEBUG*** looking for file: " + fileName);
 		String location = "C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\" +  userName + "\\" + "private" + "\\";
-
+		model.put("folderType", "private");
+		model.put("userName", userName);
 		//if files exists then delete
 		if (fileAlreadyexist(location, fileType))
 		{
-			model.put("message", "found and deleted");
+			model.put("message", "found and deleted file: " + fileName);
 			UserFileControl.folderExistsThenDelete("C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\" +  userName + "\\private\\" + fileName);
-			return "filedeleted";
-			
+			return "filedeleted";			
 		}
 		else
 		{
-			model.put("message", "No file has been selected");
+			model.put("message", fileName + " was not found in the directory, thus it cannot be deleted");
 			return "filedeleted";
 		}
 		
@@ -376,18 +374,19 @@ public String returnUserPrivateUploadPage(@PathVariable String userName, Map<Str
 		//String temp = fileName + ".pub";
 		System.out.println("***DEBUG*** looking for file: " + fileName);
 		String location = "C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\" +  userName + "\\" + "public" + "\\";
-
+		model.put("folderType", "public");
+		model.put("userName", userName);
 		//if files exists then delete
 		if (fileAlreadyexist(location, fileType))
 		{
-			model.put("message", "found and deleted");
-			UserFileControl.folderExistsThenDelete("C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\" +  userName + "\\public\\" + fileName);			
-			return "filedeleted";
+			model.put("message", "found and deleted file: " + fileName);
 			
+			UserFileControl.folderExistsThenDelete("C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\" +  userName + "\\public\\" + fileName);			
+			return "filedeleted";			
 		}
 		else
 		{
-			model.put("message", "No file has been selected");
+			model.put("message", fileName + " was not found in the directory, thus it cannot be deleted");
 			return "filedeleted";
 		}
 		
