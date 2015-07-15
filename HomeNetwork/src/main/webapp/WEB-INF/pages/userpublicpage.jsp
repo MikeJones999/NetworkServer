@@ -13,7 +13,7 @@
 <body>
 
 	<div align="Right">
-	<c:url value="/j_spring_security_logout" var="logoutUrl" />
+		<c:url value="/j_spring_security_logout" var="logoutUrl" />
 		<h3>
 			<a href="${logoutUrl}">Logout</a>
 		</h3>
@@ -23,7 +23,7 @@
 
 	<div class="jumbotron">
 		<div class="container">
-			<h1>${user.userName}'s Public Folder Page</h1>
+			<h1>${user.userName}'sPublic Folder Page</h1>
 			<h3>This page and its contents are not secured and open for
 				sharing/downloading</h3>
 			<p></p>
@@ -31,7 +31,8 @@
 				<button type="submit">User home page</button>
 			</form>
 			<p></p>
-			<form method="POST" action="<c:url value="/userpage/${user.userName}/filemanager" />">
+			<form method="POST"
+				action="<c:url value="/userpage/${user.userName}/filemanager" />">
 				<button type="submit">File Manager</button>
 			</form>
 			<p></p>
@@ -39,10 +40,13 @@
 				action="<c:url value="/userpage/${user.userName}/public/upload" />">
 				<button type="submit">Upload file(s)</button>
 			</form>
+			
+			<!-- 
 			<p></p>
 			<form method="POST" action="<c:url value="/userpage" />">
 				<button type="submit">View all Folders/Files</button>
 			</form>
+			-->
 
 		</div>
 
@@ -51,7 +55,30 @@
 	</section>
 
 
+	<section class="container">
+	<div class="row">
+		<h1>Files Found in ${user.userName} public Folder</h1>
+		<c:forEach items="${filesFound}" var="file">
+			<div class="col-sm-3 col-md-2" style="padding-bottom: 5px">
+				<div class="thumbnail">
+					<div class="caption">
+					<div style="text-align: center;">
+						<div style="font-size: small;">${file}</div></div>
 
+					
+
+						<form
+							action="<c:url value="/userpage/${user.userName}/public/download/${file}" />">
+						<div style="text-align: center;">	<button type="submit">Download file</button></div>
+						</form>
+
+
+					</div>
+				</div>
+			</div>
+		</c:forEach>
+	</div>
+	</section>
 
 
 </body>

@@ -201,7 +201,7 @@ private UserDataObject dataObject;
 
 	
 	/**
-	 * Display page of user that has been selected for deletion
+	 * Display page of the user that has been selected for deletion
 	 * @param userName
 	 * @param model
 	 * @return
