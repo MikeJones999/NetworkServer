@@ -2,6 +2,8 @@ package UserPackage;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 //reference page - http://www.mkyong.com/java/how-to-delete-directory-in-java/  05/07/2015
 //must turn off windows thumbnails in order to remove thumbs.db from being created - otherwise folder does not get removed.
@@ -121,6 +123,56 @@ public class UserFileControl {
 		}
 	}
 
+	/**
+	 * Finds all files in a directory specified - returns a string array of the file names
+	 * @param fileType
+	 * @param userName
+	 * @return
+	 */
+	public static List<String> getAllFilesFromDirectory(String fileType, String userName)
+	{
+		List<String> filesFound = new ArrayList<String>();
+		String location = "C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\" +  userName + "\\" + fileType + "\\";
+		
+		
+		File directory = new File(location);
+		if(directory.exists())
+		{			//get all files in list
+			String[] foundFiles = directory.list();
+			
+			//may need to check for empty or null
+			for(int i = 0; i < foundFiles.length; i++)
+			{			
+					filesFound.add(foundFiles[i]);
+			}
+		}
+		
+		return filesFound;
+	}
 	
+	
+	/**
+	 * Check to see if file to be uploaded already exists
+	 * @param location
+	 * @param fileToBeChecked
+	 * @return
+	*/ 
+	public static boolean fileAlreadyexist(String location, String fileToBeChecked)
+	{
+		boolean response = false;		
+		File directory = new File(location);
+		if(directory.exists())
+		{			//get all files in list
+			String[] foundFiles = directory.list();
+			for(int i = 0; i < foundFiles.length; i++)
+			{
+				if (foundFiles[i].equalsIgnoreCase(fileToBeChecked))
+				{
+					response = true;
+				}
+			}
+		}
+		return response; 
+	}
 	
 }

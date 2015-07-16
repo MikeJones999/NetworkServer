@@ -72,7 +72,7 @@ public String returnUserPublicPage(@PathVariable String userName, Map<String, Ob
  	 model.put("user", temp);	 
  	//model.put("folderType", "public");
  	 
- 	List<String> filesFound = getAllFilesFromDirectory("public", userName);
+ 	List<String> filesFound = UserFileControl.getAllFilesFromDirectory("public", userName);
     model.put("filesFound", filesFound);
  	 return "userpublicpage"; 
 }
@@ -87,7 +87,7 @@ public String returnUserPrivatePage(@PathVariable String userName, Map<String, O
  	 model.put("user", temp);	 
 	 //model.put("folderType", "private");
  	 
- 	List<String> filesFound = getAllFilesFromDirectory("private", userName);
+ 	List<String> filesFound = UserFileControl.getAllFilesFromDirectory("private", userName);
  	model.put("filesFound", filesFound);
  	 return "userprivatepage"; 
 }
@@ -116,13 +116,13 @@ public String returnUserPrivateUploadPage(@PathVariable String userName, Map<Str
 
 
 
-
+/*
 	/**
 	 * Check to see if file to be uploaded already exists
 	 * @param location
 	 * @param fileToBeChecked
 	 * @return
-	 */
+	 
 	public boolean fileAlreadyexist(String location, String fileToBeChecked)
 	{
 		boolean response = false;		
@@ -140,13 +140,15 @@ public String returnUserPrivateUploadPage(@PathVariable String userName, Map<Str
 		}
 		return response; 
 	}
-	
+*/
+	/*
 	/**
 	 * Finds all files in a directory specified - returns a string array of the file names
 	 * @param fileType
 	 * @param userName
 	 * @return
-	 */
+	 
+
 	public List<String> getAllFilesFromDirectory(String fileType, String userName)
 	{
 		List<String> filesFound = new ArrayList<String>();
@@ -167,7 +169,7 @@ public String returnUserPrivateUploadPage(@PathVariable String userName, Map<Str
 		
 		return filesFound;
 	}
-	
+	*/
 	
 	/**
 	 * Debug method only - to be removed
@@ -254,7 +256,7 @@ public String returnUserPrivateUploadPage(@PathVariable String userName, Map<Str
 	            //need to check to see if file already exists if so overwrite it       
 	            
 	     
-	         Boolean FileExists = fileAlreadyexist(saveLocation, fileName);
+	         Boolean FileExists = UserFileControl.fileAlreadyexist(saveLocation, fileName);
 	         System.out.println("***DEBUG*** File exists: " + FileExists);
 	             
 	         if(!FileExists)
@@ -348,7 +350,7 @@ public String returnUserPrivateUploadPage(@PathVariable String userName, Map<Str
 		model.put("folderType", "private");
 		model.put("userName", userName);
 		//if files exists then delete
-		if (fileAlreadyexist(location, fileType))
+		if (UserFileControl.fileAlreadyexist(location, fileType))
 		{
 			model.put("message", "found and deleted file: " + fileName);
 			UserFileControl.folderExistsThenDelete("C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\" +  userName + "\\private\\" + fileName);
@@ -381,7 +383,7 @@ public String returnUserPrivateUploadPage(@PathVariable String userName, Map<Str
 		model.put("folderType", "public");
 		model.put("userName", userName);
 		//if files exists then delete
-		if (fileAlreadyexist(location, fileType))
+		if (UserFileControl.fileAlreadyexist(location, fileType))
 		{
 			model.put("message", "found and deleted file: " + fileName);
 			
@@ -405,7 +407,7 @@ public String returnUserPrivateUploadPage(@PathVariable String userName, Map<Str
 		System.out.println("***DEBUG*** looking for file: " + fileName);
 		
 		String location = "C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\" +  userName + "\\" + folderType + "\\";
-		    Boolean fileExists = fileAlreadyexist(location, fileName);
+		    Boolean fileExists = UserFileControl.fileAlreadyexist(location, fileName);
 	       if(fileExists)
 	       {
 	    	   String fullFilePath = location + fileName;
