@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="stylesheet"
 	href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
-<title>Welcome page - see by all accessing the server</title>
+<title>Welcome page - Home Server</title>
 </head>
 <body>
 	<section>

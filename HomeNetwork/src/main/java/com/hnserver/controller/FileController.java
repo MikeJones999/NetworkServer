@@ -64,113 +64,37 @@ public String returnUserFileManagerPage(@PathVariable String userName, Map<Strin
 
 
 
-@RequestMapping(value = "/userpage/{userName}/public")
-public String returnUserPublicPage(@PathVariable String userName, Map<String, Object> model)
+@RequestMapping(value = "/userpage/{userName}/{folderType}")
+public String returnUserfolderPage(@PathVariable ("userName") String userName, @PathVariable ("folderType") String folderType, Map<String, Object> model)
 {
 	 User temp = dataObject.getuserByName(userName);
- 	 System.out.println("***DEBUG*** found Public page for - " + temp.getUserName());
+ 	 System.out.println("***DEBUG*** found " + folderType + " page for - " + temp.getUserName());
  	 model.put("user", temp);	 
- 	//model.put("folderType", "public");
- 	 
- 	List<String> filesFound = UserFileControl.getAllFilesFromDirectory("public", userName);
-    model.put("filesFound", filesFound);
- 	 return "userpublicpage"; 
-}
-
-
-
-@RequestMapping(value = "/userpage/{userName}/private")
-public String returnUserPrivatePage(@PathVariable String userName, Map<String, Object> model)
-{
-	 User temp = dataObject.getuserByName(userName);
- 	 System.out.println("***DEBUG*** found Private page for - " + temp.getUserName());
- 	 model.put("user", temp);	 
-	 //model.put("folderType", "private");
- 	 
- 	List<String> filesFound = UserFileControl.getAllFilesFromDirectory("private", userName);
+   	List<String> filesFound = UserFileControl.getAllFilesFromDirectory(folderType, userName);
  	model.put("filesFound", filesFound);
- 	 return "userprivatepage"; 
+ 	
+ 	if(folderType.equals("public"))
+ 	{
+ 		 model.put("warningPublicPageMessage", "This page and its contents are not secured and open for	sharing/downloading");	
+
+ 	}
+ 
+ 	 return "userfolderpage"; 
 }
 
-@RequestMapping(value = "/userpage/{userName}/public/upload")
-public String returnUserPublicUploadPage(@PathVariable String userName, Map<String, Object> model)
-{
-	 User temp = dataObject.getuserByName(userName);
- 	 System.out.println("***DEBUG*** found Public page for - " + temp.getUserName());
- 	 model.put("user", temp); 	 
- 	 model.put("folderType", "public"); 	 
- 	 return "userfileupload"; 
-}
 
-@RequestMapping(value = "/userpage/{userName}/private/upload")
-public String returnUserPrivateUploadPage(@PathVariable String userName, Map<String, Object> model)
+@RequestMapping(value = "/userpage/{userName}/{folderType}/upload")
+public String returnUserfolderUploadPage(@PathVariable ("userName") String userName, @PathVariable ("folderType") String folderType, Map<String, Object> model)
 {
 	 User temp = dataObject.getuserByName(userName);
- 	 System.out.println("***DEBUG*** found private page for - " + temp.getUserName());
+ 	 System.out.println("***DEBUG*** found " + folderType + " page for - " + temp.getUserName());
  	 model.put("user", temp);
-	 model.put("folderType", "private"); 	
+	 model.put("folderType", folderType); 	
  	 return "userfileupload"; 
 }
 
 
 
-
-
-/*
-	/**
-	 * Check to see if file to be uploaded already exists
-	 * @param location
-	 * @param fileToBeChecked
-	 * @return
-	 
-	public boolean fileAlreadyexist(String location, String fileToBeChecked)
-	{
-		boolean response = false;		
-		File directory = new File(location);
-		if(directory.exists())
-		{			//get all files in list
-			String[] foundFiles = directory.list();
-			for(int i = 0; i < foundFiles.length; i++)
-			{
-				if (foundFiles[i].equalsIgnoreCase(fileToBeChecked))
-				{
-					response = true;
-				}
-			}
-		}
-		return response; 
-	}
-*/
-	/*
-	/**
-	 * Finds all files in a directory specified - returns a string array of the file names
-	 * @param fileType
-	 * @param userName
-	 * @return
-	 
-
-	public List<String> getAllFilesFromDirectory(String fileType, String userName)
-	{
-		List<String> filesFound = new ArrayList<String>();
-		String location = "C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\" +  userName + "\\" + fileType + "\\";
-		
-		
-		File directory = new File(location);
-		if(directory.exists())
-		{			//get all files in list
-			String[] foundFiles = directory.list();
-			
-			//may need to check for empty or null
-			for(int i = 0; i < foundFiles.length; i++)
-			{			
-					filesFound.add(foundFiles[i]);
-			}
-		}
-		
-		return filesFound;
-	}
-	*/
-	
 	/**
 	 * Debug method only - to be removed
 	 * Helped establish issues with uploading of files
