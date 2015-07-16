@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,7 +13,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +23,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -391,6 +395,45 @@ public String returnUserPrivateUploadPage(@PathVariable String userName, Map<Str
 		}
 		
 	}
+	
+	
+	//references http://docs.spring.io/spring/docs/1.2.x/api/org/springframework/util/FileCopyUtils.html 
+	//&& http://owlsayswoot.therandomist.com/2011/12/12/how-to-download-files-with-springmvc/ 15/07/2015)
+	@RequestMapping(value = "/userpage/{userName}/public/download/{fileName:.+}",  method = RequestMethod.GET)
+	public void downloadFile(HttpServletResponse response, @PathVariable ("userName") String userName, @PathVariable ("fileName") String fileName, Map<String, Object> model) throws IOException 
+	{
+		System.out.println("***DEBUG*** looking for file: " + fileName);
+		
+		String location = "C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\" +  userName + "\\" + "public" + "\\";
+		    Boolean fileExists = fileAlreadyexist(location, fileName);
+	       if(fileExists)
+	       {
+	    	   String fullFilePath = location + fileName;
+			    File fileToDownload = new File(fullFilePath);
+			    
+				if(fileToDownload.exists())
+				{			
+					String fileType = FilenameUtils.getExtension(fullFilePath);
+					
+					System.out.println("***DEBUG*** filetype found : " + fileType);
+				    response.setContentType("fileType"); //in my example this was an xls file
+			        response.setContentLength(new Long(fileToDownload.length()).intValue());
+			        response.setHeader("Content-Disposition","attachment; filename=" + fileName);			 
+			    try {
+			            FileCopyUtils.copy(new FileInputStream(fileToDownload), response.getOutputStream());
+			        }
+			    catch (IOException e) 
+			    	{
+			            e.printStackTrace();
+			        }
+			        return;	
+				}
+		 
+		            
+	       }
+	    }
+	
+	
 	
 	
 	

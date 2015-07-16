@@ -40,13 +40,7 @@
 				action="<c:url value="/userpage/${user.userName}/public/upload" />">
 				<button type="submit">Upload file(s)</button>
 			</form>
-			
-			<!-- 
-			<p></p>
-			<form method="POST" action="<c:url value="/userpage" />">
-				<button type="submit">View all Folders/Files</button>
-			</form>
-			-->
+
 
 		</div>
 
