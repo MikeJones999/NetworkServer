@@ -54,7 +54,7 @@ UserDataObject dataObject;
 public String returnUserFileManagerPage(@PathVariable String userName, Map<String, Object> model)
 {
 	 User temp = dataObject.getuserByName(userName);
- 	 System.out.println("***DEBUG*** found userfileupload page for - " + temp.getUserName());
+ 	 System.out.println("***DEBUG*** found user filemanager page for - " + temp.getUserName());
  	 model.put("user", temp);
  	 
  	 
@@ -109,29 +109,17 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 		 }
 		
 	}
+
 	
-	@RequestMapping(value = "/userpage/{userName}/public/fileupload", method= RequestMethod.POST)
-	public String publicfileUpload(@ModelAttribute("fileManager") FileManager fileManager, @PathVariable String userName, 
+	@RequestMapping(value = "/userpage/{userName}/{folderType}/fileupload", method= RequestMethod.POST)
+	public String genericFileUpload(@ModelAttribute("fileManager") FileManager fileManager, @PathVariable ("userName") String userName, @PathVariable ("folderType") String folderType, 
 			Map<String, Object> model, Model mod, BindingResult res) throws IllegalStateException, IOException
 	{
-		
-		String fileType = "public";		
-		String response = mainUploadFile(fileType, userName, fileManager, mod);
-	
+					
+		String response = mainUploadFile(folderType, userName, fileManager, mod);	
 		return response;
 	}
 	
-	
-	@RequestMapping(value = "/userpage/{userName}/private/fileupload", method= RequestMethod.POST)
-	public String privatefileUpload(@ModelAttribute("fileManager") FileManager fileManager, @PathVariable String userName, 
-			Map<String, Object> model, Model mod, BindingResult res) throws IllegalStateException, IOException
-	{
-		
-		String fileType = "private";		
-		String response = mainUploadFile(fileType, userName, fileManager, mod);
-	
-		return response;
-	}
 	
 	/**
 	 * Performs the Uploading of files to provided folderType
