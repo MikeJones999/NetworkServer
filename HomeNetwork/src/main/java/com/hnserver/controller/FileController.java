@@ -8,6 +8,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -354,7 +356,7 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "/userpage/{userName}/{folderType}/download/{fileName:.+}",  method = RequestMethod.GET)
-	public void downloadFile(HttpServletResponse response,  @PathVariable ("folderType") String folderType,  @PathVariable ("userName") String userName, @PathVariable ("fileName") String fileName, Map<String, Object> model) throws IOException 
+	public void downloadFile(HttpServletResponse servletResponse,  @PathVariable ("folderType") String folderType,  @PathVariable ("userName") String userName, @PathVariable ("fileName") String fileName, Map<String, Object> model) throws IOException 
 	{
 		System.out.println("***DEBUG*** looking for file: " + fileName);
 		
@@ -370,11 +372,11 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 					String fileType = FilenameUtils.getExtension(fullFilePath);
 					
 					System.out.println("***DEBUG*** filetype found : " + fileType);
-				    response.setContentType("fileType"); //in my example this was an xls file
-			        response.setContentLength(new Long(fileToDownload.length()).intValue());
-			        response.setHeader("Content-Disposition","attachment; filename=" + fileName);			 
+					servletResponse.setContentType("fileType"); 
+				    servletResponse.setContentLength(new Long(fileToDownload.length()).intValue());
+				    servletResponse.setHeader("Content-Disposition","attachment; filename=" + fileName);			 
 			    try {
-			            FileCopyUtils.copy(new FileInputStream(fileToDownload), response.getOutputStream());
+			            FileCopyUtils.copy(new FileInputStream(fileToDownload), servletResponse.getOutputStream());
 			        }
 			    catch (IOException e) 
 			    	{
@@ -385,10 +387,36 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 		 
 		            
 	       }
-	    }
+
+	}
+
+
+	@RequestMapping(value = "/userpage/{userName}/public/copyFileLink/{fileName:.+}",  method = RequestMethod.GET)
+	public String getPublicFileLink(@PathVariable ("userName") String userName, @PathVariable ("fileName") String fileName, Map<String, Object> model) throws IOException 
+	{
+		//get IP
+		String ip = getIpOfHostMachine();
+		String port = "8080";
+		
+		String linkToFile = ip + ":" + port + "/HomeNetwork/userpage/" + userName + "/public/download/" + fileName; 
+		model.put("message", "Please copy this link - paste it in an email or instant chat to allow others to download this file");
+		model.put("folderType", "public");
+		model.put("fileLink", linkToFile);
+		return "filepubliclink";
+	}
 	
 	
-	
+	public String getIpOfHostMachine() throws UnknownHostException
+	{
+		
+		InetAddress address = InetAddress.getLocalHost();
+		String ip = address.getHostAddress();
+		String name = address.getHostName();
+		System.out.println("***DEBUG*** Host Name : " + name +  " IP: " + ip);
+		
+		return ip;
+		
+	}
 	
 	
 }
