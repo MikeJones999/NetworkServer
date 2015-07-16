@@ -399,12 +399,12 @@ public String returnUserPrivateUploadPage(@PathVariable String userName, Map<Str
 	
 	//references http://docs.spring.io/spring/docs/1.2.x/api/org/springframework/util/FileCopyUtils.html 
 	//&& http://owlsayswoot.therandomist.com/2011/12/12/how-to-download-files-with-springmvc/ 15/07/2015)
-	@RequestMapping(value = "/userpage/{userName}/public/download/{fileName:.+}",  method = RequestMethod.GET)
-	public void downloadFile(HttpServletResponse response, @PathVariable ("userName") String userName, @PathVariable ("fileName") String fileName, Map<String, Object> model) throws IOException 
+	@RequestMapping(value = "/userpage/{userName}/{folderType}/download/{fileName:.+}",  method = RequestMethod.GET)
+	public void downloadFile(HttpServletResponse response,  @PathVariable ("folderType") String folderType,  @PathVariable ("userName") String userName, @PathVariable ("fileName") String fileName, Map<String, Object> model) throws IOException 
 	{
 		System.out.println("***DEBUG*** looking for file: " + fileName);
 		
-		String location = "C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\" +  userName + "\\" + "public" + "\\";
+		String location = "C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\" +  userName + "\\" + folderType + "\\";
 		    Boolean fileExists = fileAlreadyexist(location, fileName);
 	       if(fileExists)
 	       {

@@ -55,7 +55,7 @@
 
 	<section class="container">
 	<div class="row">
-		<h1>Files Found in ${user.userName} public Folder</h1>
+		<h1>Files Found in ${user.userName} Private Folder</h1>
 		<c:forEach items="${filesFound}" var="file">
 			<div class="col-sm-3 col-md-2" style="padding-bottom: 5px">
 				<div class="thumbnail">
