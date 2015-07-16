@@ -384,13 +384,19 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 			        }
 			        return;	
 				}
-		 
-		            
+     
 	       }
 
 	}
 
-
+	/**
+	 * Returns a String which is the link and direct path to downloading files. This is not a hidden path 
+	 * @param User.userName
+	 * @param String fileName
+	 * @param Model model
+	 * @return filepubliclink.jsp page
+	 * @throws IOException
+	 */
 	@RequestMapping(value = "/userpage/{userName}/public/copyFileLink/{fileName:.+}",  method = RequestMethod.GET)
 	public String getPublicFileLink(@PathVariable ("userName") String userName, @PathVariable ("fileName") String fileName, Map<String, Object> model) throws IOException 
 	{
@@ -405,7 +411,11 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 		return "filepubliclink";
 	}
 	
-	
+	/**
+	 * Obtains network IP of the server/Host - Created to assist with constructing the link address for file downloading 
+	 * @return String ip
+	 * @throws UnknownHostException
+	 */
 	public String getIpOfHostMachine() throws UnknownHostException
 	{
 		
@@ -417,6 +427,9 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 		return ip;
 		
 	}
+	
+	
+
 	
 	
 }

@@ -23,7 +23,7 @@
 
 	<div class="jumbotron">
 		<div class="container">
-			<h1>${user.userName}'s${folderType} Folder Page</h1>
+			<h1>${user.userName}'s ${folderType} Folder Page</h1>
 			<h3>${warningPublicPageMessage}</h3>
 
 			<p></p>
