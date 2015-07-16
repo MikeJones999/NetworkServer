@@ -48,7 +48,7 @@ http://crunchify.com/spring-mvc-tutorial-how-to-upload-multiple-files-to-specifi
 		<div class="jumbotron">
 			<div class="container">
 				<h1>Upload Files to ${folderType} folder</h1>
-				<h3>Add or remove files from your public folder</h3>
+				<h3>Add or remove files from your ${folderType} folder</h3>
 
 				<form method="GET" action="<c:url value="/userpage" />">
 					<button type="submit">User home page</button>
@@ -73,7 +73,7 @@ http://crunchify.com/spring-mvc-tutorial-how-to-upload-multiple-files-to-specifi
 		enctype="multipart/form-data">
 
 		<p>Browse and Select files from your computer to upload to your
-			public folder</p>
+			${folderType} folder</p>
 		<p>Press Add button in order to upload multiple files</p>
 
 		<input id="addFile" type="button" value="Add File" />

@@ -50,20 +50,31 @@ public class FileController {
 @Autowired
 UserDataObject dataObject;
 
+
+/**
+ * Returns the user's File Manager Page
+ * @param User.userName
+ * @param Model model 
+ * @return filemanager.jsp
+ */
 @RequestMapping(value = "/userpage/{userName}/filemanager")
 public String returnUserFileManagerPage(@PathVariable String userName, Map<String, Object> model)
 {
 	 User temp = dataObject.getuserByName(userName);
  	 System.out.println("***DEBUG*** found user filemanager page for - " + temp.getUserName());
  	 model.put("user", temp);
- 	 
- 	 
- 	 
  	 return "filemanager"; 
 }
 
 
-
+/**
+ * Returns the user folder page - private or public depending on the button selected.
+ * Passes through the necessary folder type and user to ensure the right page is displayed
+ * @param User.userName
+ * @param String folderType - public or private
+ * @param Model model
+ * @return userfolderpage.jsp
+ */
 @RequestMapping(value = "/userpage/{userName}/{folderType}")
 public String returnUserfolderPage(@PathVariable ("userName") String userName, @PathVariable ("folderType") String folderType, Map<String, Object> model)
 {
@@ -82,16 +93,24 @@ public String returnUserfolderPage(@PathVariable ("userName") String userName, @
  	 return "userfolderpage"; 
 }
 
-
+/**
+ * Returns the users correct upload page for the stated folder type - public or private. The correct information is
+ * passed through to the generic userfileupload.jsp
+ * @param User.userName
+ * @param String folderType - public private
+ * @param Model model
+ * @return userfileupload.jsp
+ */
 @RequestMapping(value = "/userpage/{userName}/{folderType}/upload")
 public String returnUserfolderUploadPage(@PathVariable ("userName") String userName, @PathVariable ("folderType") String folderType, Map<String, Object> model)
 {
 	 User temp = dataObject.getuserByName(userName);
- 	 System.out.println("***DEBUG*** found " + folderType + " page for - " + temp.getUserName());
+ 	 System.out.println("***DEBUG*** found " + folderType + " upload page for - " + temp.getUserName());
  	 model.put("user", temp);
 	 model.put("folderType", folderType); 	
  	 return "userfileupload"; 
 }
+
 
 
 
@@ -110,7 +129,20 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 		
 	}
 
-	
+	/**
+	 * Returns the correct file that has or has not been uploaded -
+	 * calls another method to carry out the file upload process (mainUploadFile).
+	 * The method called returns the correct page to display then this methods passes it to the view.	 * 
+	 * @param fileManager
+	 * @param userName
+	 * @param folderType
+	 * @param model
+	 * @param mod
+	 * @param res
+	 * @return
+	 * @throws IllegalStateException
+	 * @throws IOException
+	 */
 	@RequestMapping(value = "/userpage/{userName}/{folderType}/fileupload", method= RequestMethod.POST)
 	public String genericFileUpload(@ModelAttribute("fileManager") FileManager fileManager, @PathVariable ("userName") String userName, @PathVariable ("folderType") String folderType, 
 			Map<String, Object> model, Model mod, BindingResult res) throws IllegalStateException, IOException
@@ -229,9 +261,6 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 	        		
 	        		System.out.println("***DEBUG*** No file uploaded");
 	             	mod.addAttribute("messageWarning", "No file has been selected");
-	             	
-	             		
-	             	 
 	             	return "userfileupload";
 	        	}			  
 	    }   
@@ -313,6 +342,17 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 	
 	//references http://docs.spring.io/spring/docs/1.2.x/api/org/springframework/util/FileCopyUtils.html 
 	//&& http://owlsayswoot.therandomist.com/2011/12/12/how-to-download-files-with-springmvc/ 15/07/2015)
+	
+	/**
+	 * The controller assist with the downloading of the passed file - 
+	 * It checks to see if it exists in its stated folder - if so it is downloaded. 
+	 * @param response
+	 * @param folderType
+	 * @param userName
+	 * @param fileName
+	 * @param model
+	 * @throws IOException
+	 */
 	@RequestMapping(value = "/userpage/{userName}/{folderType}/download/{fileName:.+}",  method = RequestMethod.GET)
 	public void downloadFile(HttpServletResponse response,  @PathVariable ("folderType") String folderType,  @PathVariable ("userName") String userName, @PathVariable ("fileName") String fileName, Map<String, Object> model) throws IOException 
 	{

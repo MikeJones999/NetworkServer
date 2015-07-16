@@ -37,7 +37,7 @@
 			</form>
 			<p></p>
 			<form method="POST"
-				action="<c:url value="/userpage/${user.userName}/private/upload" />">
+				action="<c:url value="/userpage/${user.userName}/${folderType}/upload" />">
 				<button type="submit">Upload file(s)</button>
 			</form>
 			<!-- 
