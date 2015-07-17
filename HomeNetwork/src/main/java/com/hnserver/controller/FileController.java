@@ -80,6 +80,9 @@ public String returnUserFileManagerPage(@PathVariable String userName, Map<Strin
 @RequestMapping(value = "/userpage/{userName}/{folderType}")
 public String returnUserfolderPage(@PathVariable ("userName") String userName, @PathVariable ("folderType") String folderType, Map<String, Object> model)
 {
+
+// 	if(folderType.equals("public") || folderType.equals("private") )
+// 	{
 	 User temp = dataObject.getuserByName(userName);
  	 System.out.println("***DEBUG*** found " + folderType + " page for - " + temp.getUserName());
  	 model.put("user", temp);	 
@@ -93,7 +96,15 @@ public String returnUserfolderPage(@PathVariable ("userName") String userName, @
  	}
  
  	 return "userfolderpage"; 
+// 	}
+// 	else //redirect to security login page
+// 	{
+// 		return "redirect:/incorrectLogin";
+// 	}
 }
+
+
+
 
 /**
  * Returns the users correct upload page for the stated folder type - public or private. The correct information is

@@ -3,31 +3,66 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
  http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
  http://www.springframework.org/schema/security
- http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+ http://www.springframework.org/schema/security/spring-security-3.2.xsd" >
 
-	<http auto-config="true" use-expressions="true">
+
+ <http pattern="/userpage/{userName}/public/download/{fileName:.+}" security="none"/>
+ 
+	<http auto-config="true" use-expressions="true" >
 		<access-denied-handler error-page="/errorloginpage" />
+
+
+		<intercept-url pattern="/userpage/**" access="hasRole('ROLE_USER')" /> 
+
 
 		<!-- Admin intercepts -->
 		<intercept-url pattern="/adminpage/allusers" access="hasRole('ROLE_ADMIN')" />
 		<intercept-url pattern=" /adminpage/addUsers" access="hasRole('ROLE_ADMIN')" />
-		<intercept-url pattern="/adminpage/deleteUser/{userName}"
-			access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/adminpage/deleteUser/{userName}**" access="hasRole('ROLE_ADMIN')" />
 
 
 		<!-- User intercepts -->
-		<intercept-url pattern="/userpage/{userName}" access="hasRole('ROLE_USER')" />
-		<intercept-url pattern="/userpage/{userName}/private**"
-			access="hasRole('ROLE_USER')" />
+		<!--  More specific one have to be higher up as Patterns are always evaluated in the order they are defined 
+		http://docs.spring.io/spring-security/site/docs/3.0.x/reference/core-web-filters.html
+		-->
+			
+		
+			
+			<!-- 
+		<intercept-url pattern="/userpage/{userName}/{folderType}/copyFileLink/{fileName:.+}" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/userpage/{userName}/{folderType}/copyFileLink/**" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/userpage/{userName}/{folderType}/copyFileLink/" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/userpage/{userName}/{folderType}/copyFileLink**" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/userpage/{userName}/{folderType}/upload/{fileName:.+}" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/userpage/{userName}/{folderType}/upload/**" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/userpage/{userName}/{folderType}/upload/" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/userpage/{userName}/{folderType}/upload**" access="hasRole('ROLE_USER')" />
+
+		<intercept-url pattern="/userpage/{userName}/private/download/**" access="hasRole('ROLE_USER')" />
+		
+		
+		<intercept-url pattern="/userpage/{userName}/{folderType}/" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/userpage/{userName}/{folderType}/**" access="hasRole('ROLE_USER')" />
+		
+		<intercept-url pattern="/userpage/{userName}/{folderType}**" access="hasRole('ROLE_USER')" />
+
+		<intercept-url pattern="/userpage/{userName}/filemanager**" access="hasRole('ROLE_USER')" />		
+		<intercept-url pattern="/userpage/{userName}/**" access="hasRole('ROLE_USER')" />			
+		<intercept-url pattern="/userpage/{userName}**" access="hasRole('ROLE_USER')" />	
+			
 		<intercept-url pattern="/userpage**" access="hasRole('ROLE_USER')" />
 		<intercept-url pattern="/adminpage**" access="hasRole('ROLE_ADMIN')" />
-
+		
+		
+		-->
+		
 		<form-login login-page='/loginpage' username-parameter="username"
 			password-parameter="password" default-target-url="/startpage"
 			authentication-failure-url="/loginpage?accessfailed" />
 
 		<logout logout-success-url="/?logout" />
 	</http>
+
 
 
 	<authentication-manager>
