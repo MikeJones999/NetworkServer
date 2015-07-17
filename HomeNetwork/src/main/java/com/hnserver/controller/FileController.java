@@ -428,13 +428,11 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 	 * @throws UnknownHostException
 	 */
 	public String getIpOfHostMachine() throws UnknownHostException
-	{
-		
+	{		
 		InetAddress address = InetAddress.getLocalHost();
 		String ip = address.getHostAddress();
 		String name = address.getHostName();
-		System.out.println("***DEBUG*** Host Name : " + name +  " IP: " + ip);
-		
+		System.out.println("***DEBUG*** Host Name : " + name +  " IP: " + ip);		
 		return ip;
 		
 	}
