@@ -15,11 +15,11 @@
 <link href="<c:url value="/resources/myLayout/css/873366.css" />"
 	rel="stylesheet" type="text/css" />
 <style>
-h1, h2, h3, h6 {
+h1, h2, h3, h5, h6 {
 	text-align: center;
 }
 
-#btnAdd {document .getElementById("myBtn").style.bottom = "200px";
+
 	
 }
 
@@ -27,12 +27,8 @@ p {
 	text-align: center;
 }
 
-.floated {
-	float: left;
-	margin-right: 5px;
-}
 </style>
-<title>Welcome page - Home Server</title>
+<title>Login Page</title>
 </head>
 
 <body>
@@ -57,6 +53,7 @@ p {
 		<div id="navigationwrap">
 			<div id="navigation">
 				<h2>${response}</h2>
+				<p></p>
 				<h1>Login section of Home Network Server</h1>
 			</div>
 		</div>
@@ -64,7 +61,11 @@ p {
 		<div id="leftcolumnwrap">
 			<div id="leftcolumn">
 
-				<h6>Enter your details to log in</h6>
+				<h5>Enter your details to log in</h5>
+				<p></p>
+				<h5>The system is case sensitive so please fill in the details correctly and accurately</h5>
+				<p></p>
+				<h5>If you have forgotten your password please contact a Administrator for access.</h5>
 			</div>
 		</div>
 
@@ -91,7 +92,9 @@ p {
 
 		<div id="footerwrap">
 			<div id="footer">
-				<p>This is the Footer</p>
+				<p>
+				
+				</p>
 			</div>
 		</div>
 	</div>

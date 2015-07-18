@@ -13,11 +13,7 @@
 <link href="<c:url value="/resources/myLayout/css/873366.css" />"
 	rel="stylesheet" type="text/css" />
 <style>
-h1 {
-	text-align: center;
-}
-
-h3 {
+h1, h3, h4, h5 {
 	text-align: center;
 }
 
@@ -25,10 +21,7 @@ p {
 	text-align: center;
 }
 
-.floated {
-	float: left;
-	margin-right: 5px;
-}
+
 </style>
 <title>Welcome page - Home Server</title>
 </head>
@@ -68,18 +61,25 @@ p {
 		<div id="navigationwrap">
 			<div id="navigation">
 
-				<h1>${message1}</h1>
-				<h3>${message2}</h3>
-				<h3>${message3}</h3>
+				<h1>Michael Jones</h1>
+				<h3>MSc Computer Science Project</h3>
+				<h3>Home Network Server</h3>
 
-		
 			</div>
 		</div>
 
 
 
 		<div id="leftcolumnwrap">
-			<div id="leftcolumn"></div>
+			<div id="leftcolumn">
+			<h5>Welcome to The Home network Server. Copyright Michael Jones 2015.</h5>
+		
+			<h5> This system is a simplistic yet efficient home storage system designed to be used by multiple users within the home.</h5>
+			
+			<h5>If this is the first time you have run this system log in with the specified Administrator user name and password.</h5>
+			<h5>Once in, create as many users as you require. users can change their own passwords at a later date.</h5>
+			
+			</div>
 		</div>
 		<div id="contentwrap">
 			<div id="content">

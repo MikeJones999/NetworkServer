@@ -8,6 +8,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -20,6 +22,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 
+
+
+import fileManager.SecurityChecker;
 import UserPackage.JdbcUserControl;
 import UserPackage.User;
 import UserPackage.UserDataObject;
@@ -262,8 +267,33 @@ private UserDataObject dataObject;
 	     }
 	}
 	
-	
-	
+	@RequestMapping(value ="/adminpage/passwordReset/{userName}", method = RequestMethod.GET)
+	public String resetUserPassword(@PathVariable ("userName") String userName, Model model)
+	{
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String adminName = auth.getName(); 		
+		User temp = dataObject.getuserByName(adminName);
+		
+		
+		if(temp != null || SecurityChecker.isAdmin(temp))
+		{	
+			User user = dataObject.getuserByName(userName);
+			if (user != null)
+			{
+				dataObject.update(user);
+				model.addAttribute("passwordResetConfirmation", "password Reset to:- " + userName + "@123");
+				model.addAttribute("passwordWarning", "Ensure the user is provided with this new password asap and that they change it themselves asap!");
+				return "adminresetuserpass";
+			}
+		}
+		
+		
+		model.addAttribute("passwordResetConfirmation", "password Reset to " + userName + "@123");
+		return "allusers";
+		
+		
+	}
+//	model.add("passwordResetConfirmation", "password Reset to " + userName + "@123");
 
 	
 }

@@ -71,7 +71,11 @@
 								action="<c:url value="/adminpage/deleteUser/${user.userName}" />">
 								<button type="submit">Delete User</button>
 							</form>
-
+							<form
+								action="<c:url value="/adminpage/passwordReset/${user.userName}" />">
+								<button type="submit">Reset Password</button>
+							</form>
+						
 
 						</div>
 					</div>

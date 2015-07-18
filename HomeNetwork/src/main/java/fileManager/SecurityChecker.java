@@ -3,6 +3,8 @@ package fileManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import UserPackage.User;
+
 public class SecurityChecker {
 
 	
@@ -53,5 +55,23 @@ public class SecurityChecker {
 		  return result;		  
 	  }
 
-	
+		
+	  /**
+	   * Checks to see if the request made is from an actual admin
+	   * This is a secondary precaution - prevents unauthorised users from restetting password
+	   * @param User userName - current Admin signed in
+	   * @return boolean
+	   */
+	  public static boolean isAdmin(User admin)
+	  {
+		boolean result = false;		
+		//user who has logged into the session.
+		if(admin.getUserRole().equalsIgnoreCase("ROLE_ADMIN"))
+		{
+			System.out.println("***DEBUG** Security name check passed for user: "  + admin.getUserName());
+			result = true;
+		}
+
+		  return result;		  
+	  }
 }

@@ -51,23 +51,27 @@ private UserDataObject dataObject;
 				      }
 				      else
 				      {
+						 model.put("response", "You cannot view pages that are not in your name");
+
 				    	  System.out.println("***DEBUG*** User " + userName + "is not a user");
 				    	  return "redirect:/";
 				      }
 		    	}
 		    	else
 		    	{
+		    		model.put("response", "You cannot view pages that are not in your name");
 		    		//trying to access someone else's account once legitimately logged in as user.
 		    		  System.out.println("***DEBUG*** Illegal access attemp by " + userName + ". They tried to access account " + name);
 		    		  
 		    		  //need to log them out somehow using spring security logout
-		    		  return "redirect:/";
+		    		  return "redirect:/j_spring_security_logout";
 		    	}
 		    }
 		    else
 		    {
+		    	model.put("response", "Did not find the specified user");
 		    	  System.out.println("***DEBUG*** Did not find user " + userName);
-		    	  return "redirect:/";
+		    	  return "startpage";
 		    }
 						
 		}
@@ -99,6 +103,7 @@ private UserDataObject dataObject;
 		 
 		 if(!SecurityChecker.isCorrectUser(userName))
 		 { 
+			 model.put("response", "you cannot view pages that are not in your name");
 			 return "redirect:/";
 		 }
 			 

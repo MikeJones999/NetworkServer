@@ -65,7 +65,9 @@ public String returnUserFileManagerPage(@PathVariable String userName, Map<Strin
 {
 	 if(!SecurityChecker.isCorrectUser(userName))
 	 { 
-		 return "redirect:/";
+		model.put("response", "You cannot view pages that are not in your name");
+  		  return "startpage";
+		
 	 }
 	 User temp = dataObject.getuserByName(userName);
  	 System.out.println("***DEBUG*** found user filemanager page for - " + temp.getUserName());
@@ -87,7 +89,8 @@ public String returnUserfolderPage(@PathVariable ("userName") String userName, @
 {
 	 if(!SecurityChecker.isCorrectUser(userName))
 	 { 
-		 return "redirect:/";
+			model.put("response", "You cannot view pages that are not in your name");
+  		  return "startpage";
 	 }
 	
     if(SecurityChecker.isCorrectFolder(folderType))
@@ -126,7 +129,9 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 {
 	 if(!SecurityChecker.isCorrectUser(userName))
 	 { 
-		 return "redirect:/";
+			
+		  model.put("response", "You cannot view pages that are not in your name");
+  		  return "startpage";
 	 }
 	 
 	if(SecurityChecker.isCorrectFolder(folderType))
@@ -180,7 +185,8 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 	{
 		 if(!SecurityChecker.isCorrectUser(userName))
 		 { 
-			 return "redirect:/";
+				model.put("response", "You cannot view pages that are not in your name");
+	    		return "startpage";
 		 }
 		
 		if(!SecurityChecker.isCorrectFolder(folderType))
@@ -327,7 +333,8 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 	{
 		 if(!SecurityChecker.isCorrectUser(userName))
 		 { 
-			 return "redirect:/";
+				model.put("response", "You cannot view pages that are not in your name");
+	    		return "startpage";
 		 }
 		
 		String fileType = fileName ;
@@ -365,7 +372,8 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 	{
 		 if(!SecurityChecker.isCorrectUser(userName))
 		 { 
-			 return "redirect:/";
+				model.put("response", "You cannot view pages that are not in your name");
+	    		  return "startpage";
 		 }
 		
 		
@@ -464,7 +472,8 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 		
 		 if(!SecurityChecker.isCorrectUser(userName))
 		 { 
-			 return "redirect:/";
+				model.put("response", "You cannot view pages that are not in your name");
+	    		return "startpage";
 		 }
 		
 		//get IP
