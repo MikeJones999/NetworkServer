@@ -45,7 +45,13 @@
 		</property>
 	</bean>
 
-	<!-- <mvc:resources location="/avatars/" mapping="/avatar/**" /> -->
+
+	<!-- Needed for loading images, tiles and avatars -->
+	<mvc:annotation-driven/>
+  <!-- <mvc:resources mapping="/resources/**" location="resources/"/>  -->
 	<mvc:resources mapping="/resources/**" location="/resources/" />
 
+	
 </beans>
+
+
