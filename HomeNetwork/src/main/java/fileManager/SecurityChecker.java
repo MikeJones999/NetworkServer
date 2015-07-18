@@ -30,9 +30,15 @@ public class SecurityChecker {
 		  
 	  }
 	
+	  /**
+	   * Checks to see if the user who logged in is the same as the userName passed in the Url
+	   * @param String userName - one passed to url
+	   * @return boolean
+	   */
 	  public static boolean isCorrectUser(String userName)
 	  {
-		boolean result = false;		  
+		boolean result = false;		
+		//user who has logged into the session.
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String name = auth.getName(); 
 		

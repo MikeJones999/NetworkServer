@@ -157,8 +157,7 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 		 {
 			 String fileName = file.getOriginalFilename();
 			System.out.println("***DEBUG*** File found: " + fileName); 
-		 }
-		
+		 }		
 	}
 
 	/**
@@ -184,15 +183,14 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 			 return "redirect:/";
 		 }
 		
-		if(SecurityChecker.isCorrectFolder(folderType))
-	 	{			
+		if(!SecurityChecker.isCorrectFolder(folderType))
+	 	{		 	
+			return "redirect:/userpage/" + userName;			
+	 	}	
+		
 			String response = mainUploadFile(folderType, userName, fileManager, mod);	
 			return response;
-	 	}
-	 	else
-	 	{
-	 		return "redirect:/userpage/" + userName;
-	 	}
+	 
 	}
 	
 	
