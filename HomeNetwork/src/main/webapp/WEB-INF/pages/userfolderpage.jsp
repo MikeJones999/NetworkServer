@@ -1,6 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<!-- 
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -40,12 +42,6 @@
 				action="<c:url value="/userpage/${user.userName}/${folderType}/upload" />">
 				<button type="submit">Upload file(s)</button>
 			</form>
-			<!-- 
-			<p></p>
-			<form method="POST" action="<c:url value="/userpage" />">
-				<button type="submit">View all Folders/Files</button>
-			</form>
-			-->
 
 		</div>
 
@@ -98,5 +94,188 @@
 
 
 
+</body>
+</html>
+
+-->
+
+<html>
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link href="<c:url value="/resources/css/style.css" />" rel="stylesheet">
+<link rel="stylesheet"
+	href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+
+<link href="<c:url value="/resources/myLayout/css/873366.css" />"
+	rel="stylesheet" type="text/css" />
+<style>
+h1, h2, h3, h5, h6 {
+	text-align: center;
+}
+
+h4 {
+	text-align: right;
+	p
+	{
+	text-align
+	:
+	center;
+}
+
+.floated {
+	float: right;
+	margin-right: 50px;
+}
+
+.btn-group {
+	bottom: 15px;
+	position: relative;
+	top: 15px;
+}
+</style>
+<title>${folderType}ManagerPage</title>
+</head>
+
+<body>
+	<div id="wrapper">
+		<div id="headerwrap">
+			<div id="header">
+
+				<TABLE BORDER="0">
+					<TR>
+						<td><form action="<c:url value="/userpage" />">
+								<div class="form-group">
+									<div class="col-lg-offset-0 col-lg-10">
+										<input type="submit" id="btnAdd" class="btn btn-primary"
+											value="User home page" />
+									</div>
+								</div>
+							</form></td>
+						<td><form
+								action="<c:url value="/userpage/${user.userName}/filemanager" />">
+								<div class="form-group">
+									<div class="col-lg-offset-0 col-lg-10">
+										<input type="submit" id="btnAdd" class="btn btn-primary"
+											value="File Manager" />
+									</div>
+								</div>
+							</form></td>
+						<td><form
+								action="<c:url value="/userpage/${user.userName}/${folderType}/upload" />">
+								<div class="form-group">
+									<div class="col-lg-offset-0 col-lg-10">
+										<input type="submit" id="btnAdd" class="btn btn-primary"
+											value="Upload ${folderType} file(s)" />
+									</div>
+								</div>
+							</form></td>
+
+						<td>
+						<td width=600>
+						<td colsp an="6"><form
+								action="<c:url value="/j_spring_security_logout" />">
+
+								<div class="form-group">
+									<div class="col-lg-offset-0 col-lg-10">
+										<input type="submit" id="btnAdd" class="btn btn-primary"
+											value="Logout" />
+									</div>
+								</div>
+
+							</form></td>
+
+						</td>
+					</TR>
+				</TABLE>
+
+
+			</div>
+		</div>
+
+
+
+
+		<div id="navigationwrap">
+			<div id="navigation">
+				<h1>${user.userName}'s ${folderType} Folder Page</h1>
+				<h3>${warningPublicPageMessage}</h3>
+			</div>
+		</div>
+
+		<div id="leftcolumnwrap">
+			<div id="leftcolumn">
+
+				<h5>Welcome to the ${folderType} manager page.</h5>
+				<h5>Here you can select a file in order to carryout a specific action.</h5>
+			</div>
+		</div>
+
+
+		<div id="contentwrap">
+			<div id="content">
+			
+	
+					<section class="container">
+					<div class="row">
+						<h3>Files Found in ${user.userName} ${folderType} Folder</h3>
+						<c:forEach items="${filesFound}" var="file">
+							<div class="col-sm-3 col-md-2" style="padding-bottom: 5px">
+								<div class="thumbnail">
+									<div class="caption">
+										<div style="text-align: center;">
+											<div style="font-size: small;">${file}</div>
+										</div>
+
+										<form
+											action="<c:url value="/userpage/${user.userName}/${folderType}/download/${file}" />">
+											<div style="text-align: center;">
+												<button type="submit" >Download file</button>
+											</div>
+										</form>
+										<form
+											action="<c:url value="/userpage/${user.userName}/${folderType}/delete/${file}" />">
+											<div style="text-align: center;">
+												<button type="submit">Delete file</button>
+											</div>
+											<c:set var="folder" scope="session" value="${folderType}"></c:set>
+
+										</form>
+										<form
+											action="<c:url value="/userpage/${user.userName}/public/copyFileLink/${file}" />">
+											<div style="text-align: center;">
+												<c:if test="${folder == 'public'}">
+													<button type="submit">Copy file link</button>
+												</c:if>
+											</div>
+										</form>
+
+
+									</div>
+								</div>
+							</div>
+						</c:forEach>
+					</div>
+					</section>
+
+			</div>
+		</div>
+
+
+		<div id="footerwrap">
+			<div id="footer">
+
+				<TABLE BORDER="0">
+					<TR>
+						<td width=10>
+						<td><h4>
+								Logged in as:
+								<%=request.getRemoteUser()%></h4></td>
+						<td width=810>
+							<h4>Role: ${user.userRole}</h4>
+						</td>
+					</TR>
+					</div>
+					</div>
 </body>
 </html>
