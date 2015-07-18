@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import fileManager.SecurityChecker;
 import UserPackage.User;
 import UserPackage.UserDataObject;
 
@@ -95,11 +96,17 @@ private UserDataObject dataObject;
 	 @RequestMapping(value = "/userpage/{userName}/editprofile", method = RequestMethod.GET)
 		public String editUserPage(@PathVariable("userName") String userName, Map<String, Object> model)
 		{
+		 
+		 if(!SecurityChecker.isCorrectUser(userName))
+		 { 
+			 return "redirect:/";
+		 }
+			 
 		 	 User temp = dataObject.getuserByName(userName);
 		 	 System.out.println("***DEBUG*** found editprofile - " + temp.getUserName());
 		 	 model.put("user", temp);
-		 	 
-	   	  	 return "useredit";
+		   	 return "useredit";
+		
 		}
 	 
 	 /**
@@ -111,6 +118,10 @@ private UserDataObject dataObject;
 	 @RequestMapping(value = "/userpage/{userName}", method = RequestMethod.POST)
 		public String updateUserPage(@ModelAttribute("user") User user, BindingResult res)
 		{
+		 if(!SecurityChecker.isCorrectUser(user.getUserName()))
+		 { 
+			 return "redirect:/";
+		 }
 		 	if(res.hasErrors())
 		 	{
 		 		System.out.println("***DEBUG*** errors found in updating user profile");

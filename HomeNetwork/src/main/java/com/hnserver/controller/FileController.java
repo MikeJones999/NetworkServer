@@ -37,6 +37,7 @@ import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.multipart.MultipartFile;
 
 import fileManager.FileManager;
+import fileManager.SecurityChecker;
 import UserPackage.User;
 import UserPackage.UserDataObject;
 import UserPackage.UserFileControl;
@@ -62,6 +63,10 @@ UserDataObject dataObject;
 @RequestMapping(value = "/userpage/{userName}/filemanager")
 public String returnUserFileManagerPage(@PathVariable String userName, Map<String, Object> model)
 {
+	 if(!SecurityChecker.isCorrectUser(userName))
+	 { 
+		 return "redirect:/";
+	 }
 	 User temp = dataObject.getuserByName(userName);
  	 System.out.println("***DEBUG*** found user filemanager page for - " + temp.getUserName());
  	 model.put("user", temp);
@@ -80,30 +85,32 @@ public String returnUserFileManagerPage(@PathVariable String userName, Map<Strin
 @RequestMapping(value = "/userpage/{userName}/{folderType}")
 public String returnUserfolderPage(@PathVariable ("userName") String userName, @PathVariable ("folderType") String folderType, Map<String, Object> model)
 {
-
-// 	if(folderType.equals("public") || folderType.equals("private") )
-// 	{
+	 if(!SecurityChecker.isCorrectUser(userName))
+	 { 
+		 return "redirect:/";
+	 }
+	
+    if(SecurityChecker.isCorrectFolder(folderType))
+ 	{
 	 User temp = dataObject.getuserByName(userName);
  	 System.out.println("***DEBUG*** found " + folderType + " page for - " + temp.getUserName());
  	 model.put("user", temp);	 
    	List<String> filesFound = UserFileControl.getAllFilesFromDirectory(folderType, userName);
  	model.put("filesFound", filesFound);
- 	
- 	if(folderType.equals("public"))
- 	{
- 		 model.put("warningPublicPageMessage", "This page and its contents are not secured and open for	sharing/downloading");	
-
- 	}
+	 	
+	 	if(folderType.equals("public"))
+	 	{
+	 		 model.put("warningPublicPageMessage", "This page and its contents are not secured and open for	sharing/downloading");	
+	
+	 	}
  
  	 return "userfolderpage"; 
-// 	}
-// 	else //redirect to security login page
-// 	{
-// 		return "redirect:/incorrectLogin";
-// 	}
+ 	}
+ 	else //redirect to security login page
+ 	{
+ 		return "redirect:/userpage/" + userName;
+ 	}
 }
-
-
 
 
 /**
@@ -117,11 +124,23 @@ public String returnUserfolderPage(@PathVariable ("userName") String userName, @
 @RequestMapping(value = "/userpage/{userName}/{folderType}/upload")
 public String returnUserfolderUploadPage(@PathVariable ("userName") String userName, @PathVariable ("folderType") String folderType, Map<String, Object> model)
 {
+	 if(!SecurityChecker.isCorrectUser(userName))
+	 { 
+		 return "redirect:/";
+	 }
+	 
+	if(SecurityChecker.isCorrectFolder(folderType))
+ 	{	
 	 User temp = dataObject.getuserByName(userName);
  	 System.out.println("***DEBUG*** found " + folderType + " upload page for - " + temp.getUserName());
  	 model.put("user", temp);
 	 model.put("folderType", folderType); 	
  	 return "userfileupload"; 
+ 	}
+ 	else
+ 	{
+ 		return "redirect:/userpage/" + userName;
+ 	}
 }
 
 
@@ -160,9 +179,20 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 	public String genericFileUpload(@ModelAttribute("fileManager") FileManager fileManager, @PathVariable ("userName") String userName, @PathVariable ("folderType") String folderType, 
 			Map<String, Object> model, Model mod, BindingResult res) throws IllegalStateException, IOException
 	{
-					
-		String response = mainUploadFile(folderType, userName, fileManager, mod);	
-		return response;
+		 if(!SecurityChecker.isCorrectUser(userName))
+		 { 
+			 return "redirect:/";
+		 }
+		
+		if(SecurityChecker.isCorrectFolder(folderType))
+	 	{			
+			String response = mainUploadFile(folderType, userName, fileManager, mod);	
+			return response;
+	 	}
+	 	else
+	 	{
+	 		return "redirect:/userpage/" + userName;
+	 	}
 	}
 	
 	
@@ -297,6 +327,11 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 	@RequestMapping(value = "/userpage/{userName}/private/delete/{fileName:.+}",  method = RequestMethod.GET)
 	public String deletePrivateFile(@PathVariable ("userName") String userName, @PathVariable ("fileName") String fileName, Map<String, Object> model) throws IOException
 	{
+		 if(!SecurityChecker.isCorrectUser(userName))
+		 { 
+			 return "redirect:/";
+		 }
+		
 		String fileType = fileName ;
 		//String temp = fileName + ".pub";
 		System.out.println("***DEBUG*** looking for file: " + fileName);
@@ -330,6 +365,12 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 	@RequestMapping(value = "/userpage/{userName}/public/delete/{fileName:.+}",  method = RequestMethod.GET)
 	public String deletePublicFile(@PathVariable ("userName") String userName, @PathVariable ("fileName") String fileName, Map<String, Object> model) throws IOException
 	{
+		 if(!SecurityChecker.isCorrectUser(userName))
+		 { 
+			 return "redirect:/";
+		 }
+		
+		
 		String fileType = fileName ;
 		//String temp = fileName + ".pub";
 		System.out.println("***DEBUG*** looking for file: " + fileName);
@@ -369,6 +410,17 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 	@RequestMapping(value = "/userpage/{userName}/{folderType}/download/{fileName:.+}",  method = RequestMethod.GET)
 	public void downloadFile(HttpServletResponse servletResponse,  @PathVariable ("folderType") String folderType,  @PathVariable ("userName") String userName, @PathVariable ("fileName") String fileName, Map<String, Object> model) throws IOException 
 	{
+		
+		 if(!SecurityChecker.isCorrectUser(userName))
+		 { 
+			 return;
+		 }
+		 
+		 if(!SecurityChecker.isCorrectFolder(folderType))
+		 {
+			 return;
+		 }
+		 
 		System.out.println("***DEBUG*** looking for file: " + fileName);
 		
 		String location = "C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\" +  userName + "\\" + folderType + "\\";
@@ -411,6 +463,12 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 	@RequestMapping(value = "/userpage/{userName}/public/copyFileLink/{fileName:.+}",  method = RequestMethod.GET)
 	public String getPublicFileLink(@PathVariable ("userName") String userName, @PathVariable ("fileName") String fileName, Map<String, Object> model) throws IOException 
 	{
+		
+		 if(!SecurityChecker.isCorrectUser(userName))
+		 { 
+			 return "redirect:/";
+		 }
+		
 		//get IP
 		String ip = getIpOfHostMachine();
 		String port = "8080";
