@@ -51,10 +51,10 @@ private UserDataObject dataObject;
 				      }
 				      else
 				      {
-						 model.put("response", "You cannot view pages that are not in your name");
+						 //model.put("response", "You cannot view pages that are not in your name");
 
 				    	  System.out.println("***DEBUG*** User " + userName + "is not a user");
-				    	  return "redirect:/";
+				    	  return "redirect:/j_spring_security_logout";
 				      }
 		    	}
 		    	else
@@ -104,7 +104,7 @@ private UserDataObject dataObject;
 		 if(!SecurityChecker.isCorrectUser(userName))
 		 { 
 			 model.put("response", "you cannot view pages that are not in your name");
-			 return "redirect:/";
+			 return "redirect:/j_spring_security_logout";
 		 }
 			 
 		 	 User temp = dataObject.getuserByName(userName);
@@ -125,7 +125,7 @@ private UserDataObject dataObject;
 		{
 		 if(!SecurityChecker.isCorrectUser(user.getUserName()))
 		 { 
-			 return "redirect:/";
+			return "redirect:/j_spring_security_logout";
 		 }
 		 	if(res.hasErrors())
 		 	{

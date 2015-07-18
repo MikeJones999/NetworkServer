@@ -66,7 +66,7 @@ public String returnUserFileManagerPage(@PathVariable String userName, Map<Strin
 	 if(!SecurityChecker.isCorrectUser(userName))
 	 { 
 		model.put("response", "You cannot view pages that are not in your name");
-  		  return "startpage";
+  		  return "redirect:/j_spring_security_logout";
 		
 	 }
 	 User temp = dataObject.getuserByName(userName);
@@ -90,7 +90,7 @@ public String returnUserfolderPage(@PathVariable ("userName") String userName, @
 	 if(!SecurityChecker.isCorrectUser(userName))
 	 { 
 			model.put("response", "You cannot view pages that are not in your name");
-  		  return "startpage";
+  		  return "redirect:/j_spring_security_logout";
 	 }
 	
     if(SecurityChecker.isCorrectFolder(folderType))
@@ -131,7 +131,7 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 	 { 
 			
 		  model.put("response", "You cannot view pages that are not in your name");
-  		  return "startpage";
+  		  return "redirect:/j_spring_security_logout";
 	 }
 	 
 	if(SecurityChecker.isCorrectFolder(folderType))
@@ -186,7 +186,7 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 		 if(!SecurityChecker.isCorrectUser(userName))
 		 { 
 				model.put("response", "You cannot view pages that are not in your name");
-	    		return "startpage";
+	    		return "redirect:/j_spring_security_logout";
 		 }
 		
 		if(!SecurityChecker.isCorrectFolder(folderType))
@@ -334,7 +334,7 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 		 if(!SecurityChecker.isCorrectUser(userName))
 		 { 
 				model.put("response", "You cannot view pages that are not in your name");
-	    		return "startpage";
+	    		return "redirect:/j_spring_security_logout";
 		 }
 		
 		String fileType = fileName ;
@@ -373,7 +373,7 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 		 if(!SecurityChecker.isCorrectUser(userName))
 		 { 
 				model.put("response", "You cannot view pages that are not in your name");
-	    		  return "startpage";
+	    		  return "redirect:/j_spring_security_logout";
 		 }
 		
 		
@@ -473,7 +473,7 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 		 if(!SecurityChecker.isCorrectUser(userName))
 		 { 
 				model.put("response", "You cannot view pages that are not in your name");
-	    		return "startpage";
+	    		return "redirect:/j_spring_security_logout";
 		 }
 		
 		//get IP
