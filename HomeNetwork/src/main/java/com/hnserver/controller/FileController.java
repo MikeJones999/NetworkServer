@@ -295,9 +295,9 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 		         	
 		         	if(!existingfiles.isEmpty())
 		         	{
-		         		mod.addAttribute("message1", "Following files already exist");
+		         		mod.addAttribute("message1", "The following files already exist.");
 		         	  	mod.addAttribute("message2", "As such these files have not been uploaded. "
-		         	  			+ "Please delete these manually or via the File Manager Page");
+		         	  			+ "Please delete these manually or use the File Manager Page to assist");
 		         		mod.addAttribute("filesNotUploaded", existingfiles);
 		         	}
 		        	mod.addAttribute("folder", fileType);
@@ -307,7 +307,7 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 	        	{ 	
 	        		
 	        		System.out.println("***DEBUG*** No file uploaded");
-	             	mod.addAttribute("messageWarning", "No file has been selected");
+	             	mod.addAttribute("messageWarning", "No file(s) have been selected");
 	             	return "userfileupload";
 	        	}			  
 	    }   
