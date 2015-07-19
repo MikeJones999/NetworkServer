@@ -77,7 +77,9 @@ h4 {
 
 		<div id="navigationwrap">
 			<div id="navigation">
-				<h3>Edit the details for user: ${user.userName}</h3>
+			<p>
+			</p>
+				<h2>Edit the details for user: ${user.userName}</h2>
 			</div>
 		</div>
 

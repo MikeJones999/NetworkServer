@@ -527,4 +527,35 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 			 return "filehandlingpage";
 	}
 	
+	
+	@RequestMapping(value ="/userpage/{userName}/private/copyFiletoPublic/{fileName:.+}")
+	public String copyFileToPublciFolder(@PathVariable ("userName") String userName, @PathVariable ("fileName") String fileName, Map<String, Object> model) throws IOException 
+	{
+		 if(!SecurityChecker.isCorrectUser(userName))
+		 { 
+				model.put("response", "You cannot view pages that are not in your name");
+	    		return "redirect:/j_spring_security_logout";
+		 }
+		 
+		 
+		 User temp = dataObject.getuserByName(userName);
+	 	 System.out.println("***DEBUG*** found " + "private" + " file copying page for - " + temp.getUserName() + " File:- " + fileName);
+	 	 model.put("user", temp);
+		 model.put("folderType", "private"); 
+		 model.put("file", fileName);
+		 
+		 String oldLocation = "C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\" +  userName + "\\" + "private" + "\\";
+		 String newLocation = "C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\" +  userName + "\\" + "public" + "\\";
+		 
+		 if (UserFileControl.copyFiletoFolder(oldLocation, newLocation, fileName))
+		 {		
+			 model.put("messageCopied", "File: " + fileName + " has been copied to your public folder");
+			 return "filehandlingpage";
+		 }
+		 
+		 model.put("messageCopied", "File: " + fileName + " has NOT been copied to your public folder");
+		 return "filehandlingpage";
+	}	
+		
+		
 }

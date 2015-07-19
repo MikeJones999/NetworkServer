@@ -18,14 +18,13 @@ h1, h2, h3, h5, h6 {
 
 h4 {
 	text-align: right;
-	p
-	{
-	text-align
-	:
-	center;
 }
 
-btn btn-primary {
+p {
+	text-align: center;
+}
+
+btn_btn-primary {
 	color: green;
 }
 </style>
@@ -98,6 +97,9 @@ btn btn-primary {
 			<div id="navigation">
 				<p></p>
 				<h1>File Upload confirmation page</h1>
+				<p></p>
+				<h5>${messageCopied}</h5>
+
 			</div>
 		</div>
 
@@ -119,7 +121,8 @@ btn btn-primary {
 			<div id="content">
 
 
-				<h5>You have clicked on file:- </h5> <h3>${file}</h3>
+				<h5>You have clicked on file:-</h5>
+				<h3>${file}</h3>
 				<h5>This file allows for the following actions...</h5>
 
 
@@ -156,7 +159,20 @@ btn btn-primary {
 						</div>
 					</form>
 				</c:if>
+				<p></p>
+				<c:if test="${folderType == 'private'}">
+					<form
+						action="<c:url value="/userpage/${user.userName}/private/copyFiletoPublic/${file}" />">
+						<div class="form-group">
+							<div class="col-lg-offset-0 col-lg-10">
 
+								<input type="submit" id="btnAdd" class="btn btn-primary"
+									value="Copy to Public folder" />
+
+							</div>
+						</div>
+					</form>
+				</c:if>
 
 
 			</div>
