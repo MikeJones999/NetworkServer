@@ -52,7 +52,7 @@ p {
 }
 
 #content {
-	 height: 300px;
+	 height: 400px;
     background: #FFFFFF;
     border-radius: 10px;
     border: 1px solid #010203;
@@ -66,7 +66,7 @@ p {
 }
 
 #leftcolumn {
-    height: 300px;
+    height: 400px;
     background: #E8FFE6;
     border-radius: 10px;
     border: 1px solid #010203;
