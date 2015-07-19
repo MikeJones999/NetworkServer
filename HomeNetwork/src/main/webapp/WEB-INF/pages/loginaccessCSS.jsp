@@ -77,10 +77,9 @@ p {
 						<form method="post"
 							action="<c:url value='j_spring_security_check' />">
 
-							<input type="text" class="login-input" placeholder="username"
-								name="username" /> <input type="password" class="login-input"
-								placeholder="password" name="password" /> <input type="submit"
-								class="login-submit" value="Login" />
+							<input type="text" class="login-input" placeholder="username" name="username" /> 
+							<input type="password" class="login-input" placeholder="password" name="password" />
+							 <input type="submit" class="login-submit" value="Login" />
 
 						</form>
 					</div>

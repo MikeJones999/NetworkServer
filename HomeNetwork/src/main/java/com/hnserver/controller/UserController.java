@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -121,7 +122,7 @@ private UserDataObject dataObject;
 	  * @return String Jsp
 	  */
 	 @RequestMapping(value = "/userpage/{userName}", method = RequestMethod.POST)
-		public String updateUserPage(@ModelAttribute("user") User user, BindingResult res)
+		public String updateUserPage(@ModelAttribute("user") User user, BindingResult res, Map<String, Object> model)
 		{
 		 if(!SecurityChecker.isCorrectUser(user.getUserName()))
 		 { 
@@ -133,9 +134,24 @@ private UserDataObject dataObject;
 		 		return "useredit";
 		 	}
 		 	
-		 	dataObject.update(user);
-		 	System.out.println("Update user " + user.getUserName());
-		  	return "redirect:/userpage/" + user.getUserName();
+		 	String returnedUserPassword = user.getPassword();
+		 	if (returnedUserPassword.equals("")|| returnedUserPassword.length() < 5) 
+			{
+				// setup password standards - check with spring
+				System.out.println("No password chosen or too small");
+				model.put("response", "No password chosen or too small");
+				return "useredit";
+			}
+		 	else
+		 	{
+		 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+				String encodeduserPassword = passwordEncoder.encode(user.getPassword());
+				user.setPassword(encodeduserPassword);
+		 		dataObject.update(user);	
+		  		model.put("response", "Password has been updated");
+		 		System.out.println("Update user " + user.getUserName());
+		  		return "useredit";
+		 	}
 		}
 	 
 	 

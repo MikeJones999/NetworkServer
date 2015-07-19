@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -22,7 +23,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -51,7 +51,7 @@ import UserPackage.UserFileControl;
 // & http://crunchify.com/spring-mvc-tutorial-how-to-upload-multiple-files-to-specific-location/
 // & http://viralpatel.net/blogs/spring-mvc-multiple-file-upload-example/
 @Controller
-@SpringBootApplication
+//@SpringBootApplication
 public class FileController {
 
 @Autowired
@@ -600,39 +600,39 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 		
 	
 	
-	//reference from http://stackoverflow.com/questions/10066349/spring-display-image-on-jsp-file  19/07/2017
+//	reference from http://stackoverflow.com/questions/10066349/spring-display-image-on-jsp-file  19/07/2017
 	   @RequestMapping(value = "/userpage/{userName}/{folderType}/image/{fileName:.+}", method = RequestMethod.GET)
 	    public String picture(HttpServletResponse response, @PathVariable ("fileName") String fileName, @PathVariable ("folderType") String folderType, @PathVariable ("userName") String userName,  Map<String, Object> model) throws IOException
 	   {
 	       String fileLocation = "C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\" +  userName + "\\" + folderType + "\\";
-//	       UserFileControl.getFileType(fileName, fileLocation);
+          UserFileControl.getFileType(fileName, fileLocation);
 	       File fileToFetch = new File(fileLocation + fileName);
 	       if(fileToFetch.exists())
 	       {   
 		       System.out.println("***DEBUG*** image found");
-		       FileInputStream stream = new FileInputStream(fileToFetch);
-		       ByteArrayOutputStream outPutStream =new ByteArrayOutputStream();
-		       int b;
+		       FileInputStream inPutStream = new FileInputStream(fileToFetch);
+		       ByteArrayOutputStream outPutStream = new ByteArrayOutputStream();
+		       int i;
 		       byte[] byteArray = new byte[1024];
 		       
 		       //Reads up to b.length bytes of data from this input stream into an array of bytes
 		       //reads the bytes from the fileToFetch
-			       while((b = stream.read(byteArray))!=-1)
+			       while((i = inPutStream.read(byteArray))!=-1)
 			       {
-			    	   outPutStream.write(byteArray, 0, b);
+			    	   outPutStream.write(byteArray, 0, i);
 			       }
 			    
 			   //place the array of bytes into a new array
-			   byte[] compiledBytes = outPutStream.toByteArray();
-		       
+			   byte[] compiledBytes = outPutStream.toByteArray();		       
 		       //must close down the streams
-		       stream.close();
+			   inPutStream.close();
 		       outPutStream.close();
-	
+
 		       //byte[] org.springframework.security.crypto.codec.Base64.encode(byte[] bytes)
 		       byte[] bytes = Base64.encode(compiledBytes);
 		       String imageToReturn = new String(bytes);
-	
+		       //ensure buffer is flushed out after image passed. 
+		       outPutStream.flush();
 		       model.put("image", imageToReturn);
 	       }
 	       
@@ -645,5 +645,7 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 	       
 	    }
 	
-		
+
+	
+	
 }

@@ -33,6 +33,5 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/mikieJ/Documents/GitHub/SpringPractice/HomeNetwork/requiredJars/spring-boot-autoconfigure-1.2.4.RELEASE.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

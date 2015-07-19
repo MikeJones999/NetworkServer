@@ -75,6 +75,7 @@ public class JdbcUserControl implements UserDataObject {
 	 */
 	public void update(User user) 
 	{
+		
 		String username = user.getUserName();
 	    String sqlState = "update users set password = ? where username = ?";
 	      jdbcTempObject.update(sqlState, user.getPassword(), username);

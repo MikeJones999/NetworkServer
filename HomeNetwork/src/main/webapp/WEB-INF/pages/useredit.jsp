@@ -45,7 +45,7 @@ h4 {
 							</form>
 						</td>
 
-<!-- 
+						<!-- 
 						<td width=650><img
 							src="<c:url value="/resources/images/avatar.png" />" alt="image"
 							style="width: 2%" />
@@ -77,9 +77,10 @@ h4 {
 
 		<div id="navigationwrap">
 			<div id="navigation">
-			<p>
-			</p>
+				<p></p>
 				<h2>Edit the details for user: ${user.userName}</h2>
+				<p></p>
+				<h3>${response}</h3>
 			</div>
 		</div>
 
@@ -94,51 +95,28 @@ h4 {
 
 		<div id="contentwrap">
 			<div id="content">
-
-
-				<div
-					style="text-align: center; padding: 25px; border: 2px solid green; width: 350px;">
-
+				<!-- 	<div style="text-align: center; padding: 25px; border: 2px solid green; width: 350px;"> -->
+				<div class="login">
 					<form:form name="input" method="post" modelAttribute="user"
 						action="/HomeNetwork/userpage/${user.userName}">
 
-						<!-- <form:input type="hidden" path="userName" /> -->
+				     	<!-- <form:input type="hidden" path="userName" /> -->
+
+						<form:input type="text" class="login-input" path="userName" placeholder="username" name="username" readonly="true" /> 
+						<form:input type="text" class="login-input"  path="userRole" placeholder="userRole" name="userRole" readonly="true" />
+					    <input type="text" class="login-input"  placeholder="New Password" name="password">
+						<input class="btn btn-lg btn-success btn-block" type="submit" value="Apply Changes">
+					
 
 
-						<table>
-							<tr>
-								<td><label>UserName:</label></td>
-								<td><form:input type="text" path="userName" readonly="true" /></td>
-							</tr>
-
-							<tr>
-								<td><label>User Role:</label>
-								<td><form:input type="text" path="userRole" readonly="true" /></td>
-							</tr>
-
-							<tr>
-								<td><label>Password:</label></td>
-								<td><form:input type="text" path="password" /></td>
-							</tr>
+						<td colspan="2" style="color: red">${useramended}</td>
 
 
-							<tr>
-								<td> </td>
-
-								<td><input class="btn btn-lg btn-success btn-block"
-									type="submit" value="Apply Changes"></td>
-							</tr>
-
-
-							<tr>
-								<td colspan="2" style="color: red">${useramended}</td>
-							</tr>
-
-						</table>
 
 
 					</form:form>
 				</div>
+				<!-- </div> -->
 
 			</div>
 		</div>

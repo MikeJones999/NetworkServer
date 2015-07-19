@@ -290,8 +290,12 @@ private UserDataObject dataObject;
 			User user = dataObject.getuserByName(userName);
 			if (user != null)
 			{
+				String standardPassword = userName + "@123";
+				BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+				String encodeduserPassword = passwordEncoder.encode(standardPassword);
+				user.setPassword(encodeduserPassword);
 				dataObject.update(user);
-				model.addAttribute("passwordResetConfirmation", "password Reset to:- " + userName + "@123");
+				model.addAttribute("passwordResetConfirmation", "password Reset to:- " + standardPassword);
 				model.addAttribute("passwordWarning", "Ensure the user is provided with this new password asap and that they change it themselves asap!");
 				return "adminresetuserpass";
 			}
