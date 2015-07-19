@@ -178,29 +178,19 @@ public class UserFileControl {
 						System.out.println("***DEBUG*** file found");
 						  String fullFilePath = oldLocation + foundFiles[i];
 					     File fileToCopy = new File(fullFilePath);	
-//					     File fileCopied = new File(newDirectory);
-//					     if (!fileCopied.exists()) 
-//					     {
-//								try {
-//										System.out.println("***DEBUG*** File does not exist creating the file");
-//								
-//									  fileCopied.createNewFile();
-//								    }
-//							 catch (IOException e)
-//								    {
-//											e.printStackTrace();
-//									}
-//					     }
-					try {
-					
-						    FileUtils.copyFileToDirectory(fileToCopy, newDirectory);
-						    complete = true;
-						    System.out.println("***DEBUG*** file copied");
-						}
-					catch (IOException e) 
-						{
-						    e.printStackTrace();
-						}
+
+							try {
+							
+								    FileUtils.copyFileToDirectory(fileToCopy, newDirectory);
+								    complete = true;
+								    System.out.println("***DEBUG*** file copied");
+								}
+							catch (IOException e) 
+								{
+								    e.printStackTrace();
+								}
+					     
+							
 					}
 				}
 			}

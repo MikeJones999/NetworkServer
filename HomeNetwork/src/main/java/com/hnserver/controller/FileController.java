@@ -103,10 +103,9 @@ public String returnUserfolderPage(@PathVariable ("userName") String userName, @
 	 	
 	 	if(folderType.equals("public"))
 	 	{
-	 		 model.put("warningPublicPageMessage", "This page and its contents are not secured and open for	sharing/downloading");	
+	 		 model.put("warningPublicPageMessage", "This page and its contents are not secured, but files can be shared with others.");	
 	
 	 	}
- 
  	 return "userfolderpage"; 
  	}
  	else //redirect to security login page
@@ -382,19 +381,24 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 		System.out.println("***DEBUG*** looking for file: " + fileName);
 		String location = "C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\" +  userName + "\\" + "public" + "\\";
 		model.put("folderType", "public");
-		model.put("userName", userName);
 		//if files exists then delete
 		if (UserFileControl.fileAlreadyexist(location, fileType))
 		{
-			model.put("message", "found and deleted file: " + fileName);
 			
 			UserFileControl.folderExistsThenDelete("C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\" +  userName + "\\public\\" + fileName);			
-			return "filedeleted";			
+			//return "filedeleted";
+		 	User temp = dataObject.getuserByName(userName);
+		 	model.put("user", temp);	 
+		   	List<String> filesFound = UserFileControl.getAllFilesFromDirectory("public", userName);
+		 	model.put("filesFound", filesFound);
+			model.put("message", fileName + " was deleted from you public folder");
+
+	 	 return "userfolderpage"; 
 		}
 		else
 		{
 			model.put("message", fileName + " was not found in the directory, thus it cannot be deleted");
-			return "filedeleted";
+			return "userfolderpage";
 		}
 		
 	}
@@ -484,10 +488,19 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 		String port = "8080";
 		
 		String linkToFile = ip + ":" + port + "/HomeNetwork/userpage/" + userName + "/public/download/" + fileName; 
-		model.put("message", "Please copy this link - paste it in an email or instant chat to allow others to download this file");
+		//model.put("message", "Please copy this link - paste it in an email or instant chat to allow others to download this file");
 		model.put("folderType", "public");
-		model.put("fileLink", linkToFile);
-		return "filepubliclink";
+//		model.put("fileLink", linkToFile);
+//		return "filepubliclink";
+		
+		 User temp = dataObject.getuserByName(userName);
+	 	 System.out.println("***DEBUG*** found " + "private" + " file copying page for - " + temp.getUserName() + " File:- " + fileName);
+	 	 model.put("user", temp);
+		 model.put("file", fileName);
+		
+		 model.put("messageCopied", "Copy this url:- " + linkToFile);
+		 return "filehandlingpage";
+		
 	}
 	
 	/**
@@ -547,13 +560,19 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 		 String oldLocation = "C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\" +  userName + "\\" + "private" + "\\";
 		 String newLocation = "C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\" +  userName + "\\" + "public" + "\\";
 		 
+		 if(UserFileControl.fileAlreadyexist(newLocation, fileName)) 
+		 {
+			 model.put("messageCopied", "File: " + fileName + " has NOT been copied to your public folder. It already exists in your public folder");
+			 return "filehandlingpage";
+		 }
+		 
 		 if (UserFileControl.copyFiletoFolder(oldLocation, newLocation, fileName))
 		 {		
 			 model.put("messageCopied", "File: " + fileName + " has been copied to your public folder");
 			 return "filehandlingpage";
 		 }
 		 
-		 model.put("messageCopied", "File: " + fileName + " has NOT been copied to your public folder");
+		 model.put("messageCopied", "Error - File: " + fileName + " has NOT been copied to your public folder. Please Try again");
 		 return "filehandlingpage";
 	}	
 		

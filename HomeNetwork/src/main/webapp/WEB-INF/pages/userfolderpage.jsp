@@ -98,6 +98,7 @@ h4 {
 				<p></p>
 				<h1>${user.userName}'s ${folderType} Folder Page</h1>
 				<h3>${warningPublicPageMessage}</h3>
+				<h5>${message}</h5>
 			</div>
 		</div>
 

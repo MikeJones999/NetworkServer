@@ -96,7 +96,7 @@ btn_btn-primary {
 		<div id="navigationwrap">
 			<div id="navigation">
 				<p></p>
-				<h1>File Upload confirmation page</h1>
+				<h1>File handling page</h1>
 				<p></p>
 				<h5>${messageCopied}</h5>
 

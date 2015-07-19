@@ -91,7 +91,10 @@ h4 {
 
 		<div id="navigationwrap">
 			<div id="navigation">
+			<p>
+			</p>
 				<h1>${user.userName}'s Profile page</h1>
+			
 			</div>
 		</div>
 
@@ -101,6 +104,10 @@ h4 {
 				<h5>Welcome to the your profile page.</h5>
 				<h5> This page is the central
 					page for navigation through your account.</h5>
+				<p>
+				</p>
+				<h5>By clicking on File Manager, you can navigate to your public and private folders.</h5>
+				
 			</div>
 		</div>
 
