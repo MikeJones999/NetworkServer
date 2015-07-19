@@ -416,7 +416,9 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 	@RequestMapping(value = "/userpage/{userName}/{folderType}/download/{fileName:.+}",  method = RequestMethod.GET)
 	public void downloadFile(HttpServletResponse servletResponse,  @PathVariable ("folderType") String folderType,  @PathVariable ("userName") String userName, @PathVariable ("fileName") String fileName, Map<String, Object> model) throws IOException 
 	{
-		
+	if(!folderType.equals("public"))
+	{
+		 System.out.println("***DEBUG*** found download controller");
 		 if(!SecurityChecker.isCorrectUser(userName))
 		 { 
 			 return;
@@ -426,6 +428,7 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 		 {
 			 return;
 		 }
+	}
 		 
 		System.out.println("***DEBUG*** looking for file: " + fileName);
 		
@@ -502,8 +505,26 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 		
 	}
 	
-	
-
-	
+	@RequestMapping(value ="/userpage/{userName}/{folderType}/handlefile/{fileName:.+}",  method = RequestMethod.GET)
+	public String handleIndividualFile(@PathVariable ("userName") String userName, @PathVariable ("folderType") String folderType, @PathVariable ("fileName") String fileName, Map<String, Object> model) throws IOException 
+	{
+		
+		 if(!SecurityChecker.isCorrectUser(userName))
+		 { 
+				model.put("response", "You cannot view pages that are not in your name");
+	    		return "redirect:/j_spring_security_logout";
+		 }
+			if(!SecurityChecker.isCorrectFolder(folderType))
+		 	{		 	
+				return "redirect:/userpage/" + userName;			
+		 	}	
+         
+			 User temp = dataObject.getuserByName(userName);
+		 	 System.out.println("***DEBUG*** found " + folderType + " handle page for - " + temp.getUserName() + " File:- " + fileName);
+		 	 model.put("user", temp);
+			 model.put("folderType", folderType); 
+			 model.put("file", fileName);
+			 return "filehandlingpage";
+	}
 	
 }

@@ -12,12 +12,8 @@
 <link href="<c:url value="/resources/myLayout/css/873366.css" />"
 	rel="stylesheet" type="text/css" />
 <style>
-h1, h2, h3, h5 {
+h1, h2, h3, h5, h6 {
 	text-align: center;
-}
-h6
-{
-	text-align: left
 }
 
 h4 {
@@ -29,9 +25,11 @@ h4 {
 	center;
 }
 
-
+btn btn-primary {
+	color: green;
+}
 </style>
-<title>${folderType}ManagerPage</title>
+<title>File handling page</title>
 </head>
 
 <body>
@@ -41,7 +39,9 @@ h4 {
 
 				<TABLE BORDER="0">
 					<TR>
-						<td><form action="<c:url value="/userpage/${user.userName}" />">
+
+						<td><form
+								action="<c:url value="/userpage/${user.userName}" />">
 								<div class="form-group">
 									<div class="col-lg-offset-0 col-lg-10">
 										<input type="submit" id="btnAdd" class="btn btn-primary"
@@ -59,14 +59,15 @@ h4 {
 								</div>
 							</form></td>
 						<td><form
-								action="<c:url value="/userpage/${user.userName}/${folderType}/upload" />">
+								action="<c:url value="/userpage/${user.userName}/${folderType}" />">
 								<div class="form-group">
 									<div class="col-lg-offset-0 col-lg-10">
 										<input type="submit" id="btnAdd" class="btn btn-primary"
-											value="Upload ${folderType} file(s)" />
+											value="Back to ${folderType} folder" />
 									</div>
 								</div>
 							</form></td>
+
 
 						<td>
 						<td width=600>
@@ -96,16 +97,20 @@ h4 {
 		<div id="navigationwrap">
 			<div id="navigation">
 				<p></p>
-				<h1>${user.userName}'s ${folderType} Folder Page</h1>
-				<h3>${warningPublicPageMessage}</h3>
+				<h1>File Upload confirmation page</h1>
 			</div>
 		</div>
 
 		<div id="leftcolumnwrap">
 			<div id="leftcolumn">
 
-				<h5>Welcome to the ${folderType} manager page.</h5>
-				<h5>Simply click on a file in order to view available actions</h5>
+				<h5>Welcome to the ${folderType} individual File manager page.</h5>
+				<h5>Here you can select specific actions you can perform in
+					relation to the specified file</h5>
+				<p></p>
+				<h5>Note: You can only copy the link of a file that is placed
+					in your public folder.</h5>
+
 			</div>
 		</div>
 
@@ -113,17 +118,45 @@ h4 {
 		<div id="contentwrap">
 			<div id="content">
 
-				<h3>Files found in ${user.userName} ${folderType} folder</h3>
-				<c:forEach items="${filesFound}" var="file">
-				
-					<c:url value="/userpage/${user.userName}/${folderType}/handlefile/${file}" var="fileLocation" />
-				
-					<div style="text-align: center;">
-				 	<h6><a href="${fileLocation}">   - ${file}</a>  </h6>
-				 </div>
-			   
-		
-				</c:forEach>
+
+				<h5>You have clicked on file:- </h5> <h3>${file}</h3>
+				<h5>This file allows for the following actions...</h5>
+
+
+				<form
+					action="<c:url value="/userpage/${user.userName}/${folderType}/download/${file}" />">
+					<div class="form-group">
+						<div class="col-lg-offset-0 col-lg-10">
+							<input type="submit" id="btnAdd" class="btn btn-primary"
+								value="Download file" />
+						</div>
+					</div>
+				</form>
+				<p></p>
+				<form
+					action="<c:url value="/userpage/${user.userName}/${folderType}/delete/${file}" />">
+					<div class="form-group">
+						<div class="col-lg-offset-0 col-lg-10">
+							<input type="submit" id="btnAdd" class="btn btn-primary"
+								value="  Delete file  " />
+						</div>
+					</div>
+				</form>
+				<p></p>
+				<c:if test="${folderType == 'public'}">
+					<form
+						action="<c:url value="/userpage/${user.userName}/public/copyFileLink/${file}" />">
+						<div class="form-group">
+							<div class="col-lg-offset-0 col-lg-10">
+
+								<input type="submit" id="btnAdd" class="btn btn-primary"
+									value="Copy file link" />
+
+							</div>
+						</div>
+					</form>
+				</c:if>
+
 
 
 			</div>
