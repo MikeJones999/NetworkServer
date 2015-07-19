@@ -51,7 +51,7 @@
   <!-- <mvc:resources mapping="/resources/**" location="resources/"/>  -->
 	<mvc:resources mapping="/resources/**" location="/resources/" />
 
-	
+	<mvc:resources mapping="/MSc_UserFolder/**" location="/MSc_UserFolder/" />
 </beans>
 
 

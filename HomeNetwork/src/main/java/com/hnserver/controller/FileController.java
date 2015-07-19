@@ -1,10 +1,12 @@
 package com.hnserver.controller;
 
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,11 +20,13 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -576,5 +580,47 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 		 return "filehandlingpage";
 	}	
 		
+	
+	
+	//reference from http://stackoverflow.com/questions/10066349/spring-display-image-on-jsp-file  19/07/2017
+	   @RequestMapping(value = "/userpage/{userName}/image/{fileName:.+}", method = RequestMethod.GET)
+	    public String picture(HttpServletResponse response, @PathVariable ("fileName") String fileName, @PathVariable ("userName") String userName,  Map<String, Object> model) throws IOException
+	   {
+	       String fileLocation = "C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\" +  userName + "\\" + "public" + "\\";
+
+	       File fileToFetch = new File(fileLocation + fileName);
+	       if(fileToFetch.exists())
+	       {   
+		       System.out.println("***DEBUG*** image found");
+		       FileInputStream stream = new FileInputStream(fileToFetch);
+		       ByteArrayOutputStream outPutStream =new ByteArrayOutputStream();
+		       int b;
+		       byte[] byteArray = new byte[1024];
+		       
+		       //Reads up to b.length bytes of data from this input stream into an array of bytes
+		       //reads the bytes from the fileToFetch
+			       while((b = stream.read(byteArray))!=-1)
+			       {
+			    	   outPutStream.write(byteArray, 0, b);
+			       }
+			    
+			   //place the array of bytes into a new array
+			   byte[] compiledBytes = outPutStream.toByteArray();
+		       
+		       //must close down the streams
+		       stream.close();
+		       outPutStream.close();
+	
+		       //byte[] org.springframework.security.crypto.codec.Base64.encode(byte[] bytes)
+		       byte[] bytes = Base64.encode(compiledBytes);
+		       String imageToReturn = new String(bytes);
+	
+		       model.put("image", imageToReturn);
+	       }
+	       return "imageviewer";
+	      
+	       
+	    }
+	
 		
 }
