@@ -6,13 +6,32 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<link rel="stylesheet"
+	href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+<title>Image viewer file</title>
 
 
 </head>
 <body>
-<!-- <img src="<c:url value="/MSc_UserFolder/mj/public/2014-11-28 2018.12.01.jpg"/>"/> -->
+<header>
 
+				<p></p>
+				<form
+					action="<c:url value="/userpage/${user.userName}/${folderType}/handlefile/${file}" />">
+					<div class="form-group">
+						<div class="col-lg-offset-0 col-lg-10">
+							<input type="submit" id="btnAdd" class="btn btn-primary"
+								value=" Back to File  " />
+						</div>
+					</div>
+				</form>
+</header>				
+<content>
+<p></p>
 <img src="data:image/jpeg;base64,${image}" alt="..." width="640" height="480">`
+</content>
+
+
+
 </body>
 </html>

@@ -173,6 +173,20 @@ btn_btn-primary {
 						</div>
 					</form>
 				</c:if>
+				<p></p>
+				<c:if test="${fileType == 'image'}">
+					<form
+						action="<c:url value="/userpage/${user.userName}/${folderType}/image/${file}" />">
+						<div class="form-group">
+							<div class="col-lg-offset-0 col-lg-10">
+
+								<input type="submit" id="btnAdd" class="btn btn-primary"
+									value="View Image" />
+
+							</div>
+						</div>
+					</form>
+				</c:if>
 
 
 			</div>

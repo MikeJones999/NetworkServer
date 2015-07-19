@@ -196,7 +196,70 @@ public class UserFileControl {
 			}
 		}
 		
-		return complete;
+		return complete;		
+	}
+	
+	/**
+	 * Returns the file type attached to the string filename.
+	 * @param String fileName
+	 * @param String fileLocation
+	 * @return String file type
+	 */
+	public static String getFileType(String fileName, String fileLocation)
+	{
+		if(fileAlreadyexist(fileLocation, fileName))
+		{
+			File file = new File(fileLocation + fileName);
+			
+			String fileType = "";
+			int count = 0;
+			char[] fileArray = fileName.toCharArray();
+			for (int i = fileName.length() -1; i > 0; i--)
+			{
+				if(fileName.charAt(i) == '.')
+				{
+					count = i;
+					break;
+				}
+			}
+			
+			 fileType = fileName.substring(count);
+	          System.out.println("***DEBUG*** file type: " + fileType);	
+	         return fileType;
+		}
+		
+	    return "";
+	}
+	
+	/**
+	 * Crude way of checking file type of string rather than of file
+	 * @param String fileType
+	 * @return boolean
+	 */
+	public static boolean isImageFile(String fileType)
+	{
+		boolean result = false;
+		
+		List<String> imageCollection = new ArrayList<String>();
+		imageCollection.add(".jpg");
+		imageCollection.add(".png");
+		imageCollection.add(".gif");
+		imageCollection.add(".jpeg");
+		imageCollection.add(".jpg");
+		imageCollection.add(".bmp");
+		imageCollection.add(".tiff");
+		
+		for (String s: imageCollection)
+		{
+			if (fileType.equalsIgnoreCase(s))
+			{
+				result = true;
+				System.out.println("***DEBUG*** found image file returning true");
+			}					
+		}		
+		return result;
 		
 	}
+	
+	
 }

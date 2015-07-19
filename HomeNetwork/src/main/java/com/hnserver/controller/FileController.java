@@ -349,14 +349,19 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 		//if files exists then delete
 		if (UserFileControl.fileAlreadyexist(location, fileType))
 		{
-			model.put("message", "found and deleted file: " + fileName);
 			UserFileControl.folderExistsThenDelete("C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\" +  userName + "\\private\\" + fileName);
-			return "filedeleted";			
+			User temp = dataObject.getuserByName(userName);
+		 	model.put("user", temp);	 
+		   	List<String> filesFound = UserFileControl.getAllFilesFromDirectory("public", userName);
+		 	model.put("filesFound", filesFound);
+			model.put("message", fileName + " was deleted from you private folder");
+
+	 	 return "userfolderpage"; 
 		}
 		else
 		{
 			model.put("message", fileName + " was not found in the directory, thus it cannot be deleted");
-			return "filedeleted";
+			return "userfolderpage";
 		}
 		
 	}
@@ -536,11 +541,24 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 				return "redirect:/userpage/" + userName;			
 		 	}	
          
+			String fileLocation = "C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\" +  userName + "\\" + folderType + "\\";
+
+			 String fileType = UserFileControl.getFileType(fileName, fileLocation);
+			 if(UserFileControl.isImageFile(fileType))
+			 {
+				model.put("fileType", "image");			 
+			 }
+			 else
+			 {
+				 model.put("fileType", "other");
+			 }
+				 
 			 User temp = dataObject.getuserByName(userName);
 		 	 System.out.println("***DEBUG*** found " + folderType + " handle page for - " + temp.getUserName() + " File:- " + fileName);
 		 	 model.put("user", temp);
 			 model.put("folderType", folderType); 
 			 model.put("file", fileName);
+			 
 			 return "filehandlingpage";
 	}
 	
@@ -583,11 +601,11 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 	
 	
 	//reference from http://stackoverflow.com/questions/10066349/spring-display-image-on-jsp-file  19/07/2017
-	   @RequestMapping(value = "/userpage/{userName}/image/{fileName:.+}", method = RequestMethod.GET)
-	    public String picture(HttpServletResponse response, @PathVariable ("fileName") String fileName, @PathVariable ("userName") String userName,  Map<String, Object> model) throws IOException
+	   @RequestMapping(value = "/userpage/{userName}/{folderType}/image/{fileName:.+}", method = RequestMethod.GET)
+	    public String picture(HttpServletResponse response, @PathVariable ("fileName") String fileName, @PathVariable ("folderType") String folderType, @PathVariable ("userName") String userName,  Map<String, Object> model) throws IOException
 	   {
-	       String fileLocation = "C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\" +  userName + "\\" + "public" + "\\";
-
+	       String fileLocation = "C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\" +  userName + "\\" + folderType + "\\";
+//	       UserFileControl.getFileType(fileName, fileLocation);
 	       File fileToFetch = new File(fileLocation + fileName);
 	       if(fileToFetch.exists())
 	       {   
@@ -617,7 +635,12 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 	
 		       model.put("image", imageToReturn);
 	       }
-	       return "imageviewer";
+	       
+	  	 User temp = dataObject.getuserByName(userName);
+	 	 model.put("user", temp);
+		 model.put("folderType", folderType); 
+		 model.put("file", fileName);
+	     return "imageviewer";
 	      
 	       
 	    }
