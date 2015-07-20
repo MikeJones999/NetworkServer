@@ -13,6 +13,9 @@ import java.io.InputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -611,28 +614,36 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 	
 //	reference from http://stackoverflow.com/questions/10066349/spring-display-image-on-jsp-file  19/07/2017
 	   @RequestMapping(value = "/userpage/{userName}/{folderType}/image/{fileName:.+}", method = RequestMethod.GET)
-	    public String picture(HttpServletResponse response, @PathVariable ("fileName") String fileName, @PathVariable ("folderType") String folderType, @PathVariable ("userName") String userName,  Map<String, Object> model) throws IOException
+	    public String displayPicture(HttpServletResponse response, @PathVariable ("fileName") String fileName, @PathVariable ("folderType") String folderType, @PathVariable ("userName") String userName,  Map<String, Object> model) throws IOException
 	   {
 	       String fileLocation = "C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\" +  userName + "\\" + folderType + "\\";
-          UserFileControl.getFileType(fileName, fileLocation);
-	       File fileToFetch = new File(fileLocation + fileName);
+          //UserFileControl.getFileType(fileName, fileLocation);
+	       File fileToFetch = new File(fileLocation + fileName);       
+	   	   String file = fileLocation + fileName;			
+		   Path path = Paths.get(file);
+	       
+	       
 	       if(fileToFetch.exists())
 	       {   
 		       System.out.println("***DEBUG*** image found");
 		       FileInputStream inPutStream = new FileInputStream(fileToFetch);
 		       ByteArrayOutputStream outPutStream = new ByteArrayOutputStream();
-		       int i;
-		       byte[] byteArray = new byte[1024];
-		       
-		       //Reads up to b.length bytes of data from this input stream into an array of bytes
-		       //reads the bytes from the fileToFetch
-			       while((i = inPutStream.read(byteArray))!=-1)
-			       {
-			    	   outPutStream.write(byteArray, 0, i);
-			       }
-			    
-			   //place the array of bytes into a new array
-			   byte[] compiledBytes = outPutStream.toByteArray();		       
+//		       int i;
+//		       byte[] byteArray = new byte[1024];
+//		       
+//		       //Reads up to b.length bytes of data from this input stream into an array of bytes
+//		       //reads the bytes from the fileToFetch
+//			       while((i = inPutStream.read(byteArray))!=-1)
+//			       {
+//			    	   outPutStream.write(byteArray, 0, i);
+//			       }
+//			    
+//			   //place the array of bytes into a new array
+//			   byte[] compiledBytes = outPutStream.toByteArray();	
+			   
+			   //Read Path instead of individually
+			   byte[] compiledBytes = Files.readAllBytes(path);
+			   
 		       //must close down the streams
 			   inPutStream.close();
 		       outPutStream.close();

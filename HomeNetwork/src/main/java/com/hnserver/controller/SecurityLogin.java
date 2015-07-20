@@ -56,6 +56,12 @@ public class SecurityLogin {
 			if (accessfailed != null) 
 			{
 				responseToAccess = "Username or Password incorrectly entered, please try again !";
+				
+				
+				//here could add attempts login process		
+				System.out.println("***DEBUG*** Failed attempt at login");
+				
+				
 			} 
 				else if (logout != null) 
 				{
@@ -65,7 +71,6 @@ public class SecurityLogin {
 					{
 						responseToAccess = "Access denied";
 					}
-			//return new ModelAndView("loginaccess", "response", responseToAccess);
 			return new ModelAndView("loginaccessCSS", "response", responseToAccess);
 		}
 	}
@@ -78,6 +83,8 @@ public class SecurityLogin {
 	@RequestMapping("errorloginpage")
 	public String ge403denied() 
 	{
+
+		
 		return "redirect:loginpage?accessdenied";
 	}
 }
