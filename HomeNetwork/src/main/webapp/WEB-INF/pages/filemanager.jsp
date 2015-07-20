@@ -1,61 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<!-- 
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link rel="stylesheet"
-	href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
 
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>File Manager Page</title>
-</head>
-<body>
-	<div align="Right">
-	<c:url value="/j_spring_security_logout" var="logoutUrl" />
-		<h3>
-			<a href="${logoutUrl}">Logout</a>
-		</h3>
-	</div>
-	
-	<section>
-
-	<div class="jumbotron">
-		<div class="container">
-			<h1>File Manager Page</h1>
-			<h3>Access public/private folders from this page</h3>
-			<p></p>
-			
-		
-			<form method="POST" action="<c:url value="/userpage" />">
-				<button type="submit">User home page</button>
-			</form>
-			<p></p>
-			<form method="POST"
-				action="<c:url value="/userpage/${user.userName}/public" />">
-				<button type="submit">Public Folder</button>
-			</form>
-			<p></p>
-			<form method="POST" action="<c:url value="/userpage/${user.userName}/private" />">
-				<button type="submit">Private Folder</button>
-			</form>
-		
-
-		</div>
-
-	</div>
-
-	</section>
-
-
-
-
-
-</body>
-</html>
-
--->
 
 <html>
 <head>
@@ -74,23 +20,15 @@ h1, h2, h3, h5, h6 {
 
 h4 {
 	text-align: right;
+}
 	p
 	{
 	text-align
 	:
-	center;
-}
+	left;
+     }
 
-.floated {
-	float: right;
-	margin-right: 50px;
-}
 
-.btn-group {
-	bottom: 15px;
-	position: relative;
-	top: 15px;
-}
 </style>
 <title>File Manager Page</title>
 </head>
@@ -173,12 +111,16 @@ h4 {
 
 		<div id="contentwrap">
 			<div id="content">
-				</section>
-				<div>
-					<h3>User: ${user.userName}</h3>
-				</div>
 
-				</section>
+					<h3>${user.userName}'s Files</h3>
+					<p></p>
+					<p> - You have : ${privateFolder} files in your Private Folder</p>
+					<p></p>
+					<p> - You have : ${publicFolder} files in your Public Folder.</p>
+					<p> (All public files are available to share via download)</p>
+		
+
+			
 			</div>
 		</div>
 

@@ -76,6 +76,10 @@ public String returnUserFileManagerPage(@PathVariable String userName, Map<Strin
 	 User temp = dataObject.getuserByName(userName);
  	 System.out.println("***DEBUG*** found user filemanager page for - " + temp.getUserName());
  	 model.put("user", temp);
+ 	 
+ 	 model.put("publicFolder", UserFileControl.getNumberOfFilesInFolder("public", userName));
+     model.put("privateFolder", UserFileControl.getNumberOfFilesInFolder("private", userName));
+ 	 
  	 return "filemanager"; 
 }
 
@@ -102,7 +106,7 @@ public String returnUserfolderPage(@PathVariable ("userName") String userName, @
 	 User temp = dataObject.getuserByName(userName);
  	 System.out.println("***DEBUG*** found " + folderType + " page for - " + temp.getUserName());
  	 model.put("user", temp);	 
-   	List<String> filesFound = UserFileControl.getAllFilesFromDirectory(folderType, userName);
+   	List<String> filesFound = UserFileControl.getAllFileNamesFromDirectory(folderType, userName);
  	model.put("filesFound", filesFound);
 	 	
 	 	if(folderType.equals("public"))
@@ -352,7 +356,7 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 			UserFileControl.folderExistsThenDelete("C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\" +  userName + "\\private\\" + fileName);
 			User temp = dataObject.getuserByName(userName);
 		 	model.put("user", temp);	 
-		   	List<String> filesFound = UserFileControl.getAllFilesFromDirectory("public", userName);
+		   	List<String> filesFound = UserFileControl.getAllFileNamesFromDirectory("public", userName);
 		 	model.put("filesFound", filesFound);
 			model.put("message", fileName + " was deleted from you private folder");
 
@@ -398,7 +402,7 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 			//return "filedeleted";
 		 	User temp = dataObject.getuserByName(userName);
 		 	model.put("user", temp);	 
-		   	List<String> filesFound = UserFileControl.getAllFilesFromDirectory("public", userName);
+		   	List<String> filesFound = UserFileControl.getAllFileNamesFromDirectory("public", userName);
 		 	model.put("filesFound", filesFound);
 			model.put("message", fileName + " was deleted from you public folder");
 

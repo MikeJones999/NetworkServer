@@ -120,14 +120,15 @@ public class UserFileControl {
 	 * @param userName
 	 * @return
 	 */
-	public static List<String> getAllFilesFromDirectory(String fileType,
-			String userName) {
+	public static List<String> getAllFileNamesFromDirectory(String folderType, String userName)
+	{
 		List<String> filesFound = new ArrayList<String>();
-		String location = "C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\"
-				+ userName + "\\" + fileType + "\\";
+		String location = "C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\" + userName + "\\" + folderType + "\\";
 
 		File directory = new File(location);
-		if (directory.exists()) { // get all files in list
+		if (directory.exists())
+		{
+		// get all files in list
 			String[] foundFiles = directory.list();
 
 			// may need to check for empty or null
@@ -208,12 +209,9 @@ public class UserFileControl {
 	public static String getFileType(String fileName, String fileLocation)
 	{
 		if(fileAlreadyexist(fileLocation, fileName))
-		{
-			File file = new File(fileLocation + fileName);
-			
+		{			
 			String fileType = "";
 			int count = 0;
-			char[] fileArray = fileName.toCharArray();
 			for (int i = fileName.length() -1; i > 0; i--)
 			{
 				if(fileName.charAt(i) == '.')
@@ -224,7 +222,7 @@ public class UserFileControl {
 			}
 			
 			 fileType = fileName.substring(count);
-	          System.out.println("***DEBUG*** file type: " + fileType);	
+	         System.out.println("***DEBUG*** file type: " + fileType);	
 	         return fileType;
 		}
 		
@@ -257,8 +255,20 @@ public class UserFileControl {
 				System.out.println("***DEBUG*** found image file returning true");
 			}					
 		}		
-		return result;
+		return result;		
+	}
+	
+	
+	public static int getNumberOfFilesInFolder(String folder, String userName)
+	{
+		int result = 0;
+		List<String> fileList = getAllFileNamesFromDirectory(folder, userName);
+		if (!fileList.isEmpty())
+		{
+			result = fileList.size();
+		}
 		
+		return result;
 	}
 	
 	
