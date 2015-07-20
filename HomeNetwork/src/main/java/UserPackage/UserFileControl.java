@@ -2,8 +2,13 @@ package UserPackage;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
 
@@ -114,11 +119,10 @@ public class UserFileControl {
 
 	/**
 	 * Finds all files in a directory specified - returns a string array of the
-	 * file names
-	 * 
-	 * @param fileType
-	 * @param userName
-	 * @return
+	 * file names 
+	 * @param String fileType
+	 * @param String userName
+	 * @return List<String>
 	 */
 	public static List<String> getAllFileNamesFromDirectory(String folderType, String userName)
 	{
@@ -162,6 +166,13 @@ public class UserFileControl {
 		return response;
 	}
 
+	/**
+	 * Copies a single file to a folder specified
+	 * @param String oldLocation
+	 * @param String newLocation
+	 * @param String file
+	 * @return boolean whether complete or not
+	 */
 	public static boolean copyFiletoFolder(String oldLocation, String newLocation, String file)
 	{
 		boolean complete = false;
@@ -190,8 +201,6 @@ public class UserFileControl {
 								{
 								    e.printStackTrace();
 								}
-					     
-							
 					}
 				}
 			}
@@ -258,7 +267,12 @@ public class UserFileControl {
 		return result;		
 	}
 	
-	
+	/**
+	 * Returns the number of files in a folder
+	 * @param String folder
+	 * @param String userName
+	 * @return int - number of files found
+	 */
 	public static int getNumberOfFilesInFolder(String folder, String userName)
 	{
 		int result = 0;
@@ -271,5 +285,30 @@ public class UserFileControl {
 		return result;
 	}
 	
+	
+	public static String[] getFileTimeAndDate(String folderType, String userName, String fileName) throws IOException
+	{
+	
+		String location = "C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\" + userName + "\\" + folderType + "\\";
+	
+	
+		String file = location + fileName;
+		System.out.println("Does File exist: " + UserFileControl.fileAlreadyexist(location, fileName));
+		
+		File nFile = new File(fileName);
+		
+	    Path path = Paths.get(file);	
+		String dets = Files.readAttributes(path, BasicFileAttributes.class).lastModifiedTime().toString();
+		
+		String[] formated = dets.split("T");
+		System.out.println(formated.toString());
+		String date = "Date: " + formated[0];
+		String time = "Time: " + formated[1].substring(0,8);
+		formated[0] = date;
+		formated[1] = time;
+		return formated;
+	}
+
+
 	
 }

@@ -122,7 +122,8 @@ btn_btn-primary {
 
 
 				<h5>You have clicked on file:-</h5>
-				<h3>${file}</h3>
+				<h3>${file}</h3> 
+				<h5>This was last modified: ${date}, ${time}</h5>
 				<h5>This file allows for the following actions...</h5>
 
 

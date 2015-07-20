@@ -91,9 +91,10 @@ public String returnUserFileManagerPage(@PathVariable String userName, Map<Strin
  * @param String folderType - public or private
  * @param Model model
  * @return userfolderpage.jsp
+ * @throws IOException 
  */
 @RequestMapping(value = "/userpage/{userName}/{folderType}")
-public String returnUserfolderPage(@PathVariable ("userName") String userName, @PathVariable ("folderType") String folderType, Map<String, Object> model)
+public String returnUserfolderPage(@PathVariable ("userName") String userName, @PathVariable ("folderType") String folderType, Map<String, Object> model) throws IOException
 {
 	 if(!SecurityChecker.isCorrectUser(userName))
 	 { 
@@ -106,7 +107,8 @@ public String returnUserfolderPage(@PathVariable ("userName") String userName, @
 	 User temp = dataObject.getuserByName(userName);
  	 System.out.println("***DEBUG*** found " + folderType + " page for - " + temp.getUserName());
  	 model.put("user", temp);	 
-   	List<String> filesFound = UserFileControl.getAllFileNamesFromDirectory(folderType, userName);
+    List<String> filesFound = UserFileControl.getAllFileNamesFromDirectory(folderType, userName);
+   	
  	model.put("filesFound", filesFound);
 	 	
 	 	if(folderType.equals("public"))
@@ -562,6 +564,9 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 		 	 model.put("user", temp);
 			 model.put("folderType", folderType); 
 			 model.put("file", fileName);
+			 String[] dateTime = UserFileControl.getFileTimeAndDate(folderType, temp.getUserName(), fileName);
+			 model.put("date", dateTime[0]);
+			 model.put("time", dateTime[1]);
 			 
 			 return "filehandlingpage";
 	}
