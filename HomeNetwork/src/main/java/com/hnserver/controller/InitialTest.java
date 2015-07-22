@@ -1,29 +1,31 @@
 package com.hnserver.controller;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+
+
+
+
+import hello.Greeting;
+
+import java.util.concurrent.atomic.AtomicLong;
+
+
+
+
 import org.springframework.web.bind.annotation.RequestMapping;
-
-/**
- * NO LONGER REQUIRED
- * @author mikieJ
- *
- */
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 
-//@Controller
+
+@RestController
 public class InitialTest {
-	/*
-	@RequestMapping("/")
-	public String welcome(Model model) {
-	System.out.println("**********************Calling home page ***************");
-	
-	model.addAttribute("message1", "Michael Jones MSc Computer Science Project");
-	model.addAttribute("message2", "Home Network Server");
-	return "startpage";
-	}
-	*/
-	
 
-	
+    private static final String template = "Hello, %s!";
+    private final AtomicLong counter = new AtomicLong();
+
+    @RequestMapping("/greeting")
+    public Greeting greeting(@RequestParam(value="name", defaultValue="World") String name) {
+        return new Greeting (counter.incrementAndGet(),
+                            String.format(template, name));
+    }
 }

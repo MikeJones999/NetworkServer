@@ -29,6 +29,13 @@
 					<target>${jdk.version}</target>
 				</configuration>
 			</plugin>
+			
+			<!--  Android -->
+			 <plugin>
+	                <groupId>org.springframework.boot</groupId>
+	                <artifactId>spring-boot-maven-plugin</artifactId>
+	            </plugin>
+			
 		</plugins>
 	</build>
 
@@ -108,5 +115,38 @@
 			<version>1.1.2</version>
 		</dependency>
 
-		</dependencies>
+
+			<!-- Android -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+             <version>2.6.0</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.2</version>
+            <scope>provided</scope>
+        </dependency>
+  
+  
+	</dependencies>
+	
+	
+		<!-- Android -->
+	  <repositories>
+	        <repository>
+	            <id>spring-releases</id>
+	            <url>https://repo.spring.io/libs-release</url>
+	        </repository>
+	    </repositories>
+	    <pluginRepositories>
+	        <pluginRepository>
+	            <id>spring-releases</id>
+	            <url>https://repo.spring.io/libs-release</url>
+	        </pluginRepository>
+	    </pluginRepositories>
+	
+	
 </project>
