@@ -8,6 +8,9 @@ public class User {
 	private String userRole;
 	
 	
+	
+	
+	
 	//only used for user_roles table - when deleting or changing role status
 	private int id;
 	
