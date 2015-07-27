@@ -628,18 +628,6 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 		       System.out.println("***DEBUG*** image found");
 		       FileInputStream inPutStream = new FileInputStream(fileToFetch);
 		       ByteArrayOutputStream outPutStream = new ByteArrayOutputStream();
-//		       int i;
-//		       byte[] byteArray = new byte[1024];
-//		       
-//		       //Reads up to b.length bytes of data from this input stream into an array of bytes
-//		       //reads the bytes from the fileToFetch
-//			       while((i = inPutStream.read(byteArray))!=-1)
-//			       {
-//			    	   outPutStream.write(byteArray, 0, i);
-//			       }
-//			    
-//			   //place the array of bytes into a new array
-//			   byte[] compiledBytes = outPutStream.toByteArray();	
 			   
 			   //Read Path instead of individually
 			   byte[] compiledBytes = Files.readAllBytes(path);
