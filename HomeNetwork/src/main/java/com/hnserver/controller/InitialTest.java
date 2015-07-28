@@ -30,8 +30,11 @@ import java.util.concurrent.atomic.AtomicLong;
 
 
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -70,7 +73,8 @@ public class InitialTest {
     @Autowired
     private UserDataObject dataObject;	
 
-
+    //old method of logging in - now use the spring security 
+    /*
     @RequestMapping("/restfulGateway")
     public User userObject(@RequestParam(value="name", defaultValue="mj") String name, @RequestParam(value="password") String password) //, @RequestParam(value="password", defaultValue="mj@123") String password) 
     {
@@ -92,7 +96,7 @@ public class InitialTest {
 		    return null;
 		}
     }
-    
+    */
     
     
 //    @RequestMapping(value= "/restfulGateway/mj/upload", method = RequestMethod.POST)
@@ -138,6 +142,36 @@ public class InitialTest {
          }
         //return RestUtil.getJsonSHttptatus(HttpStatus.NOT_ACCEPTABLE);
     }
+    
+    
+	@RequestMapping(value = "restfulGateway/login", method = RequestMethod.GET, produces = "application/json")
+	public @ResponseBody User findUser()
+	{
+		User userToReturn = null;
+		 System.out.println("***DEBUG*** connected");
+		 
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			String name = auth.getName();
+			
+			 System.out.println("***DEBUG*** user connected: " + name);
+			 
+
+	         if (name != null)
+	         {
+	        	 
+	        	 userToReturn = dataObject.getuserByName(name);
+	        	 
+	             System.out.println("***DEBUG*** file has been sent");
+
+	         }
+	         else 
+	         {
+	             System.out.println("***DEBUG*** file is missing");
+	           
+	         }
+		 
+		 return userToReturn;
+	}
     
 
 }
