@@ -99,37 +99,19 @@ public class InitialTest {
     */
     
     
-//    @RequestMapping(value= "/restfulGateway/mj/upload", method = RequestMethod.POST)
-//    public void userObject(@RequestParam(value="p0") String p0 , @RequestParam(value= "receivedFile") MultipartFile receivedFile) 
-//    {
-//        System.out.println("***DEBUG*** connected");
-//    	String result = "";
-//        if (receivedFile != null)
-//        {
-//            System.out.println("***DEBUG*** file has been sent");
-//            result = "sent";
-//        }
-//        else 
-//        {
-//            System.out.println("***DEBUG*** file is missing");
-//            result = "not Sent";
-//        }
-//        
-//       // return result;
-//     
-//    }
-    
     @RequestMapping(value = "/restfulGateway/mj/upload/{id}", method = RequestMethod.POST)
     @ResponseBody
-    public void uploadPhoto(@RequestParam("file") MultipartFile file, @PathVariable("id") Integer id) throws IllegalStateException, IOException {
-
-///  do something
-        System.out.println("***DEBUG*** connected");
-     	String result = "";
+    public String uploadPhoto(@RequestParam("file") MultipartFile file, @PathVariable("id") Integer id) throws IllegalStateException, IOException
+    {   
+    	
+    	//need to check ID of user and connected user
+    	
+     	String result = "false";
          if (file != null)
          {
-             System.out.println("***DEBUG*** file has been sent");
-             result = "sent";
+        	 System.out.println("***DEBUG*** connected - " + file.getOriginalFilename() + " found");
+             System.out.println("***DEBUG*** " + file.getOriginalFilename() + " has been sent");
+             result = "true";
              
              String fileName = file.getOriginalFilename();
              String saveLocation = "C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\" +  "mj" + "\\" + "public" + "\\";
@@ -138,9 +120,9 @@ public class InitialTest {
          else 
          {
              System.out.println("***DEBUG*** file is missing");
-             result = "not Sent";
          }
-        //return RestUtil.getJsonSHttptatus(HttpStatus.NOT_ACCEPTABLE);
+    
+         return result;
     }
     
     
@@ -160,13 +142,19 @@ public class InitialTest {
 	         {
 	        	 
 	        	 userToReturn = dataObject.getuserByName(name);
-	        	 
-	             System.out.println("***DEBUG*** file has been sent");
+	        	 if(userToReturn != null)
+	        	 {
+	        		 System.out.println("***DEBUG*** user " + name  + " is now logged in");
+	        	 }
+	        	 else
+	        	 {
+	        		 System.out.println("***DEBUG*** that user does not exist");
+	        	 }
 
 	         }
 	         else 
 	         {
-	             System.out.println("***DEBUG*** file is missing");
+	             System.out.println("***DEBUG*** no user found");
 	           
 	         }
 		 
