@@ -31,6 +31,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -46,6 +47,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import UserPackage.User;
 import UserPackage.UserDataObject;
+import UserPackage.UserFileControl;
 
 
 /*
@@ -111,11 +113,19 @@ public class InitialTest {
          {
         	 System.out.println("***DEBUG*** connected - " + file.getOriginalFilename() + " found");
              System.out.println("***DEBUG*** " + file.getOriginalFilename() + " has been sent");
-             result = "true";
+           
              
              String fileName = file.getOriginalFilename();
              String saveLocation = "C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\" +  "mj" + "\\" + "public" + "\\";
              file.transferTo(new File(saveLocation + fileName));
+             
+             if(UserFileControl.fileAlreadyexist(saveLocation, fileName))
+             {
+            	 //this does not include same file that already existed
+            	  result = "true";
+            	  System.out.println("***DEBUG*** file has been found in directory - uploaded correctly");
+             }
+             
          }
          else 
          {

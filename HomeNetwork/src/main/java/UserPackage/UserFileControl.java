@@ -145,11 +145,11 @@ public class UserFileControl {
 	}
 
 	/**
-	 * Check to see if file to be uploaded already exists
+	 * Check to see if file to be uploaded or uploaded already - exists
 	 * 
 	 * @param location
 	 * @param fileToBeChecked
-	 * @return
+	 * @return boolean
 	 */
 	public static boolean fileAlreadyexist(String location,
 			String fileToBeChecked) {
