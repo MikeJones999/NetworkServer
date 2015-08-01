@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import UserPackage.User;
 import UserPackage.UserDataObject;
 
 
@@ -86,5 +87,33 @@ public class SecurityLogin {
 
 		
 		return "redirect:loginpage?accessdenied";
+	}
+	
+	
+	/**
+	 * This is the default gateway that decides on role what site gateway you use - user or admin
+	 * This will therefore reset the number of incorrect logins
+	 * @return
+	 */
+	@RequestMapping("/startpage")
+	public String sendClientToCorrectGateway() 
+	{
+		
+		  Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	      String name = auth.getName();
+	      String resultPage = "redirect:/userpage/" + name;
+	      
+	      User user = dataObject.getuserByName(name);
+	      
+	      //will need to check the users login attempts if max'd then stop and redirect to initial page with warning - else irect to correct page
+	      
+	      if (user.getUserRole().equals("ROLE_ADMIN"))
+	      {
+	    	  System.out.println("***DEBU*** Admin has logged in - default gateway");
+	    	  resultPage = "adminaccess";
+	      }
+	      
+	      System.out.println("***DEBU*** User has logged in - default gateway");
+		return resultPage;
 	}
 }

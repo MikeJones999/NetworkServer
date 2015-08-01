@@ -30,12 +30,13 @@
 
 		<form-login login-page='/loginpage' username-parameter="username"
 			password-parameter="password" default-target-url="/startpage"
+			always-use-default-target="true"
 			authentication-failure-url="/loginpage?accessfailed" />
-
+			
 		<logout logout-success-url="/?logout" />
 	</http>
 
-
+<!--  always-use-default-target="true" -->
 
 	<authentication-manager>
 		<authentication-provider>
