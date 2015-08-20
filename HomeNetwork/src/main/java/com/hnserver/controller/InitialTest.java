@@ -65,7 +65,7 @@ public class InitialTest {
 
 
 
-@RestController
+//@RestController  - uncomment to use as controller
 public class InitialTest {
 
 //    private static final String template = "Hello, %s!";
