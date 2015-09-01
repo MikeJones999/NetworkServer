@@ -116,7 +116,12 @@ h4 {
 			<div id="content">
 				</section>
 				<div>
-					<h3>User: ${user.userName}</h3>
+					
+					<h3>Welcome ${user.userName}, always return to this page if you get lost with navigation through the web server.</h3>
+					
+					<h3>Always check that the person shown in the bottom left of each screen is you, if not contact your Administrator ASAP</h3>
+					
+					<h3>Remember: the system does not store your password in a readable format; Admins can only ever reset your password</h3>
 				</div>
 
 				</section>

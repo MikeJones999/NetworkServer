@@ -148,7 +148,7 @@ public class JdbcUserControl implements UserDataObject {
 			 results.close();
 			 ps.close();
 			 return returnedUser;
-			 }
+		}
 		 catch (SQLException e)
 		 {
 			throw new RuntimeException(e); 

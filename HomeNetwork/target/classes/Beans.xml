@@ -13,7 +13,7 @@
 		<property name="password" value="Abertawe@sql" />
 	</bean>
 
-   <!-- Definition for studentJDBCTemplate bean -->
+ 
    <bean id="userObject" 
       class="UserPackage.JdbcUserControl">
       <property name="dataSource"  ref="dataSource" />    
