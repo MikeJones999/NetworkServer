@@ -1,9 +1,19 @@
 package com.hnserver.controller;
 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -50,13 +60,14 @@ public class SecurityLogin {
 	//http://www.mkyong.com/spring-security/spring-security-form-login-example/
 	@RequestMapping("/loginpage")
 	public ModelAndView getLoginPage(
-	@RequestParam(required = false) String accessfailed, String logout, String accessdenied) 
+	@RequestParam(required = false) String accessfailed, String logout, String accessdenied, String locked) 
 	{
-		{
+
 			String responseToAccess = "";
 			if (accessfailed != null) 
 			{
 				responseToAccess = "Username or Password incorrectly entered, please try again !";
+				
 				
 				
 				//here could add attempts login process		
@@ -72,8 +83,13 @@ public class SecurityLogin {
 					{
 						responseToAccess = "Access denied";
 					}
+			
+						else if (locked != null) 
+						{
+							responseToAccess = "Account is locked - contact Admin for assistance";
+						}
 			return new ModelAndView("loginaccessCSS", "response", responseToAccess);
-		}
+
 	}
 	
 	
@@ -104,16 +120,34 @@ public class SecurityLogin {
 	      String resultPage = "redirect:/userpage/" + name;
 	      
 	      User user = dataObject.getuserByName(name);
+	      int securityCount = dataObject.getUserSecurityCount(user.getUserName());
 	      
-	      //will need to check the users login attempts if max'd then stop and redirect to initial page with warning - else irect to correct page
-	      
-	      if (user.getUserRole().equals("ROLE_ADMIN"))
+	      if (securityCount < 5)
 	      {
-	    	  System.out.println("***DEBU*** Admin has logged in - default gateway");
-	    	  resultPage = "adminaccess";
+	    	  //successful log in reset security count
+	    	  if (securityCount != 0)
+	    	  {
+	    		  dataObject.resetSecurityCount(user); 
+	    	  }
+	    	  
+		      if (user.getUserRole().equals("ROLE_ADMIN"))
+		      {
+		    	  System.out.println("***DEBUG*** Admin has logged in - default gateway");
+		    	  resultPage = "adminaccess";
+		      }
+		      
+		      System.out.println("***DEBUG*** User has logged in - default gateway");
+			 return resultPage;
 	      }
-	      
-	      System.out.println("***DEBU*** User has logged in - default gateway");
-		return resultPage;
+	      else
+	      {
+	    	 
+	    	  //Account is locked - provide feedback to the JSP
+	    	  System.out.println("***DEBUG*** ACCOUNT IS LOCKED - seek assistance from Admin");
+	    	  return "redirect:loginpage?locked"; 
+	      }
+		
 	}
+
+
 }

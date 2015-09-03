@@ -14,7 +14,8 @@ public class PasswordEncoderChecker {
  
 	for (int i = 0; i < 10; i++)
 	{
-		String unhashedPassword = "jeff@123";
+		//String unhashedPassword = "jeff@123";
+		String unhashedPassword = "Admin@Server";
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		String newHashedPW = encoder.encode(unhashedPassword);
  		System.out.println("Password Encoded:- " + newHashedPW);

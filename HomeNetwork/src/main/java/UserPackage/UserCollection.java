@@ -15,6 +15,7 @@ public class UserCollection implements RowMapper<User> {
 	    user.setUserName(row.getString("username"));
 	    user.setPassword(row.getString("password"));
 	    user.setUserRole(row.getString("ROLE"));
+	    
 		return user;
 	}
 

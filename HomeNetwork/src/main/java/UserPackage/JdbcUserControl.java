@@ -38,11 +38,12 @@ public class JdbcUserControl implements UserDataObject {
 		String userPassword = user.getPassword();
 		
 		//define Mysql statement - 
-		String sqlState = "INSERT INTO users (username, password, enabled) VALUES (?, ?, ?)";
+		String sqlState = "INSERT INTO users (username, password, enabled, securitycount ) VALUES (?, ?, ?, ?)";
 		
 		//pass information into the tempObject 
 		int enabled = 1;
-		jdbcTempObject.update(sqlState, userName, userPassword, enabled);
+		int securitycount = 0;
+		jdbcTempObject.update(sqlState, userName, userPassword, enabled, securitycount);
 		
 		System.out.println("***Debug*** Insert User = " + userName + " user password = " + userPassword);		
 		
@@ -190,10 +191,14 @@ public class JdbcUserControl implements UserDataObject {
 			 results.close();
 			 ps.close();
 			 return returnedUser.getId();
-			 }
+		 }
 		 catch (SQLException e)
 		 {
 			throw new RuntimeException(e); 
+		 }
+		 catch (NullPointerException e)
+		 {
+			 e.printStackTrace();
 		 }
 		 finally
 		 //shut down connection to database if not already closed
@@ -206,6 +211,7 @@ public class JdbcUserControl implements UserDataObject {
 				 } catch (SQLException e) {}
 			 }
 		 }
+		return -1;
 	}
 	
 	public String getUserRole(String user) 
@@ -314,6 +320,78 @@ public class JdbcUserControl implements UserDataObject {
 	{
 		List<User> nonAdmins = getAllNonAdminsSQL();		
 		return nonAdmins;
+	}
+
+	@Override
+	public int getUserSecurityCount(String user) 
+	{
+		
+		 String sqlState = "SELECT * from users where username = ?";		 
+		 Connection connection = null;
+		 try
+		 {
+			 connection = ds.getConnection();
+			 PreparedStatement ps = (PreparedStatement) connection.prepareStatement(sqlState);
+			 ps.setString(1, user);
+			 int securityCount = 5;
+			 
+			 ResultSet results = ps.executeQuery();
+			 if (results.next())
+			 {				
+				 securityCount = results.getInt("securitycount");
+			 }
+			 results.close();
+			 ps.close();
+			 return securityCount;
+		 }
+		 catch (SQLException e)
+		 {
+			throw new RuntimeException(e); 
+		 }
+		 catch (NullPointerException e)
+		 {
+			 e.printStackTrace();
+		 }
+		 finally
+		 //shut down connection to database if not already closed
+		 {
+			 if (connection != null)
+			 {
+				 try
+				 {
+					 connection.close();
+				 } catch (SQLException e) {}
+			 }
+		 }
+		return 5;
+	}
+	
+	/**
+	 * Update User security count in user database
+	 */
+	public void resetSecurityCount(User user) 
+	{
+		
+		String username = user.getUserName();
+	    String sqlState = "update users set securitycount = ? where username = ?";
+	      jdbcTempObject.update(sqlState, 0, username);
+	      System.out.println("***DEBUG*** Updated Record with clear security count for user = " + username );
+	}
+
+	@Override
+	public void incrementSecurityCount(User user, int current) {
+		
+		if(current != 5)
+		{
+		String username = user.getUserName();
+	    String sqlState = "update users set securitycount = ? where username = ?";
+	      jdbcTempObject.update(sqlState, current + 1, username);
+	      System.out.println("***DEBUG*** Updated Record with increased security count for user = " + username );
+		}
+		else
+		{
+			System.out.println("***DEBUG*** Already at maximum");
+		}
 	}
 
 }

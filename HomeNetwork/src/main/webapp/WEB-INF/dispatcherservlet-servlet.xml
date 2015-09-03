@@ -19,7 +19,7 @@
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost:3306/spring_security" />
+		<property name="url" value="jdbc:mysql://localhost:3306/home_network" />
 		<property name="username" value="root" />
 		<property name="password" value="Abertawe@sql" />
 	</bean>
@@ -29,6 +29,8 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
+
+	<bean id="loginHandler" class="fileManager.LoginHandler"/>
 
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />

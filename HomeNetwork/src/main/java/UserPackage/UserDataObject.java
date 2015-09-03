@@ -18,6 +18,8 @@ public interface UserDataObject {
 	public boolean checkUserExists(String userName);
 	List<User> getAllAdminsSQL();
 	List<User> getAllNonAdminsSQL();
-	
+	public int getUserSecurityCount(String user);
+	public void resetSecurityCount(User user); 
+	public void incrementSecurityCount(User user, int current); 
 	
 }

@@ -31,8 +31,12 @@
 		<form-login login-page='/loginpage' username-parameter="username"
 			password-parameter="password" default-target-url="/startpage"
 			always-use-default-target="true"
-			authentication-failure-url="/loginpage?accessfailed" />
+		
+			authentication-failure-handler-ref="loginHandler" />
 			
+		<!-- authentication-failure-url="/loginpage?accessfailed" -->
+				
+				
 		<logout logout-success-url="/?logout" />
 	</http>
 
@@ -45,7 +49,7 @@
 				<password-encoder ref="passwordEncoder"/>
 				
 			<jdbc-user-service data-source-ref="dataSource"
-				users-by-username-query="select username,password, enabled 
+				users-by-username-query="select username,password, enabled, securitycount 
 										from users 
 										where username=?"
 				authorities-by-username-query="select username, role from user_roles where username =?  " />

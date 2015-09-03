@@ -135,9 +135,12 @@ public class UserFileControl {
 		// get all files in list
 			String[] foundFiles = directory.list();
 
-			// may need to check for empty or null
-			for (int i = 0; i < foundFiles.length; i++) {
-				filesFound.add(foundFiles[i]);
+			if (foundFiles != null)
+			{	// may need to check for empty or null
+				for (int i = 0; i < foundFiles.length; i++) 
+				{
+					filesFound.add(foundFiles[i]);
+				}
 			}
 		}
 
@@ -157,9 +160,14 @@ public class UserFileControl {
 		File directory = new File(location);
 		if (directory.exists()) { // get all files in list
 			String[] foundFiles = directory.list();
-			for (int i = 0; i < foundFiles.length; i++) {
-				if (foundFiles[i].equalsIgnoreCase(fileToBeChecked)) {
-					response = true;
+			if (foundFiles != null)
+			{
+				for (int i = 0; i < foundFiles.length; i++) 
+				{
+					if (foundFiles[i].equalsIgnoreCase(fileToBeChecked)) 
+					{
+						response = true;
+					}
 				}
 			}
 		}
@@ -183,24 +191,27 @@ public class UserFileControl {
 			if(oldDirectory.exists())
 			{			//get all files in list
 				String[] foundFiles = oldDirectory.list();
-				for(int i = 0; i < foundFiles.length; i++)
+				if (foundFiles != null)
 				{
-					if (foundFiles[i].equalsIgnoreCase(file))
+					for(int i = 0; i < foundFiles.length; i++)
 					{
-						System.out.println("***DEBUG*** file found");
-						  String fullFilePath = oldLocation + foundFiles[i];
-					     File fileToCopy = new File(fullFilePath);	
-
-							try {
-							
-								    FileUtils.copyFileToDirectory(fileToCopy, newDirectory);
-								    complete = true;
-								    System.out.println("***DEBUG*** file copied");
-								}
-							catch (IOException e) 
-								{
-								    e.printStackTrace();
-								}
+						if (foundFiles[i].equalsIgnoreCase(file))
+						{
+							System.out.println("***DEBUG*** file found");
+							  String fullFilePath = oldLocation + foundFiles[i];
+						     File fileToCopy = new File(fullFilePath);	
+	
+								try {
+								
+									    FileUtils.copyFileToDirectory(fileToCopy, newDirectory);
+									    complete = true;
+									    System.out.println("***DEBUG*** file copied");
+									}
+								catch (IOException e) 
+									{
+									    e.printStackTrace();
+									}
+						}
 					}
 				}
 			}
@@ -295,13 +306,13 @@ public class UserFileControl {
 		String file = location + fileName;
 		System.out.println("Does File exist: " + UserFileControl.fileAlreadyexist(location, fileName));
 		
-		File nFile = new File(fileName);
+		//File nFile = new File(fileName);
 		
 	    Path path = Paths.get(file);	
 		String dets = Files.readAttributes(path, BasicFileAttributes.class).lastModifiedTime().toString();
 		
 		String[] formated = dets.split("T");
-		System.out.println(formated.toString());
+		//System.out.println(formated.toString());
 		String date = "Date: " + formated[0];
 		String time = "Time: " + formated[1].substring(0,8);
 		formated[0] = date;
