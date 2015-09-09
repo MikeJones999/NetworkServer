@@ -27,8 +27,7 @@ public class UserFileControl {
 		File folderDir = new File(dir);
 		if (!folderDir.exists()) {
 			// returns true if directories were created - false otherwise
-			// make a username\\public and a username\\private
-			if (folderDir.mkdirs()) {
+				if (folderDir.mkdirs()) {
 				return "Folder created in : " + dir;
 			} else {
 				return "Folder Was NOT created ";
@@ -73,28 +72,19 @@ public class UserFileControl {
 					System.out.println("Recursive call");
 				}
 
-				if (dir.list().length == 0) {
-
-					// Path input =
-					// FileSystems.getDefault().getPath(dir.getAbsolutePath());
-					// Path input = dir.toPath();
-					// Files.delete(input);
+				if (dir.list().length == 0)
+				{
 					dir.delete();
-					System.out.println("2nd call - Folder Deleted : " + dir);
+					System.out.println("***DEBUG*** 2nd call - Folder Deleted : " + dir);
 				}
 
 			}
 		} else // file is not a directory it is a file
 		{
-			// Path input =
-			// FileSystems.getDefault().getPath(dir.getAbsolutePath());
-			// Path input = dir.toPath();
-			// Files.delete(input);
-			dir.delete();
-			System.out
-					.println("Folder/file Deleted : " + dir.getAbsolutePath());
 
-			// do a check here for thumbs.db - and change name of directory
+			dir.delete();
+			System.out.println("Folder/file Deleted : " + dir.getAbsolutePath());
+
 		}
 	}
 
@@ -250,7 +240,7 @@ public class UserFileControl {
 	}
 	
 	/**
-	 * Crude way of checking file type of string rather than of file
+	 * Way of checking file type of string rather than of file
 	 * @param String fileType
 	 * @return boolean
 	 */
@@ -296,7 +286,14 @@ public class UserFileControl {
 		return result;
 	}
 	
-	
+	/**
+	 * Get the time and date of last file modification
+	 * @param folderType
+	 * @param userName
+	 * @param fileName
+	 * @return String[] date and time 
+	 * @throws IOException
+	 */
 	public static String[] getFileTimeAndDate(String folderType, String userName, String fileName) throws IOException
 	{
 	

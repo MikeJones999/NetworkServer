@@ -30,24 +30,22 @@ public class SecurityLogin {
 	private UserDataObject dataObject;	
 	
 	/**
-	 * take user to user page - this will need to have be the specific user to secure all files
-	 * @return
+	 * Takes user to user page - this will need to have be the specific user to secure all files
+	 * @return redirect to userpage controller
 	 */
 	@RequestMapping("/userpage")
 	public String getUserPage() 
 	{
 		//Obtains the username - name in spring security's case - redirect using name to userpage/{username}		
-		//http://www.mkyong.com/spring-security/get-current-logged-in-username-in-spring-security/
 		  Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	      String name = auth.getName(); //get logged in username
-		
-		System.out.println("calling profile page for user");
+	
 		return "redirect:/userpage/" + name;
 	}
 
 	/**
 	 * takes user to admin page - this is a universal page for all admins with access
-	 * @return
+	 * @return String adminaccess.jsp
 	 */
 	@RequestMapping("/adminpage")
 	public String getAdminPage() 
@@ -58,6 +56,14 @@ public class SecurityLogin {
 	//***Reference*** - assistance using the security element obtained from here
 	//http://www.beingjavaguys.com/2014/05/spring-security-authentication-and.html?m=1 &
 	//http://www.mkyong.com/spring-security/spring-security-form-login-example/
+	/**
+	 * Responds to spring security log out, failed log in and account being locked.
+	 * @param accessfailed
+	 * @param logout
+	 * @param accessdenied
+	 * @param locked
+	 * @return ModelAndView 
+	 */
 	@RequestMapping("/loginpage")
 	public ModelAndView getLoginPage(
 	@RequestParam(required = false) String accessfailed, String logout, String accessdenied, String locked) 
@@ -66,13 +72,8 @@ public class SecurityLogin {
 			String responseToAccess = "";
 			if (accessfailed != null) 
 			{
-				responseToAccess = "Username or Password incorrectly entered, please try again !";
-				
-				
-				
-				//here could add attempts login process		
-				System.out.println("***DEBUG*** Failed attempt at login");
-				
+				responseToAccess = "Username or Password incorrectly entered, please try again !";				
+     			System.out.println("***DEBUG*** Failed attempt at login");				
 				
 			} 
 				else if (logout != null) 
@@ -89,19 +90,16 @@ public class SecurityLogin {
 							responseToAccess = "Account is locked - contact Admin for assistance";
 						}
 			return new ModelAndView("loginaccessCSS", "response", responseToAccess);
-
 	}
 	
 	
 	/**
 	 * this page takes user back to the login page (above) but with the added warning about the login error
-	 * @return
+	 * @return String redirects to loginpage controller access being denied
 	 */
 	@RequestMapping("errorloginpage")
 	public String ge403denied() 
-	{
-
-		
+	{		
 		return "redirect:loginpage?accessdenied";
 	}
 	
@@ -109,7 +107,7 @@ public class SecurityLogin {
 	/**
 	 * This is the default gateway that decides on role what site gateway you use - user or admin
 	 * This will therefore reset the number of incorrect logins
-	 * @return
+	 * @return String resultPage.jsp
 	 */
 	@RequestMapping("/startpage")
 	public String sendClientToCorrectGateway() 

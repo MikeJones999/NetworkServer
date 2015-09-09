@@ -3,6 +3,11 @@ package UserPackage;
 
 import java.util.List;
 
+/**
+ * Interface for database communication
+ * @author mikieJ
+ *
+ */
 public interface UserDataObject {
 
 	

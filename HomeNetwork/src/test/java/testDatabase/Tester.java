@@ -18,8 +18,7 @@ public class Tester {
 
 	public static void main(String[] args) {
 		      ApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");
-		      //ApplicationContext context = new ClassPathXmlApplicationContext("/dispatcherservlet-servlet.xml");
-		      
+				      
 		      JdbcUserControl userObject = (JdbcUserControl)context.getBean("userObject");
 		      
 		      

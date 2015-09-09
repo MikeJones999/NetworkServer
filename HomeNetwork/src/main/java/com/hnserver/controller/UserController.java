@@ -26,7 +26,12 @@ public class UserController {
 @Autowired
 private UserDataObject dataObject;
 
-	
+	/**
+	 * Returns user page for specific user
+	 * @param userName
+	 * @param model
+	 * @return String userprofilepage.jsp
+	 */
 	 @RequestMapping(value = "/userpage/{userName}")
 		public String returnUserPage(@PathVariable String userName, Map<String, Object> model)
 		{
@@ -77,7 +82,12 @@ private UserDataObject dataObject;
 						
 		}
 
-	 
+	 /**
+	  * Redirect to userprofilepage.jsp
+	  * @param userName
+	  * @param model
+	  * @return String userprofilepage.jsp
+	  */
 	 @RequestMapping(value = "/userpage/redirect")
 		public String redirectToUserPage(@PathVariable String userName, Map<String, Object> model)
 		{
@@ -97,7 +107,12 @@ private UserDataObject dataObject;
 		}
 	 */
 	 
-	 //get method to get the user details to populate form
+	 /**
+	  * Get user details to populate form
+	  * @param userName
+	  * @param model
+	  * @return String useredit.jsp
+	  */
 	 @RequestMapping(value = "/userpage/{userName}/editprofile", method = RequestMethod.GET)
 		public String editUserPage(@PathVariable("userName") String userName, Map<String, Object> model)
 		{
@@ -119,7 +134,7 @@ private UserDataObject dataObject;
 	  * Post Controller for Updating User's profile login details
 	  * @param User
 	  * @param BindingResult
-	  * @return String Jsp
+	  * @return String useredit.jsp
 	  */
 	 @RequestMapping(value = "/userpage/{userName}", method = RequestMethod.POST)
 		public String updateUserPage(@ModelAttribute("user") User user, BindingResult res, Map<String, Object> model)

@@ -38,12 +38,17 @@ public class AdminController {
 private UserDataObject dataObject;
 
 
-
+	/**
+	 * Add user page. Once user has been entered into the view, 
+	 * this method checks the validity of the user details
+	 * @param model
+	 * @param user
+	 * @param res
+	 * @return String view - returns same page (adduser.jsp) with feedback
+	 */
 	@SuppressWarnings("resource")
 	@RequestMapping(value = "/adminpage/usersAdded", method = RequestMethod.POST)
 	public String addUser(ModelMap model, @ModelAttribute("user") User user, BindingResult res) {
-		System.out
-				.println("**********************Calling adduser page ***************");
 		
 		//Added the security element of BCryptPasswordEncoder for password protection
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -53,13 +58,7 @@ private UserDataObject dataObject;
 		String returnedUserName = user.getUserName();
 		String returnedUserPassword = user.getPassword();
 		String returnedUserRole = user.getUserRole();
-		System.out.println("found use role: " + returnedUserRole);
-		
-		
 		user.setPassword(encodeduserPassword);
-		
-		
-		//String message = "";
 		
 		if (returnedUserName.equals(""))
 		{
@@ -70,7 +69,7 @@ private UserDataObject dataObject;
 		else if (returnedUserPassword.equals("")|| returnedUserPassword.length() < 5) 
 		{
 			// setup password standards - check with spring
-			System.out.println("No password chosen or too small");
+			System.out.println("***DEBUG*** No password chosen or too small");
 
 			model.addAttribute("message", "No password chosen or too small");
 			return "adduser";
@@ -78,16 +77,8 @@ private UserDataObject dataObject;
 		else 
 		{		
 			String name = user.getUserName();	
-			/* DEBUG 
+				
 		
-			// correctly entered name - add user
-			System.out.println("User added");
-			System.out.println("username: " + name
-					+ ", password: " + user.getPassword());
-
-			*/
-			
-			// this needs to be in a object of its own - move later once tested
 			ApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");
 			
 
@@ -98,11 +89,6 @@ private UserDataObject dataObject;
 			{				
 			
 				JdbcUserControl userObject = (JdbcUserControl) context.getBean("userObject");
-				//User user1 = new User();
-				//user.setUserName(returnedUserName);
-				//user.setPassword(returnedUserPassword);
-				
-				//should be dataObject.insert(user);
 				userObject.insert(user);
 				
 				
@@ -117,7 +103,6 @@ private UserDataObject dataObject;
 			}
 			else
 				{
-					System.out.println("UserName Already Exists - please try again");
 	
 					model.addAttribute("message", "UserName Already Exists - please try again");
 					return "adduser";
@@ -126,16 +111,11 @@ private UserDataObject dataObject;
 
 	}
 
-//	@RequestMapping("/adminpage/addUsers")
-//	public ModelAndView showAddUserPage() {
-//
-//		// needs command - apparently according to spring docs requires command
-//		return new ModelAndView("adduser", "command", new User());
-//	}
+
 	
 	/**
 	 * Used to populate the list option for Role
-	 * 
+	 * @return List<String> possible roles
 	 */
 	ModelAndView mav = null;
 	@ModelAttribute("roleOptions")
@@ -150,7 +130,11 @@ private UserDataObject dataObject;
 		return roleOptions;
 	}
 	
-	
+	/**
+	 * Move to the show Add User page
+	 * @param model
+	 * @return String view adduser.jsp
+	 */
 	@RequestMapping("/adminpage/addUsers")
 	public String showAddUserPage(Map<String, User> model) {
 
@@ -163,19 +147,21 @@ private UserDataObject dataObject;
 
 	
 	
-	
+	/**
+	 * Redirection to admin page
+	 * @return String redirects to adminpage controller
+	 */
 	@RequestMapping("/adminRedirect")
-	public String redirectToAdmin() {
-		System.out.println("**********************Calling Admin redirect page ***************");
-
+	public String redirectToAdmin() 
+	{
 		return "redirect:adminpage";
 	}
 	
 	
 	/**
-	 * display page with all users
+	 * Display page with all users
 	 * @param model
-	 * @return
+	 * @return String view allusers.jsp
 	 */
 	@RequestMapping("/adminpage/allusers")
 	public String listAllUsers(Model model) 
@@ -193,7 +179,7 @@ private UserDataObject dataObject;
 	 * Deletes the user and redirects to alluser page - deleted user should now no longer be visible
 	 * @param userName
 	 * @param model
-	 * @return
+	 * @return String redirects to allusers controller
 	 */
     @RequestMapping(value = "/adminpage/deleteuserconfirm/{userName}")
 	public String deletUserConfirmation(@PathVariable String userName, Model model)
@@ -219,14 +205,12 @@ private UserDataObject dataObject;
 	 * Display page of the user that has been selected for deletion
 	 * @param userName
 	 * @param model
-	 * @return
+	 * @return String view unknownuser.jsp
 	 */
 	@RequestMapping(value = "/adminpage/deleteUser/{userName}")
 	public String deleteUser(@PathVariable String userName, Model model)
 	{
-		 ApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");
-	      //ApplicationContext context = new ClassPathXmlApplicationContext("/dispatcherservlet-servlet.xml");
-	      
+		 ApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");     
 	     JdbcUserControl userObject = (JdbcUserControl)context.getBean("userObject");
 		
 	     User user = userObject.getuserByName(userName);
@@ -234,9 +218,7 @@ private UserDataObject dataObject;
 	     
 	     if (user != null & role != "unknown")
 	     {
-	    	System.out.println("found user: " + user.getUserName());
-			System.out.println("hurrah");
-			System.out.println("returned user to delete: " + userName);		
+
 			model.addAttribute("message", userName);
 			
 			if (role.equals("ROLE_ADMIN"))
@@ -256,10 +238,7 @@ private UserDataObject dataObject;
 				}
 			}
 			
-			//could find user here and send him through instead of new user();
-		//return new ModelAndView("deleteuser", "command", user.getUserName());
-			
-			//model.addAttribute("allusers", dataObject.getAllUsers());
+	
 			//need to have this to close the connection in principle
 			((ClassPathXmlApplicationContext)context).close();
 			return "deleteuser";
@@ -267,7 +246,6 @@ private UserDataObject dataObject;
 	     else
 	     {
 	    	 
-	    	 System.out.println("*******Error: " +  userName + " does not exist**************");
 	       	 model.addAttribute("warnimgMessage", userName);
 	       	 
 	     	//need to have this to close the connection in principle
@@ -277,6 +255,12 @@ private UserDataObject dataObject;
 	     }
 	}
 	
+	/**
+	 * Resets Users password
+	 * @param userName
+	 * @param model
+	 * @return String View alluser.jsp
+	 */
 	@RequestMapping(value ="/adminpage/passwordReset/{userName}", method = RequestMethod.GET)
 	public String resetUserPassword(@PathVariable ("userName") String userName, Model model)
 	{
@@ -308,7 +292,6 @@ private UserDataObject dataObject;
 		
 		
 	}
-//	model.add("passwordResetConfirmation", "password Reset to " + userName + "@123");
 
 	
 }

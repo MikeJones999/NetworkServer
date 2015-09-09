@@ -23,6 +23,7 @@ public class LoginHandler  implements AuthenticationFailureHandler
 	/**
 	 * This takes in the url request with the posted data from the dispatcher servlet (passed by the login form)
 	 * Identified the username provided and then once established as legitimate - increments their security count by 1
+	 * 
 	 */
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException ae) throws IOException, ServletException 

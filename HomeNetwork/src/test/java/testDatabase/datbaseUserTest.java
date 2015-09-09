@@ -34,8 +34,7 @@ public class datbaseUserTest {
 		
 		
 		   ApplicationContext context = new ClassPathXmlApplicationContext("Beans.xml");
-		      //ApplicationContext context = new ClassPathXmlApplicationContext("/dispatcherservlet-servlet.xml");
-		      
+     
 		   userObject = (JdbcUserControl)context.getBean("userObject");
 	}
 	

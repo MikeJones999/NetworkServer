@@ -13,7 +13,11 @@ import org.springframework.web.bind.annotation.RequestParam;
  *
  */
 
-
+/**
+ * initial page when providing the ip of the homeserver
+ * Returns String startpage.jsp
+ *
+ */
 @Controller
 public class InitialLogin {
 	
@@ -21,12 +25,7 @@ public class InitialLogin {
 	public String welcome(
 			@RequestParam(required = false) String logout, Model model) 
 	{
-		System.out.println("**********************Calling home page ***************");
-		
-//		model.addAttribute("message1", "Michael Jones");
-//		model.addAttribute("message2", "MSc Computer Science Project");
-//		model.addAttribute("message3", "Home Network Server");
-		
+	
 		//used for logout action - returns here indicating to user that they have been logged out
 		String responseToAccess = "";
 		if (logout != null) 

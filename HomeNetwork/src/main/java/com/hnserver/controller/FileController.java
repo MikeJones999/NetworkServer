@@ -49,12 +49,13 @@ import UserPackage.User;
 import UserPackage.UserDataObject;
 import UserPackage.UserFileControl;
 
-//reference https://spring.io/guides/gs/uploading-files/
+//reference - below web sites and tutorials assisted in helping to construct this web server
+//https://spring.io/guides/gs/uploading-files/
 // & http://www.mkyong.com/spring-mvc/spring-mvc-file-upload-example/
 // & http://crunchify.com/spring-mvc-tutorial-how-to-upload-multiple-files-to-specific-location/
 // & http://viralpatel.net/blogs/spring-mvc-multiple-file-upload-example/
+
 @Controller
-//@SpringBootApplication
 public class FileController {
 
 @Autowired
@@ -187,7 +188,7 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 	 * @param model
 	 * @param mod
 	 * @param res
-	 * @return
+	 * @return redirection to userpage controller or Spring security
 	 * @throws IllegalStateException
 	 * @throws IOException
 	 */
@@ -218,7 +219,7 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 	 * @param userName - user Name logged into system
 	 * @param fileManager - FileManager
 	 * @param Model
-	 * @return
+	 * @return String filesUploaded.jsp or userfileupload.jsp depending on the input and success
 	 * @throws IllegalStateException
 	 * @throws IOException
 	 */
@@ -350,7 +351,6 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 		 }
 		
 		String fileType = fileName ;
-		//String temp = fileName + ".pub";
 		System.out.println("***DEBUG*** looking for file: " + fileName);
 		String location = "C:\\Users\\mikieJ\\Documents\\MSc_UserFolder\\" +  userName + "\\" + "private" + "\\";
 		model.put("folderType", "private");
@@ -381,7 +381,7 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 	 * @param User.userName
 	 * @param fileName  {fileName:.+} required to stop string cutting anything off after . - type can now be found
 	 * @param model
-	 * @return
+	 * @return String view userfolderpage.jsp
 	 * @throws IOException 
 	 */
 	@RequestMapping(value = "/userpage/{userName}/public/delete/{fileName:.+}",  method = RequestMethod.GET)
@@ -523,7 +523,7 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 	
 	/**
 	 * Obtains network IP of the server/Host - Created to assist with constructing the link address for file downloading 
-	 * @return String ip
+	 * @return String ip address
 	 * @throws UnknownHostException
 	 */
 	public String getIpOfHostMachine() throws UnknownHostException
@@ -536,6 +536,17 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 		
 	}
 	
+	/**
+	 * Allows for an individual file to have the options available depending on what folder it is in
+	 * and what type of file it is
+	 * @param userName
+	 * @param folderType
+	 * @param fileName
+	 * @param model
+	 * @return String view redirects to userpage controller is incorrect folder supplied, else 
+	 * returns  filehandlingpage.jsp
+	 * @throws IOException
+	 */
 	@RequestMapping(value ="/userpage/{userName}/{folderType}/handlefile/{fileName:.+}",  method = RequestMethod.GET)
 	public String handleIndividualFile(@PathVariable ("userName") String userName, @PathVariable ("folderType") String folderType, @PathVariable ("fileName") String fileName, Map<String, Object> model) throws IOException 
 	{
@@ -574,7 +585,14 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 			 return "filehandlingpage";
 	}
 	
-	
+	/**
+	 * Alls a file to be copied from private folder to public folder
+	 * @param userName
+	 * @param fileName
+	 * @param model
+	 * @return String filehandlingpage.jsp
+	 * @throws IOException
+	 */
 	@RequestMapping(value ="/userpage/{userName}/private/copyFiletoPublic/{fileName:.+}")
 	public String copyFileToPublciFolder(@PathVariable ("userName") String userName, @PathVariable ("fileName") String fileName, Map<String, Object> model) throws IOException 
 	{
@@ -612,7 +630,18 @@ public String returnUserfolderUploadPage(@PathVariable ("userName") String userN
 		
 	
 	
-//	reference from http://stackoverflow.com/questions/10066349/spring-display-image-on-jsp-file  19/07/2017
+//	reference from to assist with understanding setup
+	//http://stackoverflow.com/questions/10066349/spring-display-image-on-jsp-file  19/07/2017
+	/**
+	 * Displays image on screen
+	 * @param response
+	 * @param fileName
+	 * @param folderType
+	 * @param userName
+	 * @param model
+	 * @return String imageviewer.jsp with image of file
+	 * @throws IOException
+	 */
 	   @RequestMapping(value = "/userpage/{userName}/{folderType}/image/{fileName:.+}", method = RequestMethod.GET)
 	    public String displayPicture(HttpServletResponse response, @PathVariable ("fileName") String fileName, @PathVariable ("folderType") String folderType, @PathVariable ("userName") String userName,  Map<String, Object> model) throws IOException
 	   {

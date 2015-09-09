@@ -26,7 +26,15 @@ public class RestfulController {
 	  @Autowired
 	    private UserDataObject dataObject;		
 	
-
+		/**
+		 * Uploads file from Android application to server
+		 * @param file
+		 * @param userName
+		 * @param id
+		 * @return String true or false
+		 * @throws IllegalStateException
+		 * @throws IOException
+		 */
 	    @RequestMapping(value = "/restfulGateway/{userName}/upload/{id}", method = RequestMethod.POST)
 	    @ResponseBody
 	    public String uploadPhoto(@RequestParam("file") MultipartFile file, @PathVariable("userName") String userName, @PathVariable("id") Integer id) throws IllegalStateException, IOException
@@ -61,6 +69,10 @@ public class RestfulController {
 	    }
 	    
 	    
+	    /**
+	     * Initial login connection from Android application to web server - uses Get request
+	     * @return User 
+	     */
 		@RequestMapping(value = "restfulGateway/login", method = RequestMethod.GET, produces = "application/json")
 		public @ResponseBody User findUser()
 		{

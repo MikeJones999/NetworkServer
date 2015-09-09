@@ -4,33 +4,12 @@ package com.hnserver.controller;
 
 
 
-import hello.Greeting;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -50,64 +29,32 @@ import UserPackage.UserDataObject;
 import UserPackage.UserFileControl;
 
 
-/*
-@RestController
+
+
+
+//Test folder to connect restful means
 public class InitialTest {
 
-    private static final String template = "Hello, %s!";
-    private final AtomicLong counter = new AtomicLong();
 
-    @RequestMapping("/greeting")
-    public Greeting greeting(@RequestParam(value="name", defaultValue="World") String name) {
-        return new Greeting (counter.incrementAndGet(),
-                            String.format(template, name));
-    }*/
-
-
-
-//@RestController  - uncomment to use as controller
-public class InitialTest {
-
-//    private static final String template = "Hello, %s!";
-//    private final AtomicLong counter = new AtomicLong();
     
     
     @Autowired
     private UserDataObject dataObject;	
-
-    //old method of logging in - now use the spring security 
-    /*
-    @RequestMapping("/restfulGateway")
-    public User userObject(@RequestParam(value="name", defaultValue="mj") String name, @RequestParam(value="password") String password) //, @RequestParam(value="password", defaultValue="mj@123") String password) 
-    {
-    	System.out.println("***DEBUG*** Name provided: " + name + ", Password Provided: " + password);
-    	User returnedUser = dataObject.getuserByName(name);
-    
- 
-    	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-  
-		//this uses the encryption method matches - to check the unhashed password provided by the app and the one stored (hashed) on the DB
-		if (encoder.matches(password, returnedUser.getPassword())) 
-		{
-			System.out.println("***DEBUG*** password and name check out");
-            return returnedUser;
-		}
-		else
-		{
-			System.out.println("***DEBUG*** password and/or name check not correct");
-		    return null;
-		}
-    }
-    */
-    
-    
+   
+    /**
+     * 
+     * @param file
+     * @param id
+     * @return
+     * @throws IllegalStateException
+     * @throws IOException
+     */
     @RequestMapping(value = "/restfulGateway/mj/upload/{id}", method = RequestMethod.POST)
     @ResponseBody
     public String uploadPhoto(@RequestParam("file") MultipartFile file, @PathVariable("id") Integer id) throws IllegalStateException, IOException
     {   
     	
-    	//need to check ID of user and connected user
-    	
+    	//Check ID of user and connected user    	
      	String result = "false";
          if (file != null)
          {
@@ -136,6 +83,10 @@ public class InitialTest {
     }
     
     
+    /**
+     * 
+     * @return
+     */
 	@RequestMapping(value = "restfulGateway/login", method = RequestMethod.GET, produces = "application/json")
 	public @ResponseBody User findUser()
 	{
